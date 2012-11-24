@@ -39,9 +39,9 @@ include
   mouse,
   image,
   sys,
-  mersenne
+  mersenne,
+  noise
 # bresenham,
-# noise,
 # fov,
 # path,
 # lex,

@@ -38,7 +38,7 @@ type
 proc random_get_instance*(): PRandom {.cdecl, importc: "TCOD_random_get_instance", dynlib: LIB_NAME.}
 
 #TCODLIB_API TCOD_random_t TCOD_random_new(TCOD_random_algo_t algo);
-proc random_new*(algo: TRandomAlgo): PRandom {.cdecl, importc: "TCOD_random_new", dynlib: LIB_NAME.}
+proc random_new*(algo: TRandomAlgo = RNG_CMWC): PRandom {.cdecl, importc: "TCOD_random_new", dynlib: LIB_NAME.}
 
 #TCODLIB_API TCOD_random_t TCOD_random_save(TCOD_random_t mersenne);
 proc random_save*(mersenne: PRandom): PRandom {.cdecl, importc: "TCOD_random_save", dynlib: LIB_NAME.}
