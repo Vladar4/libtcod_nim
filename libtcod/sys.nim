@@ -219,7 +219,7 @@ proc close_library*(library: PLibrary) {.cdecl, importc: "TCOD_close_library", d
 # SDL renderer callback
 #typedef void (*SDL_renderer_t) (void *sdl_surface);
 type
-  PSDLRenderer* = proc(sdl_surface: pointer)
+  PSDLRenderer* = proc(sdl_surface: pointer) {.cdecl.}
 
 #TCODLIB_API void TCOD_sys_register_SDL_renderer(SDL_renderer_t renderer);
 proc sys_register_SDL_renderer*(renderer: PSDLRenderer) {.cdecl, importc: "TCOD_sys_register_SDL_renderer", dynlib: LIB_NAME.}

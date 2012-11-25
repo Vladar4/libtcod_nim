@@ -40,12 +40,12 @@ include
   image,
   sys,
   mersenne,
-  noise
+  noise,
+  lex,
+  parser
 # bresenham,
 # fov,
 # path,
-# lex,
-# parser,
 # tree,
 # bsp,
 # heightmap,
