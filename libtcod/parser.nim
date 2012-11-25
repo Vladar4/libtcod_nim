@@ -72,18 +72,26 @@ type
     TYPE_LIST=1024
 
   # generic value
-  TValue*{.bycopy.} = object
-    case value_type: TValueType
-    of TYPE_BOOL: b*: bool
-    of TYPE_CHAR: c*: char
-    of TYPE_INT: i*: int32
-    of TYPE_FLOAT: f*: float
-    of TYPE_STRING: s*: cstring
-    of TYPE_COLOR: col*: TColor
-    of TYPE_DICE: dice*: TDice
-    of TYPE_VALUELIST00..TYPE_VALUELIST15: list*: PList
-    of TYPE_CUSTOM00..TYPE_CUSTOM15: custom*: pointer
-    else: nil
+  TValue* = array[0..15, byte]
+  
+template BoolValue*(value: TValue): stmt {.immediate.} =
+  cast[bool](addr(value[0]))[]
+template CharValue*(value: TValue): stmt {.immediate.} =
+  cast[char](addr(value[0]))[]
+template IntValue*(value: TValue): stmt {.immediate.} =
+  cast[int32](addr(value[0]))[]
+template FloatValue*(value: TValue): stmt {.immediate.} =
+  cast[float32](addr(value[0]))[]
+template StringValue*(value: TValue): stmt {.immediate.} =
+  cast[cstring](addr(value[0]))[]
+template ColorValue*(value: TValue): stmt {.immediate.} =
+  cast[TColor](addr(value[0]))[]
+template DiceValue*(value: TValue): stmt {.immediate.} =
+  cast[TDice](addr(value[0]))[]
+template ListValue*(value: TValue): stmt {.immediate.} =
+  cast[PList](addr(value[0]))[]
+template CustomValue*(value: TValue): stmt {.immediate.} =
+  cast[pointer](addr(value[0]))[]
 
 
 # parser structures
