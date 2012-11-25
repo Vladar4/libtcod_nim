@@ -26,33 +26,16 @@
 #
 
 
-# utility proc
-proc lerp*[T](a, b, x: T): T =
-  return a + x * (b - a)
+type
+  PTree* = ptr TTree
+  TTree*{.bycopy.} = object
+    next*: PTree
+    father*: PTree
+    sons*: PTree
 
+#TCODLIB_API TCOD_tree_t *TCOD_tree_new();
+proc tree_new*(): PTree {.cdecl, importc: "TCOD_tree_new", dynlib: LIB_NAME.}
 
-include
-  libtcod_define,
-  list,
-  color,
-  console,
-  mouse,
-  image,
-  sys,
-  mersenne,
-  noise,
-  bresenham,
-  tree,
-  bsp,
-  lex,
-  parser,
-  zip,
-  namegen,
-  txtfield
-# bresenham,
-# fov,
-# path,
-# tree,
-# bsp,
-# heightmap,
+#TCODLIB_API void TCOD_tree_add_son(TCOD_tree_t *node, TCOD_tree_t *son);
+proc tree_add_son*(node, son: PTree) {.cdecl, importc: "TCOD_tree_add_son", dynlib: LIB_NAME.}
 
