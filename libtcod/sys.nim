@@ -30,7 +30,7 @@
 proc sys_elapsed_milli*(): uint32 {.cdecl, importc: "TCOD_sys_elapsed_milli", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_sys_elapsed_seconds();
-proc sys_elapsed_seconds*(): float {.cdecl, importc: "TCOD_sys_elapsed_seconds", dynlib: LIB_NAME.}
+proc sys_elapsed_seconds*(): float32 {.cdecl, importc: "TCOD_sys_elapsed_seconds", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_sys_sleep_milli(uint32 val);
 proc sys_sleep_milli*(val: uint32) {.cdecl, importc: "TCOD_sys_sleep_milli", dynlib: LIB_NAME.}
@@ -54,7 +54,7 @@ proc sys_set_fps*(val: int) {.cdecl, importc: "TCOD_sys_set_fps", dynlib: LIB_NA
 proc sys_get_fps*(): int {.cdecl, importc: "TCOD_sys_get_fps", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_sys_get_last_frame_length();
-proc sys_get_last_frame_length*(): float {.cdecl, importc: "TCOD_sys_get_last_frame_length", dynlib: LIB_NAME.}
+proc sys_get_last_frame_length*(): float32 {.cdecl, importc: "TCOD_sys_get_last_frame_length", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_sys_get_current_resolution(int *w, int *h);
 proc sys_get_current_resolution*(w, h: ptr int) {.cdecl, importc: "TCOD_sys_get_current_resolution", dynlib: LIB_NAME.}

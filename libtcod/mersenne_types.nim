@@ -31,8 +31,8 @@ type
   TDice*{.bycopy.} = object
     nb_rolls: int
     nb_faces: int
-    multiplier: float
-    addsub: float
+    multiplier: float32
+    addsub: float32
 
   # PRNG algorithms
   TRandomAlgo* = enum

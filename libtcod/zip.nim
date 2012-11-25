@@ -45,7 +45,7 @@ proc zip_put_char*(zip: PZip, val: char) {.cdecl, importc: "TCOD_zip_put_char", 
 proc zip_put_int*(zip: PZip, val: int) {.cdecl, importc: "TCOD_zip_put_int", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_zip_put_float(TCOD_zip_t zip, float val);
-proc zip_put_float*(zip: PZip, val: float) {.cdecl, importc: "TCOD_zip_put_float", dynlib: LIB_NAME.}
+proc zip_put_float*(zip: PZip, val: float32) {.cdecl, importc: "TCOD_zip_put_float", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_zip_put_string(TCOD_zip_t zip, const char *val);
 proc zip_put_string*(zip: PZip, val: cstring) {.cdecl, importc: "TCOD_zip_put_string", dynlib: LIB_NAME.}
@@ -80,7 +80,7 @@ proc zip_get_char*(zip: PZip): char {.cdecl, importc: "TCOD_zip_get_char", dynli
 proc zip_get_int*(zip: PZip): int {.cdecl, importc: "TCOD_zip_get_int", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_zip_get_float(TCOD_zip_t zip);
-proc zip_get_float*(zip: PZip): float {.cdecl, importc: "TCOD_zip_get_float", dynlib: LIB_NAME.}
+proc zip_get_float*(zip: PZip): float32 {.cdecl, importc: "TCOD_zip_get_float", dynlib: LIB_NAME.}
 
 #TCODLIB_API const char *TCOD_zip_get_string(TCOD_zip_t zip);
 proc zip_get_string*(zip: PZip): cstring {.cdecl, importc: "TCOD_zip_get_string", dynlib: LIB_NAME.}

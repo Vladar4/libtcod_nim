@@ -58,7 +58,7 @@ type
   PLex* = ptr TLex
   TLex*{.bycopy.} = object
     file_line*, token_type*, token_int_val*, token_idx*: int
-    token_float_val*: float
+    token_float_val*: float32
     tok*: cstring
     toklen*: int
     lastStringDelim*: char

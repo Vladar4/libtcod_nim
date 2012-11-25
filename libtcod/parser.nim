@@ -177,7 +177,7 @@ proc parser_get_char_property*(parser: PParser, name: cstring): char {.cdecl, im
 proc parser_get_int_property*(parser: PParser, name: cstring): int {.cdecl, importc: "TCOD_parser_get_int_property", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_parser_get_float_property(TCOD_parser_t parser, const char *name);
-proc parser_get_float_property*(parser: PParser, name: cstring): float {.cdecl, importc: "TCOD_parser_get_float_property", dynlib: LIB_NAME.}
+proc parser_get_float_property*(parser: PParser, name: cstring): float32 {.cdecl, importc: "TCOD_parser_get_float_property", dynlib: LIB_NAME.}
 
 #TCODLIB_API const char * TCOD_parser_get_string_property(TCOD_parser_t parser, const char *name);
 proc parser_get_string_property*(parser: PParser, name: cstring): cstring {.cdecl, importc: "TCOD_parser_get_string_property", dynlib: LIB_NAME.}

@@ -37,7 +37,7 @@ proc text_init*(x, y, w, h, max_chars: int): PText {.cdecl, importc: "TCOD_text_
 proc text_set_properties*(txt: PText, cursor_char, blink_interval: int, prompt: cstring, tab_size: int) {.cdecl, importc: "TCOD_text_set_properties", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_text_set_colors(TCOD_text_t txt, TCOD_color_t fore, TCOD_color_t back, float back_transparency);
-proc text_set_colors*(txt: PText, fore, back: TColor, back_transparency: float) {.cdecl, importc: "TCOD_text_set_colors", dynlib: LIB_NAME.}
+proc text_set_colors*(txt: PText, fore, back: TColor, back_transparency: float32) {.cdecl, importc: "TCOD_text_set_colors", dynlib: LIB_NAME.}
 
 #TCODLIB_API bool TCOD_text_update(TCOD_text_t txt, TCOD_key_t key);
 proc text_update*(txt: PText, key: TKey): bool {.cdecl, importc: "TCOD_text_update", dynlib: LIB_NAME.}

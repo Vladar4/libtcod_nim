@@ -245,7 +245,7 @@ proc console_get_height*(con: PConsole): int {.cdecl, importc: "TCOD_console_get
 proc console_set_key_color*(con: PConsole, col: TColor) {.cdecl, importc: "TCOD_console_set_key_color", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_console_blit(TCOD_console_t src,int xSrc, int ySrc, int wSrc, int hSrc, TCOD_console_t dst, int xDst, int yDst, float foreground_alpha, float background_alpha);
-proc console_blit*(src: PConsole, xSrc, ySrc, wSrc, hSrc: int, dst: PConsole, xDst, yDst: int, foreground_alpha=1.0, background_alpha=1.0) {.cdecl, importc: "TCOD_console_blit", dynlib: LIB_NAME.}
+proc console_blit*(src: PConsole, xSrc, ySrc, wSrc, hSrc: int, dst: PConsole, xDst, yDst: int, foreground_alpha=1.0'f32, background_alpha=1.0'f32) {.cdecl, importc: "TCOD_console_blit", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_console_delete(TCOD_console_t console);
 proc console_delete*(con: PConsole) {.cdecl, importc: "TCOD_console_delete", dynlib: LIB_NAME.}

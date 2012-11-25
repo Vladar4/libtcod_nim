@@ -27,7 +27,7 @@
 
 
 # mouse data
-type  
+type
   TMouse*{.bycopy.} = object
     x, y: int ## absolute position
     dx, dy: int ## movement since last update in pixels
