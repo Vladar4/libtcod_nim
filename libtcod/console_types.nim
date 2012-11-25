@@ -107,7 +107,7 @@ type
     ralt*: bool
     rctrl*: bool
     shift*: bool
-  #TKey*{.bycopy, pure.} = tuple [vk: TKeycode, c: char, pressed, lalt, lctrl, ralt, rctrl, shift: bool]
+
 
   TChars* = enum
     CHAR_SMILIE = 1,

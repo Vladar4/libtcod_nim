@@ -24,32 +24,33 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
+#
+# Mingos' NameGen
+# This file was written by Dominik "Mingos" Marczuk.
+#
 
 
-# utility proc
-proc lerp*[T](a, b, x: T): T =
-  return a + x * (b - a)
+# parse a file with syllable sets
+#TCODLIB_API void TCOD_namegen_parse (const char * filename, TCOD_random_t random);
+proc namegen_parse*(filename: cstring, random: PRandom = nil) {.cdecl, importc: "TCOD_namegen_parse", dynlib: LIB_NAME.}
+
+# generate a name
+#TCODLIB_API char * TCOD_namegen_generate (char * name, bool allocate);
+proc namegen_generate*(name: cstring, allocate=false): cstring {.cdecl, importc: "TCOD_namegen_generate", dynlib: LIB_NAME.}
 
 
-include
-  libtcod_define,
-  list,
-  color,
-  console,
-  mouse,
-  image,
-  sys,
-  mersenne,
-  noise,
-  lex,
-  parser,
-  zip,
-  namegen,
-  txtfield
-# bresenham,
-# fov,
-# path,
-# tree,
-# bsp,
-# heightmap,
+# generate a name using a custom generation rule
+#TCODLIB_API char * TCOD_namegen_generate_custom (char * name, char * rule, bool allocate);
+proc namegen_generate_custom*(name, rule: cstring, allocate=false): cstring {.cdecl, importc: "TCOD_namegen_generate_custom", dynlib: LIB_NAME.}
+
+
+# retrieve the list of all available syllable set names
+#TCODLIB_API TCOD_list_t TCOD_namegen_get_sets (void);
+proc namegen_get_sets*(): PList {.cdecl, importc: "TCOD_namegen_get_sets", dynlib: LIB_NAME.}
+
+
+# delete a generator
+#TCODLIB_API void TCOD_namegen_destroy (void);
+proc namegen_destroy*() {.cdecl, importc: "TCOD_namegen_destroy", dynlib: LIB_NAME.}
+
 
