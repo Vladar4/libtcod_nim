@@ -61,19 +61,19 @@ proc bsp_father*(node: PBSP): PBSP {.cdecl, importc: "TCOD_bsp_father", dynlib: 
 proc bsp_is_leaf*(node: PBSP): bool {.cdecl, importc: "TCOD_bsp_is_leaf", dynlib: LIB_NAME.}
 
 #TCODLIB_API bool TCOD_bsp_traverse_pre_order(TCOD_bsp_t *node, TCOD_bsp_callback_t listener, void *userData);
-proc bsp_traverse_pre_order*(node: PBSP, listener: PBSPCallback, userData: pointer): bool {.cdecl, importc: "TCOD_bsp_traverse_pre_order", dynlib: LIB_NAME.}
+proc bsp_traverse_pre_order*(node: PBSP, listener: PBSPCallback, userData: pointer = nil): bool {.cdecl, importc: "TCOD_bsp_traverse_pre_order", dynlib: LIB_NAME.}
 
 #TCODLIB_API bool TCOD_bsp_traverse_in_order(TCOD_bsp_t *node, TCOD_bsp_callback_t listener, void *userData);
-proc bsp_traverse_in_order*(node: PBSP, listener: PBSPCallback, userData: pointer): bool {.cdecl, importc: "TCOD_bsp_traverse_in_order", dynlib: LIB_NAME.}
+proc bsp_traverse_in_order*(node: PBSP, listener: PBSPCallback, userData: pointer = nil): bool {.cdecl, importc: "TCOD_bsp_traverse_in_order", dynlib: LIB_NAME.}
 
 #TCODLIB_API bool TCOD_bsp_traverse_post_order(TCOD_bsp_t *node, TCOD_bsp_callback_t listener, void *userData);
-proc bsp_traverse_post_order*(node: PBSP, listener: PBSPCallback, userData: pointer): bool {.cdecl, importc: "TCOD_bsp_traverse_post_order", dynlib: LIB_NAME.}
+proc bsp_traverse_post_order*(node: PBSP, listener: PBSPCallback, userData: pointer = nil): bool {.cdecl, importc: "TCOD_bsp_traverse_post_order", dynlib: LIB_NAME.}
 
 #TCODLIB_API bool TCOD_bsp_traverse_level_order(TCOD_bsp_t *node, TCOD_bsp_callback_t listener, void *userData);
-proc bsp_traverse_level_order*(node: PBSP, listener: PBSPCallback, userData: pointer): bool {.cdecl, importc: "TCOD_bsp_traverse_level_order", dynlib: LIB_NAME.}
+proc bsp_traverse_level_order*(node: PBSP, listener: PBSPCallback, userData: pointer = nil): bool {.cdecl, importc: "TCOD_bsp_traverse_level_order", dynlib: LIB_NAME.}
 
 #TCODLIB_API bool TCOD_bsp_traverse_inverted_level_order(TCOD_bsp_t *node, TCOD_bsp_callback_t listener, void *userData);
-proc bsp_traverse_inverted_level_order*(node: PBSP, listener: PBSPCallback, userData: pointer): bool {.cdecl, importc: "TCOD_bsp_traverse_inverted_level_order", dynlib: LIB_NAME.}
+proc bsp_traverse_inverted_level_order*(node: PBSP, listener: PBSPCallback, userData: pointer = nil): bool {.cdecl, importc: "TCOD_bsp_traverse_inverted_level_order", dynlib: LIB_NAME.}
 
 #TCODLIB_API bool TCOD_bsp_contains(TCOD_bsp_t *node, int x, int y);
 proc bsp_contains*(node: PBSP, x, y: int): bool {.cdecl, importc: "TCOD_bsp_contains", dynlib: LIB_NAME.}

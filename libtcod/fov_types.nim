@@ -25,31 +25,29 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
+# FOV_BASIC : http://roguebasin.roguelikedevelopment.org/index.php?title=Ray_casting
+# FOV_DIAMOND : http://www.geocities.com/temerra/los_rays.html
+# FOV_SHADOW : http://roguebasin.roguelikedevelopment.org/index.php?title=FOV_using_recursive_shadowcasting
+# FOV_PERMISSIVE : http://roguebasin.roguelikedevelopment.org/index.php?title=Precise_Permissive_Field_of_View
+# FOV_RESTRICTIVE : Mingos' Restrictive Precise Angle Shadowcasting (contribution by Mingos)
 
-# utility proc
-proc lerp*[T](a, b, x: T): T =
-  return a + x * (b - a)
 
+type
+  TFOVAlgorithm* = enum
+    FOV_BASIC,
+    FOV_DIAMOND,
+    FOV_SHADOW,
+    FOV_PERMISSIVE_0,
+    FOV_PERMISSIVE_1,
+    FOV_PERMISSIVE_2,
+    FOV_PERMISSIVE_3,
+    FOV_PERMISSIVE_4,
+    FOV_PERMISSIVE_5,
+    FOV_PERMISSIVE_6,
+    FOV_PERMISSIVE_7,
+    FOV_PERMISSIVE_8,
+    FOV_RESTRICTIVE
 
-include
-  libtcod_define,
-  list,
-  color,
-  console,
-  mouse,
-  image,
-  sys,
-  mersenne,
-  noise,
-  bresenham,
-  tree,
-  bsp,
-  fov,
-  path,
-  heightmap,
-  lex,
-  parser,
-  zip,
-  namegen,
-  txtfield
+template FOV_Permissive*(x: expr): stmt =
+  TFOVAlgorithm(FOV_PERMISSIVE_0 + (x))
 
