@@ -122,7 +122,7 @@ proc console_print_ex*(con: PConsole, x, y: int, flag: TBkgndFlag, alignment: TA
 proc console_print_rect*(con: PConsole, x, y, w, h: int, fmt: cstring): int {.cdecl, importc: "TCOD_console_print_rect", varargs, dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_console_print_rect_ex(TCOD_console_t con,int x, int y, int w, int h, TCOD_bkgnd_flag_t flag, TCOD_alignment_t alignment, const char *fmt, ...);
-proc console_print_rect_ex*(con: PConsole, x, y, w, h, flag: TBkgndFlag, alignment: TAlignment, fmt: cstring): int {.cdecl, importc: "TCOD_console_print_rect_ex", varargs, dynlib: LIB_NAME.}
+proc console_print_rect_ex*(con: PConsole, x, y, w, h: int, flag: TBkgndFlag, alignment: TAlignment, fmt: cstring): int {.cdecl, importc: "TCOD_console_print_rect_ex", varargs, dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_console_get_height_rect(TCOD_console_t con,int x, int y, int w, int h, const char *fmt, ...);
 proc console_get_height_rect*(con: PConsole, x, y, w, h: int, fmt: cstring): int {.cdecl, importc: "TCOD_console_get_height_rect", varargs, dynlib: LIB_NAME.}
@@ -259,5 +259,5 @@ proc console_credits*() {.cdecl, importc: "TCOD_console_credits", dynlib: LIB_NA
 proc console_credits_reset*() {.cdecl, importc: "TCOD_console_credits_reset", dynlib: LIB_NAME.}
 
 #TCODLIB_API bool TCOD_console_credits_render(int x, int y, bool alpha);
-proc console_credits_render*(x, y: int, alpha: bool) {.cdecl, importc: "TCOD_console_credits_render", dynlib: LIB_NAME.}
+proc console_credits_render*(x, y: int, alpha: bool): bool {.cdecl, importc: "TCOD_console_credits_render", dynlib: LIB_NAME.}
 

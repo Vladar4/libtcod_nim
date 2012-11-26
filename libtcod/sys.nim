@@ -45,7 +45,7 @@ proc sys_force_fullscreen_resolution*(width, height: int) {.cdecl, importc: "TCO
 proc sys_set_renderer*(renderer: TRenderer) {.cdecl, importc: "TCOD_sys_set_renderer", dynlib: LIB_NAME.}
 
 #TCODLIB_API TCOD_renderer_t TCOD_sys_get_renderer();
-proc sys_get_renderer*() {.cdecl, importc: "TCOD_sys_get_renderer", dynlib: LIB_NAME.}
+proc sys_get_renderer*(): TRenderer {.cdecl, importc: "TCOD_sys_get_renderer", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_sys_set_fps(int val);
 proc sys_set_fps*(val: int) {.cdecl, importc: "TCOD_sys_set_fps", dynlib: LIB_NAME.}
@@ -90,7 +90,7 @@ const
 proc sys_wait_for_event*(eventMask: int, key: ptr TKey, mouse: ptr TMouse, flush: bool): TEvent {.cdecl, importc: "TCOD_sys_wait_for_event", dynlib: LIB_NAME.}
 
 #TCODLIB_API TCOD_event_t TCOD_sys_check_for_event(int eventMask, TCOD_key_t *key, TCOD_mouse_t *mouse);
-proc sys_check_for_event*(eventMask: int, key: ptr TKey, mouse: ptr TMouse, flush: bool): TEvent {.cdecl, importc: "TCOD_sys_check_for_event", dynlib: LIB_NAME.}
+proc sys_check_for_event*(eventMask: int, key: ptr TKey, mouse: ptr TMouse): TEvent {.cdecl, importc: "TCOD_sys_check_for_event", dynlib: LIB_NAME.}
 
 
 # filesystem stuff
