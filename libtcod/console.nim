@@ -30,11 +30,11 @@ include
   console_types
 
 
-template bkgnd_alpha*(alpha: expr): stmt =
-  TBkgndFlag(TCOD_BKGND_ALPH or (uint8(alpha*255) shl 8))
+proc bkgnd_alpha*(alpha: float32): TBkgndFlag {.inline.} =
+  return BKGND_ALPH or (int(alpha*255) shl 8)
 
-template bkgnd_addalpha*(alpha: expr): stmt =
-  TBkgndFlag(TCOD_BKGND_ADDA or (uint8(alpha*255) shl 8))
+proc bkgnd_addalpha*(alpha: float32): TBkgndFlag {.inline.} =
+  return BKGND_ADDA or (int(alpha*255) shl 8)
 
 type
   PConsole* = pointer
