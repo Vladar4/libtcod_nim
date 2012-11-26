@@ -29,16 +29,16 @@
 # mouse data
 type
   TMouse*{.bycopy.} = object
-    x, y: int ## absolute position
-    dx, dy: int ## movement since last update in pixels
-    cx, cy: int ## cell coordinates in the root console
-    dcx, dcy: int ## movement since last update in console cells
-    lbutton: bool ## left button status
-    rbutton: bool ## right button status
-    mbutton: bool ## middle button status
-    lbutton_pressed: bool # left button pressed event
-    rbutton_pressed: bool # right button pressed event
-    mbutton_pressed: bool # middle button pressed event
-    wheel_up: bool # wheel up event
-    wheel_down: bool # wheel down event
+    x*, y*: int ## absolute position
+    dx*, dy*: int ## movement since last update in pixels
+    cx*, cy*: int ## cell coordinates in the root console
+    dcx*, dcy*: int ## movement since last update in console cells
+    lbutton*: bool ## left button status
+    rbutton*: bool ## right button status
+    mbutton*: bool ## middle button status
+    lbutton_pressed*: bool # left button pressed event
+    rbutton_pressed*: bool # right button pressed event
+    mbutton_pressed*: bool # middle button pressed event
+    wheel_up*: bool # wheel up event
+    wheel_down*: bool # wheel down event
 
