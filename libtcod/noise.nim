@@ -43,6 +43,10 @@ const
   NOISE_DEFAULT_LACUNARITY* = 2.0'f32
 
 
+template floatArrayToPtr*(f: var openarray[float32]): ptr float32 =
+  cast[ptr float32](addr(f))
+
+
 # create a new noise object
 #TCODLIB_API TCOD_noise_t TCOD_noise_new(int dimensions, float hurst, float lacunarity, TCOD_random_t random); 
 proc noise_new*(dimensions: int, hurst=NOISE_DEFAULT_HURST, lacunarity=NOISE_DEFAULT_LACUNARITY, random: PRandom = nil): PNoise {.cdecl, importc: "TCOD_noise_new", dynlib: LIB_NAME.}
