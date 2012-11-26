@@ -29,11 +29,11 @@
 type
   PBSP* = ptr TBSP
   TBSP*{.bycopy.} = object
-    tree: TTree # pseudo oop : bsp inherit tree
-    x, y, w, h: int # node position & size
-    position: int # position of splitting
-    level: uint8 # level in the tree
-    horizontal: bool # horizontal splitting ?
+    tree*: TTree # pseudo oop : bsp inherit tree
+    x*, y*, w*, h*: int # node position & size
+    position*: int # position of splitting
+    level*: uint8 # level in the tree
+    horizontal*: bool # horizontal splitting ?
 
   PBSPCallback* = proc(node: PBSP, userData: pointer): bool {.cdecl.}
 
