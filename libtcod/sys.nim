@@ -26,6 +26,10 @@
 #
 
 
+import
+  os
+
+
 #TCODLIB_API uint32 TCOD_sys_elapsed_milli();
 proc sys_elapsed_milli*(): uint32 {.cdecl, importc: "TCOD_sys_elapsed_milli", dynlib: LIB_NAME.}
 
@@ -107,7 +111,11 @@ proc sys_delete_directory*(path: cstring): bool {.cdecl, importc: "TCOD_sys_dele
 proc sys_is_directory*(path: cstring): bool {.cdecl, importc: "TCOD_sys_is_directory", dynlib: LIB_NAME.}
 
 #TCODLIB_API TCOD_list_t TCOD_sys_get_directory_content(const char *path, const char *pattern);
-proc sys_get_directory_content*(path, pattern: cstring): PList {.cdecl, importc: "TCOD_sys_get_directory_content", dynlib: LIB_NAME.}
+#proc sys_get_directory_content(path, pattern: cstring): PList {.cdecl, importc: "TCOD_sys_get_directory_content", dynlib: LIB_NAME.}
+proc sys_get_directory_content*(path, pattern: string): seq[string] =
+  result = @[]
+  for f in walkFiles(joinPath(path, pattern)):
+    result.add(f)
 
 #TCODLIB_API bool TCOD_sys_file_exists(const char * filename, ...);
 proc sys_file_exists*(filename: cstring): bool {.cdecl, importc: "TCOD_sys_file_exists", varargs, dynlib: LIB_NAME.}
@@ -119,14 +127,12 @@ proc sys_read_file*(filename: cstring, buf: pointer, size: ptr uint32): bool {.c
 proc sys_write_file*(filename: cstring, buf: pointer, size: uint32): bool {.cdecl, importc: "TCOD_sys_write_file", dynlib: LIB_NAME.}
 
 
-
 # clipboard
 #TCODLIB_API void TCOD_sys_clipboard_set(const char *value);
 proc sys_clipboard_set*(value: cstring) {.cdecl, importc: "TCOD_sys_clipboard_set", dynlib: LIB_NAME.}
 
 #TCODLIB_API char *TCOD_sys_clipboard_get();
 proc sys_clipboard_get*(): cstring {.cdecl, importc: "TCOD_sys_clipboard_get", dynlib: LIB_NAME.}
-
 
 
 # thread stuff
@@ -152,7 +158,6 @@ proc sys_get_num_cores*(): int {.cdecl, importc: "TCOD_sys_get_num_cores", dynli
 proc thread_wait*(th: PThread) {.cdecl, importc: "TCOD_thread_wait", dynlib: LIB_NAME.}
 
 
-
 # mutex
 #TCODLIB_API TCOD_mutex_t TCOD_mutex_new();
 proc mutex_new*(): PMutex {.cdecl, importc: "TCOD_mutex_new", dynlib: LIB_NAME.}
@@ -167,7 +172,6 @@ proc mutex_out*(mut: PMutex) {.cdecl, importc: "TCOD_mutex_out", dynlib: LIB_NAM
 proc mutex_delete*(mut: PMutex) {.cdecl, importc: "TCOD_mutex_delete", dynlib: LIB_NAME.}
 
 
-
 # semaphore
 #TCODLIB_API TCOD_semaphore_t TCOD_semaphore_new(int initVal);
 proc semaphore_new*(initVal: int): PSemaphore {.cdecl, importc: "TCOD_semaphore_new", dynlib: LIB_NAME.}
@@ -180,7 +184,6 @@ proc semaphore_unlock*(sem: PSemaphore) {.cdecl, importc: "TCOD_semaphore_unlock
 
 #TCODLIB_API void TCOD_semaphore_delete( TCOD_semaphore_t sem);
 proc semaphore_delete*(sem: PSemaphore) {.cdecl, importc: "TCOD_semaphore_delete", dynlib: LIB_NAME.}
-
 
 
 # condition
@@ -200,7 +203,6 @@ proc condition_wait*(sem: PCond, mut: PMutex) {.cdecl, importc: "TCOD_condition_
 proc condition_delete*(sem: PCond) {.cdecl, importc: "TCOD_condition_delete", dynlib: LIB_NAME.}
 
 
-
 # dynamic library
 type
   PLibrary* = pointer
@@ -213,7 +215,6 @@ proc get_function_address*(library: PLibrary, function_name: cstring): pointer {
 
 #TCODLIB_API void TCOD_close_library(TCOD_library_t);
 proc close_library*(library: PLibrary) {.cdecl, importc: "TCOD_close_library", dynlib: LIB_NAME.}
-
 
 
 # SDL renderer callback

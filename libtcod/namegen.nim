@@ -46,7 +46,10 @@ proc namegen_generate_custom*(name, rule: cstring, allocate=false): cstring {.cd
 
 # retrieve the list of all available syllable set names
 #TCODLIB_API TCOD_list_t TCOD_namegen_get_sets (void);
-proc namegen_get_sets*(): PList {.cdecl, importc: "TCOD_namegen_get_sets", dynlib: LIB_NAME.}
+proc namegen_get_sets_list(): PList {.cdecl, importc: "TCOD_namegen_get_sets", dynlib: LIB_NAME.}
+proc namegen_get_sets*(): seq[string] {.inline.} =
+  var list = namegen_get_sets_list()
+  return cstringArrayToSeq(cast[cstringArray](list_begin(list)), list_size(list))
 
 
 # delete a generator
