@@ -94,10 +94,11 @@ proc console_set_char*(con: PConsole, x, y, c: int) {.cdecl, importc: "TCOD_cons
 
 #TCODLIB_API void TCOD_console_put_char(TCOD_console_t con,int x, int y, int c, TCOD_bkgnd_flag_t flag);
 proc console_put_char*(con: PConsole, x, y, c: int, flag=BKGND_DEFAULT) {.cdecl, importc: "TCOD_console_put_char", dynlib: LIB_NAME.}
+proc console_put_char*(con: PConsole, x, y: int, c: char, flag=BKGND_DEFAULT) {.inline.} = console_put_char(con, x, y, ord(c), flag)
 
 #TCODLIB_API void TCOD_console_put_char_ex(TCOD_console_t con,int x, int y, int c, TCOD_color_t fore, TCOD_color_t back);
 proc console_put_char_ex*(con: PConsole, x, y, c: int, fore, back: TColor) {.cdecl, importc: "TCOD_console_put_char_ex", dynlib: LIB_NAME.}
-
+proc console_putc_har_ex*(con: PConsole, x, y: int, c: char, fore, back: TColor) {.inline.} = console_put_char_ex(con, x, y, ord(c), fore, back)
 
 
 #TCODLIB_API void TCOD_console_set_background_flag(TCOD_console_t con,TCOD_bkgnd_flag_t flag);

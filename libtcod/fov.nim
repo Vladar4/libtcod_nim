@@ -31,7 +31,7 @@ include
 
 
 type
-  PMap = pointer
+  PMap* = pointer
 
 
 # allocate a new map

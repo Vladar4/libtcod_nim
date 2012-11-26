@@ -46,7 +46,8 @@ type
     FOV_PERMISSIVE_6,
     FOV_PERMISSIVE_7,
     FOV_PERMISSIVE_8,
-    FOV_RESTRICTIVE
+    FOV_RESTRICTIVE,
+    NB_FOV_ALGORITHMS
 
 template FOV_Permissive*(x: expr): stmt =
   TFOVAlgorithm(FOV_PERMISSIVE_0 + (x))
