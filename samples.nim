@@ -337,11 +337,12 @@ proc render_noise(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
   if func <= WAVELET: n = 10
   else: n = 13
   console_rect(sample_console, 2, 2, 23, n, false, BKGND_MULTIPLY)
-  for y in 2..1+n:
-    for x in 2..1+23:
-      var col: TColor = console_get_char_foreground(sample_console, x, y)
-      col = color_multiply(col, GREY)
-      console_set_char_foreground(sample_console, x, y, col)
+  # ==== This block causes error on Windows ====
+  #for y in 2..1+n:
+  #  for x in 2..1+23:
+  #    var col: TColor = console_get_char_foreground(sample_console, x, y)
+  #    col = color_multiply(col, GREY)
+  #    console_set_char_foreground(sample_console, x, y, col)
 
   # draw the text
   for curfunc in PERLIN..TURBULENCE_WAVELET:
@@ -355,11 +356,11 @@ proc render_noise(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
 
   # draw parameters
   console_set_default_foreground(sample_console, white)
-  console_print(sample_console, 2, 11, "Y/H : zoom (%2.1f)", zoom)
+  console_print(sample_console, 2, 11, "Y/H : zoom (%2.1f)       ", zoom)
   if func > WAVELET:
-    console_print(sample_console, 2, 12, "E/D : hurst (%2.1f)", hurst)
-    console_print(sample_console, 2, 13, "R/F : lacunarity (%2.1f)", lacunarity)
-    console_print(sample_console, 2, 14, "T/G : octaves (%2.1f)", octaves)
+    console_print(sample_console, 2, 12, "E/D : hurst (%2.1f)      ", hurst)
+    console_print(sample_console, 2, 13, "R/F : lacunarity (%2.1f) ", lacunarity)
+    console_print(sample_console, 2, 14, "T/G : octaves (%2.1f)    ", octaves)
 
   # handle keypress
   if key.vk == K_NONE: return
@@ -1383,7 +1384,7 @@ proc render_sdl(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
 # ***************************
 
 
-const
+var
   sample1: TSample = ("  True colors        ", render_colors)
   sample2: TSample = ("  Offscreen console  ", render_offscreen)
   sample3: TSample = ("  Line drawing       ", render_lines)
@@ -1395,9 +1396,15 @@ const
   sample9: TSample = ("  Mouse support      ", render_mouse)
   sample10: TSample = ("  Name generator     ", render_name)
   sample11: TSample = ("  SDL callback       ", render_sdl)
-  samples = @[sample1, sample2, sample3, sample4,
-              sample5, sample6, sample7,
-              sample8, sample9, sample10, sample11]
+
+when defined(windows): # 1st sample crashes on Windows
+  var samples = @[sample3, sample2, sample4,
+                  sample5, sample6, sample7,
+                  sample8, sample9, sample10, sample11]
+else:
+  var samples = @[sample1, sample2, sample3, sample4,
+                  sample5, sample6, sample7,
+                  sample8, sample9, sample10, sample11]
 
 
 var
