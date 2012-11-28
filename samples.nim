@@ -929,8 +929,8 @@ proc render_bsp(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
     else:
       # restore the nodes size
       bsp_resize(bsp, 0, 0, SAMPLE_SCREEN_WIDTH, SAMPLE_SCREEN_HEIGHT)
-    for col in 0..map.high:
-      for row in 0..col.high:
+    for col in 0..SAMPLE_SCREEN_WIDTH-1:
+      for row in 0..SAMPLE_SCREEN_HEIGHT-1:
         map[col][row] = '#'
 
     if generate:
@@ -1422,7 +1422,7 @@ var
 
 
 # initialize the root console (open the game window)
-var argc = paramCount()
+var argc = paramCount()+1
 argn = 1
 while argn < argc:
   if cmp(paramStr(argn), "-font") == 0 and argn+1 < argc:
