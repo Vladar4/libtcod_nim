@@ -31,6 +31,9 @@ type
 
 
 #constructors
+template color_RGB*(r, g, b: int): TColor =
+  (uint8(r), uint8(g), uint8(b))
+
 #TCODLIB_API TCOD_color_t TCOD_color_RGB(uint8 r, uint8 g, uint8 b);
 proc color_RGB*(r, g, b: uint8): TColor {.cdecl, importc: "TCOD_color_RGB", dynlib: LIB_NAME.}
 
@@ -55,7 +58,13 @@ proc color_multiply*(c1, c2: TColor): TColor {.cdecl, importc: "TCOD_color_multi
 proc color_multiply_scalar*(c1: TColor, value: float32): TColor {.cdecl, importc: "TCOD_color_multiply_scalar", dynlib: LIB_NAME.}
 
 #TCODLIB_API TCOD_color_t TCOD_color_lerp (TCOD_color_t c1, TCOD_color_t c2, float coef);
-proc color_lerp*(c1, c2: TColor, coef: float32): TColor {.cdecl, importc: "TCOD_color_lerp", dynlib: LIB_NAME.}
+when defined(windows): # WINDOWS BUGFIX
+ proc color_lerp*(c1, c2: TColor, coef: float32): TColor {.inline.} =
+   result.r = uint8(float32(c1.r) + float32(int(c2.r) - int(c1.r)) * coef)
+   result.g = uint8(float32(c1.g) + float32(int(c2.g) - int(c1.g)) * coef)
+   result.b = uint8(float32(c1.b) + float32(int(c2.b) - int(c1.b)) * coef) 
+else:
+  proc color_lerp*(c1, c2: TColor, coef: float32): TColor {.cdecl, importc: "TCOD_color_lerp", dynlib: LIB_NAME.}
 
 
 # HSV transformations

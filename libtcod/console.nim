@@ -143,21 +143,25 @@ proc console_vline*(con: PConsole, x, y, line: int, flag=BKGND_DEFAULT) {.cdecl,
 proc console_print_frame*(con: PConsole, x, y, w, h: int, empty: bool, flag=BKGND_DEFAULT, fmt: cstring = nil) {.cdecl, importc: "TCOD_console_print_frame", varargs, dynlib: LIB_NAME.}
 
 
-
 # unicode support
 when not NO_UNICODE:
   #TCODLIB_API void TCOD_console_map_string_to_font_utf(const wchar_t *s, int fontCharX, int fontCharY);
+  proc console_map_string_to_font_utf*(s: cstring, fontCharX, fontCharY: int) {.cdecl, importc: "TCOD_console_map_string_to_font_utf", dynlib: LIB_NAME.}
 
   #TCODLIB_API void TCOD_console_print_utf(TCOD_console_t con,int x, int y, const wchar_t *fmt, ...);
+  proc console_print_utf*(con: PConsole, x, y: int, fmt: cstring) {.cdecl, importc: "TCOD_console_print_utf", varargs, dynlib: LIB_NAME.}
 
   #TCODLIB_API void TCOD_console_print_ex_utf(TCOD_console_t con,int x, int y, TCOD_bkgnd_flag_t flag, TCOD_alignment_t alignment, const wchar_t *fmt, ...);
+  proc console_print_ex_utf*(con: PConsole, x, y: int, flag: TBkgndFlag, alignment: TAlignment, fmt: cstring) {.cdecl, importc: "TCOD_console_print_ex_utf", varargs, dynlib: LIB_NAME.}
 
   #TCODLIB_API int TCOD_console_print_rect_utf(TCOD_console_t con,int x, int y, int w, int h, const wchar_t *fmt, ...);
+  proc console_print_rect_utf*(con: PConsole, x, y, w, h: int, fmt: cstring): int {.cdecl, importc: "TCOD_console_print_rect_utf", varargs, dynlib: LIB_NAME.}
 
   #TCODLIB_API int TCOD_console_print_rect_ex_utf(TCOD_console_t con,int x, int y, int w, int h, TCOD_bkgnd_flag_t flag, TCOD_alignment_t alignment, const wchar_t *fmt, ...);
+  proc console_print_rect_ex_utf*(con: PConsole, x, y, w, h: int, flag: TBkgndFlag, alignment: TAlignment, fmt: cstring): int {.cdecl, importc: "TCOD_console_print_rect_ex_utf", varargs, dynlib: LIB_NAME.}
 
   #TCODLIB_API int TCOD_console_get_height_rect_utf(TCOD_console_t con,int x, int y, int w, int h, const wchar_t *fmt, ...);
-
+  proc console_get_height_rect_utf*(con: PConsole, x, y, w, h: int, fmt: cstring): int {.cdecl, importc: "TCOD_console_get_height_rect_utf", varargs, dynlib: LIB_NAME.}
 
 
 #TCODLIB_API TCOD_color_t TCOD_console_get_default_background(TCOD_console_t con);

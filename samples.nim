@@ -15,7 +15,10 @@ type
 const
   # sample screen size
   SAMPLE_SCREEN_WIDTH = 46
+  SAMPLE_SCREEN_WIDTH_2 = int(SAMPLE_SCREEN_WIDTH / 2)
+  SAMPLE_SCREEN_WIDTH_4 = int(SAMPLE_SCREEN_WIDTH_2 / 2)
   SAMPLE_SCREEN_HEIGHT = 20
+  SAMPLE_SCREEN_HEIGHT_2 = int(SAMPLE_SCREEN_HEIGHT / 2)
   # sample screen position
   SAMPLE_SCREEN_X = 20
   SAMPLE_SCREEN_Y = 10
@@ -46,11 +49,17 @@ proc render_colors(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
     BOTTOMRIGHT = 3
   
   var
-    cols {.global.}: array[0..3, TColor] = [(50'u8,40'u8,150'u8),(240'u8,85'u8,5'u8),(50'u8,35'u8,240'u8),(10'u8,200'u8,130'u8)] # random corner colors
+    # random corner colors
+    cols {.global.}: array[0..3, TColor] = [(50'u8,40'u8,150'u8),
+                                            (240'u8,85'u8,5'u8),
+                                            (50'u8,35'u8,240'u8),
+                                            (10'u8,200'u8,130'u8)]
     dirr {.global.}: array[0..3, int] = [1,-1,1,1]
     dirg {.global.}: array[0..3, int] = [1,-1,-1,1]
     dirb {.global.}: array[0..3, int] = [1,1,1,-1]
-    textColor: TColor
+    textColor, col, top, bottom: TColor
+    xcoef, ycoef: float32
+    c: int
   
   # ==== slighty modify the corner colors ====
   if first:
@@ -76,25 +85,22 @@ proc render_colors(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
       elif cols[c].b == 0'u8: dirb[c] = 1
     else:
       nil
-  
+
   # ==== scan the whole screen, interpolating corner colors ====
   for x in 0..SAMPLE_SCREEN_WIDTH-1:
-    var
-      xcoef: float = float((x)/(SAMPLE_SCREEN_WIDTH-1))
+    xcoef = x / (SAMPLE_SCREEN_WIDTH - 1)
     # get the current column top and bottom colors
-    var
-      top: TColor = color_lerp(cols[TOPLEFT], cols[TOPRIGHT], xcoef)
-      bottom: TColor = color_lerp(cols[BOTTOMLEFT], cols[BOTTOMRIGHT], xcoef)
-
+    top = color_lerp(cols[TOPLEFT], cols[TOPRIGHT], xcoef)
+    bottom = color_lerp(cols[BOTTOMLEFT], cols[BOTTOMRIGHT], xcoef)
     for y in 0..SAMPLE_SCREEN_HEIGHT-1:
-      var ycoef: float = float((y)/(SAMPLE_SCREEN_HEIGHT-1))
+      ycoef = y / (SAMPLE_SCREEN_HEIGHT - 1)
       # get the current cell color
-      var curColor: TColor = color_lerp(top, bottom, ycoef)
-      console_set_char_background(sample_console, x, y, curColor, BKGND_SET)
+      col = color_lerp(top, bottom, ycoef)
+      console_set_char_background(sample_console, x, y, col, BKGND_SET)
   
   # ==== print the text ====
   # get the background color at the text position
-  textColor = console_get_char_background(sample_console, int(SAMPLE_SCREEN_WIDTH/2), 5)
+  textColor = console_get_char_background(sample_console, SAMPLE_SCREEN_WIDTH_2, 5)
   # and invert it
   textColor.r = 255'u8 - textColor.r
   textColor.g = 255'u8 - textColor.g
@@ -104,17 +110,16 @@ proc render_colors(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
   # put random text (for performance tests)
   for x in 0..SAMPLE_SCREEN_WIDTH-1:
     for y in 0..SAMPLE_SCREEN_HEIGHT-1:
-      var
-        c: int
-        col: TColor = console_get_char_background(sample_console, x, y)
-      col = color_lerp(col, BLACK, 0.5)
+      # ==== This block causes error on Windows ====
+      #col = console_get_char_background(sample_console, x, y)
+      #col = color_lerp(col, BLACK, 0.5)
       c = random_get_int(nil, ord('a'), ord('z'))
       console_set_default_foreground(sample_console, col)
       console_put_char(sample_console, x, y, c, BKGND_NONE)
   
   # the background behind the text is slightly darkened using the BKGND_MULTIPLY flag
   console_set_default_background(sample_console, GREY)
-  discard console_print_rect_ex(sample_console, int(SAMPLE_SCREEN_WIDTH/2), 5,
+  discard console_print_rect_ex(sample_console, SAMPLE_SCREEN_WIDTH_2, 5,
     SAMPLE_SCREEN_WIDTH-2, SAMPLE_SCREEN_HEIGHT-1, BKGND_MULTIPLY, CENTER,
     "The Doryen library uses 24 bits colors, for both background and foreground.")
 
@@ -135,10 +140,10 @@ proc render_offscreen(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.}
   
   if not init:
     init = true
-    secondary = console_new(int(SAMPLE_SCREEN_WIDTH/2), int(SAMPLE_SCREEN_HEIGHT/2))
+    secondary = console_new(SAMPLE_SCREEN_WIDTH_2, SAMPLE_SCREEN_HEIGHT_2)
     screenshot = console_new(SAMPLE_SCREEN_WIDTH, SAMPLE_SCREEN_HEIGHT)
-    console_print_frame(secondary, 0, 0, int(SAMPLE_SCREEN_WIDTH/2), int(SAMPLE_SCREEN_HEIGHT/2), false, BKGND_SET, "Offscreen console")
-    discard console_print_rect_ex(secondary, int(SAMPLE_SCREEN_WIDTH/4), 2, int(SAMPLE_SCREEN_WIDTH/2-2), int(SAMPLE_SCREEN_HEIGHT/2), BKGND_NONE, CENTER, "You can render to an offscreen console and blit in on another one, simulating alpha transparency.")
+    console_print_frame(secondary, 0, 0, SAMPLE_SCREEN_WIDTH_2, SAMPLE_SCREEN_HEIGHT_2, false, BKGND_SET, "Offscreen console")
+    discard console_print_rect_ex(secondary, SAMPLE_SCREEN_WIDTH_4, 2, SAMPLE_SCREEN_WIDTH_2-2, SAMPLE_SCREEN_HEIGHT_2, BKGND_NONE, CENTER, "You can render to an offscreen console and blit in on another one, simulating alpha transparency.")
   
   if first:
     sys_set_fps(30) # limited to 30 fps
@@ -150,15 +155,15 @@ proc render_offscreen(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.}
     # move the secondary screen every 2 seconds
     x += xdir
     y += ydir
-    if x == int(SAMPLE_SCREEN_WIDTH/2+5): xdir = -1
+    if x == SAMPLE_SCREEN_WIDTH_2+5: xdir = -1
     elif x == -5: xdir=1
-    if y == int(SAMPLE_SCREEN_HEIGHT/2+5): ydir = -1
+    if y == SAMPLE_SCREEN_HEIGHT_2+5: ydir = -1
     elif y == -5: ydir=1
   
   # restore the initial screen
   console_blit(screenshot, 0, 0, SAMPLE_SCREEN_WIDTH, SAMPLE_SCREEN_HEIGHT, sample_console, 0, 0, 1.0, 1.0)
   # blit the overlapping screen
-  console_blit(secondary, 0, 0, int(SAMPLE_SCREEN_WIDTH/2), int(SAMPLE_SCREEN_HEIGHT/2), sample_console, x, y, 1.0, 0.75)
+  console_blit(secondary, 0, 0, SAMPLE_SCREEN_WIDTH_2, SAMPLE_SCREEN_HEIGHT_2, sample_console, x, y, 1.0, 0.75)
 
 
 # ***************************
@@ -242,10 +247,10 @@ proc render_lines(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
   angle = sys_elapsed_seconds() * 2.0
   cos_angle = cos(angle)
   sin_angle = sin(angle)
-  xo = int(SAMPLE_SCREEN_WIDTH / 2 * (1 + cos_angle))
-  yo = int(SAMPLE_SCREEN_HEIGHT / 2 + sin_angle * SAMPLE_SCREEN_WIDTH / 2)
-  xd = int(SAMPLE_SCREEN_WIDTH / 2 * (1 - cos_angle))
-  yd = int(SAMPLE_SCREEN_HEIGHT / 2 - sin_angle * SAMPLE_SCREEN_WIDTH / 2)
+  xo = int(SAMPLE_SCREEN_WIDTH_2 * (1 + cos_angle))
+  yo = int(SAMPLE_SCREEN_HEIGHT_2 + sin_angle * SAMPLE_SCREEN_WIDTH_2)
+  xd = int(SAMPLE_SCREEN_WIDTH_2 * (1 - cos_angle))
+  yd = int(SAMPLE_SCREEN_HEIGHT_2 - sin_angle * SAMPLE_SCREEN_WIDTH_2)
   # render the line
   discard line(xo, yo, xd, yd, line_listener)
   # print the current flag
@@ -1367,7 +1372,7 @@ proc render_sdl(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
     console_set_default_background(sample_console, LIGHT_BLUE)
     console_set_default_foreground(sample_console, WHITE)
     console_clear(sample_console)
-    discard console_print_rect_ex(sample_console, int(SAMPLE_SCREEN_WIDTH/2), 3, SAMPLE_SCREEN_WIDTH, 0, BKGND_NONE, CENTER, "The SDL callback gives you access to the screen surface so that you can alter the pixels one by one using SDL API or any API on top of SDL. SDL is used here to blur the sample console.\n\nHit TAB to enable/disable the callback. While enabled, it will be active on other samples too.\n\nNote that the SDL callback only works with SDL renderer.")
+    discard console_print_rect_ex(sample_console, SAMPLE_SCREEN_WIDTH_2, 3, SAMPLE_SCREEN_WIDTH, 0, BKGND_NONE, CENTER, "The SDL callback gives you access to the screen surface so that you can alter the pixels one by one using SDL API or any API on top of SDL. SDL is used here to blur the sample console.\n\nHit TAB to enable/disable the callback. While enabled, it will be active on other samples too.\n\nNote that the SDL callback only works with SDL renderer.")
 
   if key.vk == K_TAB:
     sdl_callback_enabled = not sdl_callback_enabled
@@ -1397,14 +1402,9 @@ var
   sample10: TSample = ("  Name generator     ", render_name)
   sample11: TSample = ("  SDL callback       ", render_sdl)
 
-when defined(windows): # 1st sample crashes on Windows
-  var samples = @[sample3, sample2, sample4,
-                  sample5, sample6, sample7,
-                  sample8, sample9, sample10, sample11]
-else:
-  var samples = @[sample1, sample2, sample3, sample4,
-                  sample5, sample6, sample7,
-                  sample8, sample9, sample10, sample11]
+var samples = @[sample1,  sample2, sample3, sample4,
+                sample5, sample6, sample7,
+                sample8, sample9, sample10, sample11]
 
 
 var
@@ -1421,7 +1421,7 @@ var
   fullscreen_height = 0
   font_flags: int = FONT_TYPE_GREYSCALE or FONT_LAYOUT_TCOD
   font_new_flags = 0
-  renderer = RENDERER_SDL
+  renderer = RENDERER_OPENGL
   fullscreen = false
   credits_end = false
   cur_renderer = 0
@@ -1579,4 +1579,5 @@ while not console_is_window_closed():
     sys_set_renderer(RENDERER_OPENGL)
   elif key.vk == K_F3:
     sys_set_renderer(RENDERER_SDL)
+
 

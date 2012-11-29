@@ -1,2 +1,2 @@
-nimrod c -d:release --opt:speed -p:libtcod samples.nim
+nimrod c -p:libtcod -d:debug samples.nim
 
