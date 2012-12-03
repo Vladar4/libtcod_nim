@@ -72,26 +72,32 @@ type
     TYPE_LIST=1024
 
   # generic value
-  TValue* = array[0..15, byte]
+  TValue*{.bycopy.} = object
+    i1, i2: int32
+    f1, f2: float32
   
 template BoolValue*(value: TValue): stmt {.immediate.} =
-  cast[bool](addr(value[0]))[]
+  cast[bool](addr(value))
 template CharValue*(value: TValue): stmt {.immediate.} =
-  cast[char](addr(value[0]))[]
+  cast[char](addr(value))
 template IntValue*(value: TValue): stmt {.immediate.} =
-  cast[int32](addr(value[0]))[]
+  cast[int32](addr(value))
 template FloatValue*(value: TValue): stmt {.immediate.} =
-  cast[float32](addr(value[0]))[]
+  cast[float32](addr(value))
 template StringValue*(value: TValue): stmt {.immediate.} =
-  cast[cstring](addr(value[0]))[]
+  cast[cstring](addr(value))
 template ColorValue*(value: TValue): stmt {.immediate.} =
-  cast[TColor](addr(value[0]))[]
-template DiceValue*(value: TValue): stmt {.immediate.} =
-  cast[TDice](addr(value[0]))[]
+  cast[TColor](addr(value))
+proc DiceValue*(value: var TValue): TDice =
+  result.nb_rolls = value.i1
+  result.nb_faces = value.i2
+  result.multiplier = value.f1
+  result.addsub = value.f2
+  #cast[TDice](addr(value[0]))[]
 template ListValue*(value: TValue): stmt {.immediate.} =
-  cast[PList](addr(value[0]))[]
+  cast[PList](addr(value))
 template CustomValue*(value: TValue): stmt {.immediate.} =
-  cast[pointer](addr(value[0]))[]
+  cast[pointer](addr(value))
 
 
 # parser structures
@@ -196,6 +202,63 @@ proc parser_get_custom_property*(parser: PParser, name: cstring): pointer {.cdec
 
 #TCODLIB_API TCOD_list_t TCOD_parser_get_list_property(TCOD_parser_t parser, const char *name, TCOD_value_type_t type);
 proc parser_get_list_property*(parser: PParser, name: cstring, value_type: TValueType): PList {.cdecl, importc: "TCOD_parser_get_list_property", dynlib: LIB_NAME.}
+
+proc parser_get_list_bool_property*(parser: PParser, name: cstring): seq[bool] =
+  var
+    list = parser_get_list_property(parser, name, TYPE_BOOL)
+  result = @[]
+  for i in 0..list_size(list)-1:
+    result.add(cast[bool](list_get(list, i)))
+  list_delete(list)
+
+proc parser_get_list_char_property*(parser: PParser, name: cstring): seq[char] =
+  var
+    list = parser_get_list_property(parser, name, TYPE_CHAR)
+  result = @[]
+  for i in 0..list_size(list)-1:
+    result.add(cast[char](list_get(list, i)))
+  list_delete(list)
+
+proc parser_get_list_int_property*(parser: PParser, name: cstring): seq[int32] =
+  var
+    list = parser_get_list_property(parser, name, TYPE_INT)
+  result = @[]
+  for i in 0..list_size(list)-1:
+    result.add(cast[int32](list_get(list, i)))
+  list_delete(list)
+
+# TODO
+#proc parser_get_list_float_property*(parser: PParser, name: cstring): seq[float32] =
+#  var
+#    list = parser_get_list_property(parser, name, TYPE_FLOAT)
+#  result = @[]
+#  for i in 0..list_size(list)-1:
+#    #result.add(cast[float32](list_get(list, i))) # linker error
+#  list_delete(list)
+
+proc parser_get_list_string_property*(parser: PParser, name: cstring): seq[string] {.inline.} =
+  var
+    list = parser_get_list_property(parser, name, TYPE_STRING)
+  result = cstringArrayToSeq(cast[cstringArray](list_begin(list)), list_size(list))
+  list_delete(list)
+
+proc parser_get_list_color_property*(parser: PParser, name: cstring): seq[TColor] =
+  var
+    list = parser_get_list_property(parser, name, TYPE_COLOR)
+  result = @[]
+  for i in 0..list_size(list)-1:
+    var v = cast[array[0..3, uint8]](list_get(list, i))
+    result.add(color_RGB(v[0], v[1], v[2]))
+  list_delete(list)
+
+# TODO
+#proc parser_get_list_dice_property*(parser: PParser, name: cstring): seq[TDice] =
+#  var
+#    list = parser_get_list_property(parser, name, TYPE_DICE)
+#  result = @[]
+#  for i in 0..list_size(list)-1:
+#    result.add(cast[TDice](list_get(list, i)))
+#  list_delete(list)
 
 
 # parser internals (may be used by custom type parsers)

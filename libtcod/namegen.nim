@@ -49,7 +49,8 @@ proc namegen_generate_custom*(name, rule: cstring, allocate=false): cstring {.cd
 proc namegen_get_sets_list(): PList {.cdecl, importc: "TCOD_namegen_get_sets", dynlib: LIB_NAME.}
 proc namegen_get_sets*(): seq[string] {.inline.} =
   var list = namegen_get_sets_list()
-  return cstringArrayToSeq(cast[cstringArray](list_begin(list)), list_size(list))
+  result = cstringArrayToSeq(cast[cstringArray](list_begin(list)), list_size(list))
+  list_delete(list)
 
 
 # delete a generator

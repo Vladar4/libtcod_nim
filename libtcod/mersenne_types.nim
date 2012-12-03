@@ -26,13 +26,16 @@
 #
 
 
+import strutils
+
+
 type  
   # dice roll
   TDice*{.bycopy.} = object
-    nb_rolls: int
-    nb_faces: int
-    multiplier: float32
-    addsub: float32
+    nb_rolls*: int
+    nb_faces*: int
+    multiplier*: float32
+    addsub*: float32
 
   # PRNG algorithms
   TRandomAlgo* = enum
@@ -45,4 +48,15 @@ type
     DISTRIBUTION_GAUSSIAN_RANGE,
     DISTRIBUTION_GAUSSIAN_INVERSE,
     DISTRIBUTION_GAUSSIAN_RANGE_INVERSE
+
+
+proc repr*(dice: TDice): string =
+  result = ""
+  if dice.multiplier != 1.0:
+    result.add(formatFloat(dice.multiplier, ffDefault, 0) & "*")
+  result.add(repr(dice.nb_rolls) & "d" & repr(dice.nb_faces))
+  if dice.addsub != 0.0:
+    if dice.addsub > 0.0:
+      result.add("+")
+    result.add(formatFloat(dice.addsub, ffDefault, 0))
 
