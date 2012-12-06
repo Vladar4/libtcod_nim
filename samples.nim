@@ -1421,7 +1421,7 @@ var
   fullscreen_height = 0
   font_flags: int = FONT_TYPE_GREYSCALE or FONT_LAYOUT_TCOD
   font_new_flags = 0
-  renderer = RENDERER_OPENGL
+  renderer = RENDERER_SDL
   fullscreen = false
   credits_end = false
   cur_renderer = 0

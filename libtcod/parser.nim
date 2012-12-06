@@ -123,7 +123,7 @@ type
   PParserCustom* = proc(lex: PLex, listener: PParserListener, str: PParserStruct, propname: string): TValue {.closure.}
 
 
-######## PRIVATE ########
+#======= PRIVATE =======#
 
 const
   BIG_NAME_LEN = 128
@@ -147,7 +147,7 @@ default_listener.end_struct = default_end_struct
 default_listener.error = default_error
 
 
-######## PUBLIC PROCEDURES ########
+#======= PROCEDURES =======#
 
 proc parser_error*(msg: string, args: varargs[string, `$`]) =
   var err = "error in $# line $# : " % [$lex.filename, $lex.file_line]
@@ -735,9 +735,9 @@ proc default_end_struct(str: PParserStruct, name: string): bool =
   return true
 
 
-proc fatal_nopar(msg: cstring) {.cdecl, importc: "TCOD_fatal_nopar", dynlib: LIB_NAME.}
+proc TCOD_parser_error(msg: cstring) {.cdecl, importc: "TCOD_parser_error", dynlib: LIB_NAME.}
 proc default_error(msg: string) =
-  fatal_nopar(msg)
+  TCOD_parser_error(msg)
 
 
 proc get_property(parser: PParser, expectedType: TValueType, name: string): TValue =

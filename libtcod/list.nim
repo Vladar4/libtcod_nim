@@ -26,6 +26,11 @@
 #
 
 
+#
+# DO NOT IMPORT THIS MODULE, USE BUILT-IN NIMROD ALTERNATIVES INSTEAD
+#
+
+
 import libtcod_define
 
 
