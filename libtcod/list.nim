@@ -26,6 +26,9 @@
 #
 
 
+import libtcod_define
+
+
 #typedef void *TCOD_list_t;
 type
   PList* = pointer

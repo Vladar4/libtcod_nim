@@ -33,7 +33,6 @@ proc lerp*[T](a, b, x: T): T =
 
 include
   libtcod_define,
-  list,
   color,
   console,
   mouse,

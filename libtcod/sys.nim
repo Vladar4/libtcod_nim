@@ -26,8 +26,7 @@
 #
 
 
-import
-  os
+from os import walkFiles, joinPath
 
 
 #TCODLIB_API uint32 TCOD_sys_elapsed_milli();

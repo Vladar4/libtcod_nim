@@ -30,6 +30,9 @@
 #
 
 
+from list import PList, list_begin, list_size, list_delete
+
+
 # parse a file with syllable sets
 #TCODLIB_API void TCOD_namegen_parse (const char * filename, TCOD_random_t random);
 proc namegen_parse*(filename: cstring, random: PRandom = nil) {.cdecl, importc: "TCOD_namegen_parse", dynlib: LIB_NAME.}
