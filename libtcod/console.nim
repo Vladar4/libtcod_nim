@@ -145,24 +145,109 @@ proc console_print_frame*(con: PConsole, x, y, w, h: int, empty: bool, flag=BKGN
 
 # unicode support
 when not NO_UNICODE:
+  when defined(linux):
+    import unicode
+    # modified for linux (int32) WideCString from Nimrod's system/widestrs.nim
+
+    type
+      TUTF32Char = distinct int32
+      WideCString = ptr array[0..1_000_000, TUTF32Char]
+
+    const
+      UNI_REPLACEMENT_CHAR = TUTF32Char(0xFFFD'i32)
+      UNI_MAX_BMP = TRune(0x0000FFFF)
+      UNI_MAX_UTF32 = TRune(0x7FFFFFFF)
+      #UNI_MAX_LEGAL_UTF32 = TRune(0x0010FFFF)
+      halfShift = 10
+      halfBase = 0x0010000
+      halfMask = 0x3FF
+      UNI_SUR_HIGH_START = TRune(0xD800)
+      #UNI_SUR_HIGH_END = TRune(0xDBFF)
+      UNI_SUR_LOW_START = TRune(0xDC00)
+      UNI_SUR_LOW_END = TRune(0xDFFF)
+
+    proc allocWCS(s: string, len: int): WideCString =
+      ## free after usage with `dealloc`.
+      result = cast[WideCString](alloc(len * 4 + 2))
+      var d = 0
+      for ch in runes(s):
+        if ch <=% UNI_MAX_BMP:
+          if ch >=% UNI_SUR_HIGH_START and ch <=% UNI_SUR_LOW_END:
+            result[d] = UNI_REPLACEMENT_CHAR
+          else:
+            result[d] = TUTF32Char(ch)
+        elif ch >% UNI_MAX_UTF32:
+          result[d] = UNI_REPLACEMENT_CHAR
+        else:
+          let ch = int32(ch) -% halfBase
+          result[d] = TUTF32Char((ch shr halfShift) +% int32(UNI_SUR_HIGH_START))
+          inc d
+          result[d] = TUTF32Char((ch and halfMask) +% int32(UNI_SUR_LOW_START))
+        inc d
+      result[d] = TUTF32Char(0'i32)
+
+    proc allocWCS(s: string): WideCString =
+      ## free after usage with `dealloc`.
+      if s.isNil: return nil
+
+      when not defined(c_strlen):
+        proc c_strlen(a: cstring): int {.nodecl, noSideEffect, importc: "strlen".}
+
+      let len = c_strlen(s)
+      result = allocWCS(s, len)
+
+  else: # windows
+    template allocWCS(s: string): WideCString =
+      allocWideCString(s)
+
+
   #TCODLIB_API void TCOD_console_map_string_to_font_utf(const wchar_t *s, int fontCharX, int fontCharY);
-  proc console_map_string_to_font_utf*(s: cstring, fontCharX, fontCharY: int) {.cdecl, importc: "TCOD_console_map_string_to_font_utf", dynlib: LIB_NAME.}
+  proc TCOD_console_map_string_to_font_utf(s: WideCString, fontCharX, fontCharY: int) {.cdecl, importc: "TCOD_console_map_string_to_font_utf", dynlib: LIB_NAME.}
+
+  proc console_map_string_to_font_utf*(s: string, fontCharX, fontCharY: int) =
+    var wcs = allocWCS(s)
+    TCOD_console_map_string_to_font_utf(wcs, fontCharX, fontCharY)
+    dealloc(wcs)
 
   #TCODLIB_API void TCOD_console_print_utf(TCOD_console_t con,int x, int y, const wchar_t *fmt, ...);
-  proc console_print_utf*(con: PConsole, x, y: int, fmt: cstring) {.cdecl, importc: "TCOD_console_print_utf", varargs, dynlib: LIB_NAME.}
+  proc TCOD_console_print_utf(con: PConsole, x, y: int, fmt: WideCString) {.cdecl, importc: "TCOD_console_print_utf", varargs, dynlib: LIB_NAME.}
+
+  proc console_print_utf*(con: PConsole, x, y: int, fmt: string) =
+    var wcs = allocWCS(fmt)
+    TCOD_console_print_utf(con, x, y, wcs)
+    dealloc(wcs)
 
   #TCODLIB_API void TCOD_console_print_ex_utf(TCOD_console_t con,int x, int y, TCOD_bkgnd_flag_t flag, TCOD_alignment_t alignment, const wchar_t *fmt, ...);
-  proc console_print_ex_utf*(con: PConsole, x, y: int, flag: TBkgndFlag, alignment: TAlignment, fmt: cstring) {.cdecl, importc: "TCOD_console_print_ex_utf", varargs, dynlib: LIB_NAME.}
+  proc TCOD_console_print_ex_utf(con: PConsole, x, y: int, flag: TBkgndFlag, alignment: TAlignment, fmt: WideCString) {.cdecl, importc: "TCOD_console_print_ex_utf", varargs, dynlib: LIB_NAME.}
+
+  proc console_print_ex_utf*(con: PConsole, x, y: int, flag: TBkgndFlag, alignment: TAlignment, fmt: string) =
+    var wcs = allocWCS(fmt)
+    TCOD_console_print_ex_utf(con, x, y, flag, alignment, wcs)
+    dealloc(wcs)
 
   #TCODLIB_API int TCOD_console_print_rect_utf(TCOD_console_t con,int x, int y, int w, int h, const wchar_t *fmt, ...);
-  proc console_print_rect_utf*(con: PConsole, x, y, w, h: int, fmt: cstring): int {.cdecl, importc: "TCOD_console_print_rect_utf", varargs, dynlib: LIB_NAME.}
+  proc TCOD_console_print_rect_utf(con: PConsole, x, y, w, h: int, fmt: WideCString): int {.cdecl, importc: "TCOD_console_print_rect_utf", varargs, dynlib: LIB_NAME.}
+
+  proc console_print_rect_utf*(con: PConsole, x, y, w, h: int, fmt: string): int =
+    var wcs = allocWCS(fmt)
+    result = TCOD_console_print_rect_utf(con, x, y, w, h, wcs)
+    dealloc(wcs)
 
   #TCODLIB_API int TCOD_console_print_rect_ex_utf(TCOD_console_t con,int x, int y, int w, int h, TCOD_bkgnd_flag_t flag, TCOD_alignment_t alignment, const wchar_t *fmt, ...);
-  proc console_print_rect_ex_utf*(con: PConsole, x, y, w, h: int, flag: TBkgndFlag, alignment: TAlignment, fmt: cstring): int {.cdecl, importc: "TCOD_console_print_rect_ex_utf", varargs, dynlib: LIB_NAME.}
+  proc TCOD_console_print_rect_ex_utf(con: PConsole, x, y, w, h: int, flag: TBkgndFlag, alignment: TAlignment, fmt: WideCString): int {.cdecl, importc: "TCOD_console_print_rect_ex_utf", varargs, dynlib: LIB_NAME.}
+
+  proc console_print_rect_ex_utf*(con: PConsole, x, y, w, h: int, flag: TBkgndFlag, alignment: TAlignment, fmt: string): int =
+    var wcs = allocWCS(fmt)
+    result = TCOD_console_print_rect_ex_utf(con, x, y, w, h, flag, alignment, wcs)
+    dealloc(wcs)
 
   #TCODLIB_API int TCOD_console_get_height_rect_utf(TCOD_console_t con,int x, int y, int w, int h, const wchar_t *fmt, ...);
-  proc console_get_height_rect_utf*(con: PConsole, x, y, w, h: int, fmt: cstring): int {.cdecl, importc: "TCOD_console_get_height_rect_utf", varargs, dynlib: LIB_NAME.}
+  proc TCOD_console_get_height_rect_utf(con: PConsole, x, y, w, h: int, fmt: WideCString): int {.cdecl, importc: "TCOD_console_get_height_rect_utf", varargs, dynlib: LIB_NAME.}
 
+  proc console_get_height_rect_utf*(con: PConsole, x, y, w, h: int, fmt: string): int =
+    var wcs = allocWCS(fmt)
+    result = TCOD_console_get_height_rect_utf(con, x, y, w, h, wcs)
+    dealloc(wcs)
 
 #TCODLIB_API TCOD_color_t TCOD_console_get_default_background(TCOD_console_t con);
 proc console_get_default_background*(con: PConsole): TColor {.cdecl, importc: "TCOD_console_get_default_background", dynlib: LIB_NAME.}

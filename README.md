@@ -21,6 +21,9 @@ Also you may need SDL, OpenGL or GLSL dynamic libraries installed, depending on 
 CHANGELOG:
 ==========
 
+**v0.95.1 (dev)**
+* fixed unicode output procedures
+
 **v0.95**
 * total rewrite of parser module
 * added `parser_get_list_<type>_property(parser, name): seq[<type>]` functions
