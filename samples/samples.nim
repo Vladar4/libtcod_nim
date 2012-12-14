@@ -1009,9 +1009,9 @@ proc render_image(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
     elapsed: int64
 
   if img == nil:
-    img = image_load("data/img/skull.png")
+    img = image_load("../data/img/skull.png")
     image_set_key_color(img, BLACK)
-    circle = image_load("data/img/circle.png")
+    circle = image_load("../data/img/circle.png")
 
   if first:
     sys_set_fps(30) # limited to 30 fps
@@ -1107,7 +1107,7 @@ proc render_name(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
     names {.global.}: seq[string] = @[]
   if len(names) == 0:
     var files: seq[string]
-    files = sys_get_directory_content("data/namegen", "*.cfg")
+    files = sys_get_directory_content("../data/namegen", "*.cfg")
     # parse all the files
     for f in files.items():
       namegen_parse(f, nil)
@@ -1413,7 +1413,7 @@ var
   first = true # first time we render a sample
   key: TKey
   mouse: TMouse
-  font: string = "data/fonts/consolas10x10_gs_tc.png"
+  font: string = "../data/fonts/consolas10x10_gs_tc.png"
   nb_char_horiz=0
   nb_char_vertic=0
   argn: int
