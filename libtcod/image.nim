@@ -88,7 +88,12 @@ proc image_blit_rect*(image: PImage, console: PConsole, x, y, w, h: int, bkgnd_f
 proc image_blit_2x*(image: PImage, dest: PConsole, dx, dy: int, sx=0, sy=0, w=(-1), h=(-1)) {.cdecl, importc: "TCOD_image_blit_2x", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_image_delete(TCOD_image_t image);
-proc image_delete*(image: PImage) {.cdecl, importc: "TCOD_image_delete", dynlib: LIB_NAME.}
+proc TCOD_image_delete(image: PImage) {.cdecl, importc: "TCOD_image_delete", dynlib: LIB_NAME.}
+proc image_delete*(image: var PImage) {.destructor.} =
+  if image != nil:
+    TCOD_image_delete(image)
+    image = nil
+
 
 #TCODLIB_API void TCOD_image_set_key_color(TCOD_image_t image, TCOD_color_t key_color);
 proc image_set_key_color*(image: PImage, key_color: TColor) {.cdecl, importc: "TCOD_image_set_key_color", dynlib: LIB_NAME.}

@@ -348,8 +348,11 @@ proc console_set_key_color*(con: PConsole, col: TColor) {.cdecl, importc: "TCOD_
 proc console_blit*(src: PConsole, xSrc, ySrc, wSrc, hSrc: int, dst: PConsole, xDst, yDst: int, foreground_alpha=1.0'f32, background_alpha=1.0'f32) {.cdecl, importc: "TCOD_console_blit", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_console_delete(TCOD_console_t console);
-proc console_delete*(con: PConsole) {.cdecl, importc: "TCOD_console_delete", dynlib: LIB_NAME.}
-
+proc TCOD_console_delete(con: PConsole) {.cdecl, importc: "TCOD_console_delete", dynlib: LIB_NAME.}
+proc console_delete*(con: var PConsole) {.destructor.} =
+  if con != nil:
+    TCOD_console_delete(con)
+    con = nil
 
 
 #TCODLIB_API void TCOD_console_credits();

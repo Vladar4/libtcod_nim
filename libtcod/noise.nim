@@ -77,5 +77,9 @@ proc noise_get_turbulence*(noise: PNoise, f: ptr float32, octaves: float32): flo
 
 # delete the noise object
 #TCODLIB_API void TCOD_noise_delete(TCOD_noise_t noise);
-proc noise_delete*(noise: PNoise) {.cdecl, importc: "TCOD_noise_delete", dynlib: LIB_NAME.}
+proc TCOD_noise_delete(noise: PNoise) {.cdecl, importc: "TCOD_noise_delete", dynlib: LIB_NAME.}
+proc noise_delete*(noise: var PNoise) {.destructor.} =
+  if noise != nil:
+    TCOD_noise_delete(noise)
+    noise = nil
 

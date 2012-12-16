@@ -65,7 +65,11 @@ proc path_get_origin*(path: PPath, x, y: ptr int) {.cdecl, importc: "TCOD_path_g
 proc path_get_destination*(path: PPath, x, y: ptr int) {.cdecl, importc: "TCOD_path_get_destination", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_path_delete(TCOD_path_t path);
-proc path_delete*(path: PPath) {.cdecl, importc: "TCOD_path_delete", dynlib: LIB_NAME.}
+proc TCOD_path_delete(path: PPath) {.cdecl, importc: "TCOD_path_delete", dynlib: LIB_NAME.}
+proc path_delete*(path: var PPath) {.destructor.} =
+  if path != nil:
+    TCOD_path_delete(path)
+    path = nil
 
 
 # Dijkstra stuff - by Mingos
@@ -106,5 +110,9 @@ proc dijkstra_get*(path: PDijkstra, index: int, x, y: ptr int) {.cdecl, importc:
 proc dijkstra_path_walk*(dijkstra: PDijkstra, x, y: ptr int): bool {.cdecl, importc: "TCOD_dijkstra_path_walk", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_dijkstra_delete (TCOD_dijkstra_t dijkstra);
-proc dijkstra_delete*(dijkstra: PDijkstra) {.cdecl, importc: "TCOD_dijkstra_delete", dynlib: LIB_NAME.}
+proc TCOD_dijkstra_delete(dijkstra: PDijkstra) {.cdecl, importc: "TCOD_dijkstra_delete", dynlib: LIB_NAME.}
+proc dijkstra_delete*(dijkstra: var PDijkstra) {.destructor.} =
+  if dijkstra != nil:
+    TCOD_dijkstra_delete(dijkstra)
+    dijkstra = nil
 

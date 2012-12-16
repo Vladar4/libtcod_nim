@@ -148,7 +148,12 @@ type
 proc thread_new*(cb: PCallback, data: pointer): PThread {.cdecl, importc: "TCOD_thread_new", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_thread_delete(TCOD_thread_t th);
-proc thread_delete*(th: PThread) {.cdecl, importc: "TCOD_thread_delete", dynlib: LIB_NAME.}
+proc TCOD_thread_delete(th: PThread) {.cdecl, importc: "TCOD_thread_delete", dynlib: LIB_NAME.}
+proc thread_delete*(th: var PThread) {.destructor.} =
+  if th != nil:
+    TCOD_thread_delete(th)
+    th = nil
+
 
 #TCODLIB_API int TCOD_sys_get_num_cores();
 proc sys_get_num_cores*(): int {.cdecl, importc: "TCOD_sys_get_num_cores", dynlib: LIB_NAME.}
@@ -168,7 +173,11 @@ proc mutex_in*(mut: PMutex) {.cdecl, importc: "TCOD_mutex_in", dynlib: LIB_NAME.
 proc mutex_out*(mut: PMutex) {.cdecl, importc: "TCOD_mutex_out", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_mutex_delete(TCOD_mutex_t mut);
-proc mutex_delete*(mut: PMutex) {.cdecl, importc: "TCOD_mutex_delete", dynlib: LIB_NAME.}
+proc TCOD_mutex_delete(mut: PMutex) {.cdecl, importc: "TCOD_mutex_delete", dynlib: LIB_NAME.}
+proc mutex_delete*(mut: var PMutex) {.destructor.} =
+  if mut != nil:
+    TCOD_mutex_delete(mut)
+    mut = nil
 
 
 # semaphore
@@ -182,7 +191,11 @@ proc semaphore_lock*(sem: PSemaphore) {.cdecl, importc: "TCOD_semaphore_lock", d
 proc semaphore_unlock*(sem: PSemaphore) {.cdecl, importc: "TCOD_semaphore_unlock", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_semaphore_delete( TCOD_semaphore_t sem);
-proc semaphore_delete*(sem: PSemaphore) {.cdecl, importc: "TCOD_semaphore_delete", dynlib: LIB_NAME.}
+proc TCOD_semaphore_delete(sem: PSemaphore) {.cdecl, importc: "TCOD_semaphore_delete", dynlib: LIB_NAME.}
+proc semaphore_delete*(sem: var PSemaphore) {.destructor.} =
+  if sem != nil:
+    TCOD_semaphore_delete(sem)
+    sem = nil
 
 
 # condition
@@ -199,7 +212,11 @@ proc condition_broadcast*(sem: PCond) {.cdecl, importc: "TCOD_condition_broadcas
 proc condition_wait*(sem: PCond, mut: PMutex) {.cdecl, importc: "TCOD_condition_wait", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_condition_delete( TCOD_cond_t sem);
-proc condition_delete*(sem: PCond) {.cdecl, importc: "TCOD_condition_delete", dynlib: LIB_NAME.}
+proc TCOD_condition_delete(sem: PCond) {.cdecl, importc: "TCOD_condition_delete", dynlib: LIB_NAME.}
+proc condition_delete(sem: var PCond) {.destructor.} =
+  if sem != nil:
+    TCOD_condition_delete(sem)
+    sem = nil
 
 
 # dynamic library
@@ -213,8 +230,12 @@ proc load_library*(path: cstring): PLibrary {.cdecl, importc: "TCOD_load_library
 proc get_function_address*(library: PLibrary, function_name: cstring): pointer {.cdecl, importc: "TCOD_get_function_address", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_close_library(TCOD_library_t);
-proc close_library*(library: PLibrary) {.cdecl, importc: "TCOD_close_library", dynlib: LIB_NAME.}
-
+proc TCOD_close_library(library: PLibrary) {.cdecl, importc: "TCOD_close_library", dynlib: LIB_NAME.}
+proc close_library*(library: var PLibrary) {.destructor.} =
+  if library != nil:
+    TCOD_close_library(library)
+    library = nil
+  
 
 # SDL renderer callback
 #typedef void (*SDL_renderer_t) (void *sdl_surface);

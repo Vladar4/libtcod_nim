@@ -50,8 +50,11 @@ proc random_restore*(mersenne, backup: PRandom) {.cdecl, importc: "TCOD_random_r
 proc random_new_from_seed*(algo: TRandomAlgo, seed: uint32): PRandom {.cdecl, importc: "TCOD_random_new_from_seed", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_random_delete(TCOD_random_t mersenne);
-proc random_delete*(mersenne: PRandom) {.cdecl, importc: "TCOD_random_delete", dynlib: LIB_NAME.}
-
+proc TCOD_random_delete(mersenne: PRandom) {.cdecl, importc: "TCOD_random_delete", dynlib: LIB_NAME.}
+proc random_delete*(mersenne: var PRandom) {.destructor.} =
+  if mersenne != nil:
+    TCOD_random_delete(mersenne)
+    mersenne = nil
 
 
 #TCODLIB_API void TCOD_random_set_distribution (TCOD_random_t mersenne, TCOD_distribution_t distribution);

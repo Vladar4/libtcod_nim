@@ -48,7 +48,12 @@ proc list_allicate*(nb_elements: int): PList {.cdecl, importc: "TCOD_list_alloca
 proc list_duplicate*(list: PList): PList {.cdecl, importc: "TCOD_list_duplicate", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_list_delete(TCOD_list_t l);
-proc list_delete*(list: PList) {.cdecl, importc: "TCOD_list_delete", dynlib: LIB_NAME.}
+proc TCOD_list_delete(list: PList) {.cdecl, importc: "TCOD_list_delete", dynlib: LIB_NAME.}
+proc list_delete*(list: var PList) {.destructor.} =
+  if list != nil:
+    TCOD_list_delete(list)
+    list = nil
+
 
 #TCODLIB_API void TCOD_list_push(TCOD_list_t l, const void * elt);
 proc list_push*(list: PList, elt: pointer) {.cdecl, importc: "TCOD_list_push", dynlib: LIB_NAME.}
@@ -96,7 +101,12 @@ proc list_contains*(list: PList, elt: pointer): bool {.cdecl, importc: "TCOD_lis
 proc list_clear*(list: PList) {.cdecl, importc: "TCOD_list_clear", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_list_clear_and_delete(TCOD_list_t l);
-proc list_clear_and_delete*(list: PList) {.cdecl, importc: "TCOD_list_clear_and_delete", dynlib: LIB_NAME.}
+proc TCOD_list_clear_and_delete(list: PList) {.cdecl, importc: "TCOD_list_clear_and_delete", dynlib: LIB_NAME.}
+proc list_clear_and_delete*(list: var PList) {.destructor.} =
+  if list != nil:
+    TCOD_list_clear_and_delete(list)
+    list = nil
+
 
 #TCODLIB_API int TCOD_list_size(TCOD_list_t l);
 proc list_size*(list: PList): int {.cdecl, importc: "TCOD_list_size", dynlib: LIB_NAME.}
