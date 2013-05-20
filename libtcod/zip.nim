@@ -35,7 +35,7 @@ proc zip_new*(): PZip {.cdecl, importc: "TCOD_zip_new", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_zip_delete(TCOD_zip_t zip);
 proc TCOD_zip_delete(zip: PZip) {.cdecl, importc: "TCOD_zip_delete", dynlib: LIB_NAME.}
-proc zip_delete*(zip: var PZip) {.destructor.} =
+proc zip_delete*(zip: var PZip) =
   if zip != nil:
     TCOD_zip_delete(zip)
     zip = nil

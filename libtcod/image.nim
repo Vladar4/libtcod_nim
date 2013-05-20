@@ -89,7 +89,7 @@ proc image_blit_2x*(image: PImage, dest: PConsole, dx, dy: int, sx=0, sy=0, w=(-
 
 #TCODLIB_API void TCOD_image_delete(TCOD_image_t image);
 proc TCOD_image_delete(image: PImage) {.cdecl, importc: "TCOD_image_delete", dynlib: LIB_NAME.}
-proc image_delete*(image: var PImage) {.destructor.} =
+proc image_delete*(image: var PImage) =
   if image != nil:
     TCOD_image_delete(image)
     image = nil

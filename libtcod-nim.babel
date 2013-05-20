@@ -1,10 +1,10 @@
 [Package]
 name          = "libtcod-nim"
-version       = "0.95.1"
+version       = "0.96"
 author        = "Vladar"
 description   = """Wrapper of the libtcod library for the Nimrod language."""
 license       = "MIT"
 
 [Deps]
-Requires: "nimrod >= 0.9.1"
+Requires: "nimrod >= 0.9.2"
 

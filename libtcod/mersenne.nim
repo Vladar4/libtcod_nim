@@ -51,7 +51,7 @@ proc random_new_from_seed*(algo: TRandomAlgo, seed: uint32): PRandom {.cdecl, im
 
 #TCODLIB_API void TCOD_random_delete(TCOD_random_t mersenne);
 proc TCOD_random_delete(mersenne: PRandom) {.cdecl, importc: "TCOD_random_delete", dynlib: LIB_NAME.}
-proc random_delete*(mersenne: var PRandom) {.destructor.} =
+proc random_delete*(mersenne: var PRandom) =
   if mersenne != nil:
     TCOD_random_delete(mersenne)
     mersenne = nil

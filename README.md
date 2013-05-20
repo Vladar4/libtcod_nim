@@ -1,4 +1,4 @@
-libtcod-nim 1.5.1 v0.95
+libtcod-nim 1.5.1 v0.96
 =======================
 
 libtcod-nim is a wrapper of the libtcod library for the Nimrod language.
@@ -21,8 +21,10 @@ Also you may need SDL, OpenGL or GLSL dynamic libraries installed, depending on 
 CHANGELOG:
 ==========
 
-**v0.95.1 (dev)**
+**v0.96**
 * fixed unicode output procedures
+* fixed some errata
+* adaptation for Nimrod 0.9.2
 
 **v0.95**
 * total rewrite of parser module

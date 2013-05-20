@@ -53,7 +53,7 @@ proc text_reset*(txt: PText) {.cdecl, importc: "TCOD_text_reset", dynlib: LIB_NA
 
 #TCODLIB_API void TCOD_text_delete(TCOD_text_t txt);
 proc TCOD_text_delete(txt: PText) {.cdecl, importc: "TCOD_text_delete", dynlib: LIB_NAME.}
-proc text_delete*(txt: var PText) {.destructor.} =
+proc text_delete*(txt: var PText) =
   if txt != nil:
     TCOD_text_delete(txt)
     txt = nil

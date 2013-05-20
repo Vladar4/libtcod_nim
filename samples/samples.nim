@@ -586,6 +586,7 @@ proc render_fov(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
 # ***************************
 # path sample
 # ***************************
+var usingAstar = true
 proc render_path(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
   var
     smap {.global.} = @["##############################################",
@@ -617,7 +618,6 @@ proc render_path(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
     dark_ground {.global.}: TColor = (50'u8, 50'u8, 150'u8)
     light_ground {.global.}: TColor = (200'u8, 180'u8, 50'u8)
     path {.global.}: PPath = nil
-    usingAstar {.global.} = true
     dijkstraDist {.global.} = 0.0'f32
     dijkstra {.global.}: PDijkstra = nil
     recalculatePath {.global.} = false
@@ -655,9 +655,9 @@ proc render_path(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
         if smap[y][x] == '=':
           console_put_char(sample_console, x, y, CHAR_DHLINE, BKGND_NONE)
 
-    recalculatePath=true;
-  
-  if recalculatePath:
+    recalculatePath=true
+ 
+  if recalculatePath == true:
     if usingAstar:
       discard path_compute(path, px, py, dx, dy)
     else:
@@ -672,7 +672,7 @@ proc render_path(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
       discard dijkstra_path_set(dijkstra, dx, dy)
     recalculatePath = false
     busy = 0.2
-
+  
   # draw the dungeon
   for y in 0..SAMPLE_SCREEN_HEIGHT-1:
     for x in 0..SAMPLE_SCREEN_WIDTH-1:
@@ -1355,7 +1355,7 @@ proc SDL_render(sdlSurface: pointer) {.cdecl.} =
     delay = 3.0
     effectNum = (effectNum + 1) mod 3
     if effectNum == 2:
-      sdl_callback_enabled=false; # no forced redraw for burn effect
+      sdl_callback_enabled=false # no forced redraw for burn effect
     else:
       sdl_callback_enabled = true
   case effectNum
@@ -1456,7 +1456,7 @@ while argn < argc:
     font_flags = 0
     font_new_flags = font_new_flags or FONT_LAYOUT_ASCII_INROW
   elif cmp(paramStr(argn), "-font-greyscale") == 0:
-    font_flags = 0;
+    font_flags = 0
     font_new_flags = font_new_flags or FONT_TYPE_GREYSCALE
   elif cmp(paramStr(argn), "-font-tcod") == 0:
     font_flags = 0
@@ -1508,14 +1508,14 @@ while not console_is_window_closed():
   # print the help message
   console_set_default_foreground(nil, GREY)
   console_print_ex(nil, 79, 46, BKGND_NONE, RIGHT, "last frame : %3d ms (%3d fps)", int(sys_get_last_frame_length()*1000), sys_get_fps())
-  console_print_ex(nil, 79, 47, BKGND_NONE, RIGHT, "elapsed : %8dms %4.2fs", sys_elapsed_milli(), sys_elapsed_seconds());
+  console_print_ex(nil, 79, 47, BKGND_NONE, RIGHT, "elapsed : %8dms %4.2fs", sys_elapsed_milli(), sys_elapsed_seconds())
   console_print(nil, 2, 47, "%c%c : select a sample", CHAR_ARROW_N, CHAR_ARROW_S)
   var mode: string
   if console_is_fullscreen():
     mode = "windowed mode  "
   else:
     mode = "fullscreen mode"
-  console_print(nil, 2, 48, "ALT-ENTER : switch to %s", mode);
+  console_print(nil, 2, 48, "ALT-ENTER : switch to %s", mode)
   # render current sample
   samples[cur_sample].render(first, addr(key), addr(mouse))
   first = false
@@ -1546,7 +1546,7 @@ while not console_is_window_closed():
     console_print_ex(nil, 42, 46-(NB_RENDERERS.int-i), BKGND_SET, LEFT, renderer_name[i])
 
   # update the game screen
-  console_flush();
+  console_flush()
 
   # did the user hit a key ?
   discard sys_check_for_event(EVENT_KEY_PRESS or EVENT_MOUSE, addr(key), addr(mouse))
@@ -1558,7 +1558,7 @@ while not console_is_window_closed():
     first = true
   elif key.vk == K_UP:
     # up arrow : previous sample
-    dec(cur_sample);
+    dec(cur_sample)
     if cur_sample < 0:
       cur_sample = nb_samples - 1
     first = true

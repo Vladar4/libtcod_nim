@@ -149,7 +149,7 @@ proc thread_new*(cb: PCallback, data: pointer): PThread {.cdecl, importc: "TCOD_
 
 #TCODLIB_API void TCOD_thread_delete(TCOD_thread_t th);
 proc TCOD_thread_delete(th: PThread) {.cdecl, importc: "TCOD_thread_delete", dynlib: LIB_NAME.}
-proc thread_delete*(th: var PThread) {.destructor.} =
+proc thread_delete*(th: var PThread) =
   if th != nil:
     TCOD_thread_delete(th)
     th = nil
@@ -174,7 +174,7 @@ proc mutex_out*(mut: PMutex) {.cdecl, importc: "TCOD_mutex_out", dynlib: LIB_NAM
 
 #TCODLIB_API void TCOD_mutex_delete(TCOD_mutex_t mut);
 proc TCOD_mutex_delete(mut: PMutex) {.cdecl, importc: "TCOD_mutex_delete", dynlib: LIB_NAME.}
-proc mutex_delete*(mut: var PMutex) {.destructor.} =
+proc mutex_delete*(mut: var PMutex) =
   if mut != nil:
     TCOD_mutex_delete(mut)
     mut = nil
@@ -192,7 +192,7 @@ proc semaphore_unlock*(sem: PSemaphore) {.cdecl, importc: "TCOD_semaphore_unlock
 
 #TCODLIB_API void TCOD_semaphore_delete( TCOD_semaphore_t sem);
 proc TCOD_semaphore_delete(sem: PSemaphore) {.cdecl, importc: "TCOD_semaphore_delete", dynlib: LIB_NAME.}
-proc semaphore_delete*(sem: var PSemaphore) {.destructor.} =
+proc semaphore_delete*(sem: var PSemaphore) =
   if sem != nil:
     TCOD_semaphore_delete(sem)
     sem = nil
@@ -213,7 +213,7 @@ proc condition_wait*(sem: PCond, mut: PMutex) {.cdecl, importc: "TCOD_condition_
 
 #TCODLIB_API void TCOD_condition_delete( TCOD_cond_t sem);
 proc TCOD_condition_delete(sem: PCond) {.cdecl, importc: "TCOD_condition_delete", dynlib: LIB_NAME.}
-proc condition_delete(sem: var PCond) {.destructor.} =
+proc condition_delete*(sem: var PCond) =
   if sem != nil:
     TCOD_condition_delete(sem)
     sem = nil
@@ -231,7 +231,7 @@ proc get_function_address*(library: PLibrary, function_name: cstring): pointer {
 
 #TCODLIB_API void TCOD_close_library(TCOD_library_t);
 proc TCOD_close_library(library: PLibrary) {.cdecl, importc: "TCOD_close_library", dynlib: LIB_NAME.}
-proc close_library*(library: var PLibrary) {.destructor.} =
+proc close_library*(library: var PLibrary) =
   if library != nil:
     TCOD_close_library(library)
     library = nil

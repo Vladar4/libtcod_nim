@@ -53,7 +53,7 @@ proc map_set_properties*(map: PMap, x, y: int, is_transparent, is_walkable: bool
 # destroy a map
 #TCODLIB_API void TCOD_map_delete(TCOD_map_t map);
 proc TCOD_map_delete(map: PMap) {.cdecl, importc: "TCOD_map_delete", dynlib: LIB_NAME.}
-proc map_delete*(map: var PMap) {.destructor.} =
+proc map_delete*(map: var PMap) =
   if map != nil:
     TCOD_map_delete(map)
     map = nil

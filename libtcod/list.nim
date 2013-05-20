@@ -49,7 +49,7 @@ proc list_duplicate*(list: PList): PList {.cdecl, importc: "TCOD_list_duplicate"
 
 #TCODLIB_API void TCOD_list_delete(TCOD_list_t l);
 proc TCOD_list_delete(list: PList) {.cdecl, importc: "TCOD_list_delete", dynlib: LIB_NAME.}
-proc list_delete*(list: var PList) {.destructor.} =
+proc list_delete*(list: var PList) =
   if list != nil:
     TCOD_list_delete(list)
     list = nil
@@ -102,7 +102,7 @@ proc list_clear*(list: PList) {.cdecl, importc: "TCOD_list_clear", dynlib: LIB_N
 
 #TCODLIB_API void TCOD_list_clear_and_delete(TCOD_list_t l);
 proc TCOD_list_clear_and_delete(list: PList) {.cdecl, importc: "TCOD_list_clear_and_delete", dynlib: LIB_NAME.}
-proc list_clear_and_delete*(list: var PList) {.destructor.} =
+proc list_clear_and_delete*(list: var PList) =
   if list != nil:
     TCOD_list_clear_and_delete(list)
     list = nil

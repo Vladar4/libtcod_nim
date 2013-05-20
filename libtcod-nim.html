@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>libtcod-nil 1.5.1 v0.95</title>
+<title>libtcod-nim 1.5.1 v0.96</title>
 <style type="text/css">
 
 span.DecNumber {color: blue}
@@ -238,7 +238,7 @@ a.reference:hover {color: #E00000;background-color: #ffff00;display: margin;
 </head>
 <body>
 <div class="document" id="documentId">
-<h1 class="title">libtcod-nim 1.5.1 v0.95</h1>
+<h1 class="title">libtcod-nim 1.5.1 v0.96</h1>
 <div class="navigation" id="navigation">
 <ul class="simple">
 <li>
@@ -1113,7 +1113,7 @@ a.reference:hover {color: #E00000;background-color: #ffff00;display: margin;
 <div class="section" id="6">
 <h1><a class="toc-backref" href="#56">Imports</a></h1>
 <dl class="item">
-<a class="reference external" href="os.html">os</a>, <a class="reference external" href="strutils.html">strutils</a>, <a class="reference external" href="list.html">list</a>
+<a class="reference external" href="unicode.html">unicode</a>, <a class="reference external" href="os.html">os</a>, <a class="reference external" href="strutils.html">strutils</a>, <a class="reference external" href="list.html">list</a>
 </dl></div>
 <div class="section" id="7">
 <h1><a class="toc-backref" href="#57">Types</a></h1>
@@ -1177,7 +1177,7 @@ a.reference:hover {color: #E00000;background-color: #ffff00;display: margin;
 
 </dd>
 <dt id="532"><pre><span class="Identifier">TMouse</span> <span class="Other">=</span> <span class="Keyword">object</span> 
-  <span class="Identifier">x</span><span class="Operator">*</span><span class="Other">,</span> <span class="Identifier">y</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">int</span>                 <span class="Comment">## absolute position</span>
+  <span class="Identifier">x</span><span class="Operator">*</span><span class="Other">,</span> <span class="Identifier">y</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">int</span>
   <span class="Identifier">dx</span><span class="Operator">*</span><span class="Other">,</span> <span class="Identifier">dy</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">int</span>               <span class="Comment">## movement since last update in pixels</span>
   <span class="Identifier">cx</span><span class="Operator">*</span><span class="Other">,</span> <span class="Identifier">cy</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">int</span>               <span class="Comment">## cell coordinates in the root console</span>
   <span class="Identifier">dcx</span><span class="Operator">*</span><span class="Other">,</span> <span class="Identifier">dcy</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">int</span>             <span class="Comment">## movement since last update in console cells</span>
@@ -1190,6 +1190,9 @@ a.reference:hover {color: #E00000;background-color: #ffff00;display: margin;
   <span class="Identifier">wheel_up</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">bool</span>
   <span class="Identifier">wheel_down</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">bool</span>
 </pre></dt>
+<dd>
+absolute position
+</dd>
 <dt id="538"><pre><span class="Identifier">PImage</span> <span class="Other">=</span> <span class="Identifier">pointer</span></pre></dt>
 <dd>
 
@@ -3431,35 +3434,34 @@ disable opengl support
 
 </dd>
 <dt id="497"><pre><span class="Keyword">proc</span> <span class="Identifier">console_map_string_to_font_utf</span><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">;</span> <span class="Identifier">fontCharX</span><span class="Other">,</span> <span class="Identifier">fontCharY</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">)</span> <span class="Other">{.</span>
-    <span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_console_map_string_to_font_utf&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span><span class="Other">.}</span></pre></dt>
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">E_Base</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
-<dt id="498"><pre><span class="Keyword">proc</span> <span class="Identifier">console_print_utf</span><span class="Other">(</span><span class="Identifier">con</span><span class="Other">:</span> <span class="Identifier">PConsole</span><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">,</span> <span class="Identifier">y</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span> <span class="Identifier">fmt</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> 
-    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_console_print_utf&quot;</span><span class="Other">,</span> <span class="Identifier">varargs</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span><span class="Other">.}</span></pre></dt>
+<dt id="498"><pre><span class="Keyword">proc</span> <span class="Identifier">console_print_utf</span><span class="Other">(</span><span class="Identifier">con</span><span class="Other">:</span> <span class="Identifier">PConsole</span><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">,</span> <span class="Identifier">y</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span> <span class="Identifier">fmt</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span> <span class="Other">{.</span>
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">E_Base</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
 <dt id="499"><pre><span class="Keyword">proc</span> <span class="Identifier">console_print_ex_utf</span><span class="Other">(</span><span class="Identifier">con</span><span class="Other">:</span> <span class="Identifier">PConsole</span><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">,</span> <span class="Identifier">y</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span> <span class="Identifier">flag</span><span class="Other">:</span> <span class="Identifier">TBkgndFlag</span><span class="Other">;</span> 
-                          <span class="Identifier">alignment</span><span class="Other">:</span> <span class="Identifier">TAlignment</span><span class="Other">;</span> <span class="Identifier">fmt</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> 
-    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_console_print_ex_utf&quot;</span><span class="Other">,</span> <span class="Identifier">varargs</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span><span class="Other">.}</span></pre></dt>
+                          <span class="Identifier">alignment</span><span class="Other">:</span> <span class="Identifier">TAlignment</span><span class="Other">;</span> <span class="Identifier">fmt</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span> <span class="Other">{.</span>
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">E_Base</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
 <dt id="500"><pre><span class="Keyword">proc</span> <span class="Identifier">console_print_rect_utf</span><span class="Other">(</span><span class="Identifier">con</span><span class="Other">:</span> <span class="Identifier">PConsole</span><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">,</span> <span class="Identifier">y</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">,</span> <span class="Identifier">h</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span> <span class="Identifier">fmt</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span> <span class="Other">{.</span>
-    <span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_console_print_rect_utf&quot;</span><span class="Other">,</span> <span class="Identifier">varargs</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span><span class="Other">.}</span></pre></dt>
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">E_Base</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
 <dt id="501"><pre><span class="Keyword">proc</span> <span class="Identifier">console_print_rect_ex_utf</span><span class="Other">(</span><span class="Identifier">con</span><span class="Other">:</span> <span class="Identifier">PConsole</span><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">,</span> <span class="Identifier">y</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">,</span> <span class="Identifier">h</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span> <span class="Identifier">flag</span><span class="Other">:</span> <span class="Identifier">TBkgndFlag</span><span class="Other">;</span> 
                                <span class="Identifier">alignment</span><span class="Other">:</span> <span class="Identifier">TAlignment</span><span class="Other">;</span> <span class="Identifier">fmt</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span> <span class="Other">{.</span>
-    <span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_console_print_rect_ex_utf&quot;</span><span class="Other">,</span> <span class="Identifier">varargs</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span><span class="Other">.}</span></pre></dt>
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">E_Base</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
 <dt id="502"><pre><span class="Keyword">proc</span> <span class="Identifier">console_get_height_rect_utf</span><span class="Other">(</span><span class="Identifier">con</span><span class="Other">:</span> <span class="Identifier">PConsole</span><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">,</span> <span class="Identifier">y</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">,</span> <span class="Identifier">h</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span> <span class="Identifier">fmt</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span> <span class="Other">{.</span>
-    <span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_console_get_height_rect_utf&quot;</span><span class="Other">,</span> <span class="Identifier">varargs</span><span class="Other">,</span> 
-    <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span><span class="Other">.}</span></pre></dt>
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">E_Base</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
@@ -3590,8 +3592,7 @@ disable opengl support
 <dd>
 
 </dd>
-<dt id="528"><pre><span class="Keyword">proc</span> <span class="Identifier">console_delete</span><span class="Other">(</span><span class="Identifier">con</span><span class="Other">:</span> <span class="Identifier">PConsole</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_console_delete&quot;</span><span class="Other">,</span> 
-                                     <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span><span class="Other">.}</span></pre></dt>
+<dt id="528"><pre><span class="Keyword">proc</span> <span class="Identifier">console_delete</span><span class="Other">(</span><span class="Identifier">con</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">PConsole</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
@@ -3734,8 +3735,7 @@ disable opengl support
 <dd>
 
 </dd>
-<dt id="558"><pre><span class="Keyword">proc</span> <span class="Identifier">image_delete</span><span class="Other">(</span><span class="Identifier">image</span><span class="Other">:</span> <span class="Identifier">PImage</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_image_delete&quot;</span><span class="Other">,</span> 
-                                   <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span><span class="Other">.}</span></pre></dt>
+<dt id="558"><pre><span class="Keyword">proc</span> <span class="Identifier">image_delete</span><span class="Other">(</span><span class="Identifier">image</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">PImage</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
@@ -3891,8 +3891,7 @@ disable opengl support
 <dd>
 
 </dd>
-<dt id="603"><pre><span class="Keyword">proc</span> <span class="Identifier">thread_delete</span><span class="Other">(</span><span class="Identifier">th</span><span class="Other">:</span> <span class="Identifier">PThread</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_thread_delete&quot;</span><span class="Other">,</span> 
-                                  <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span><span class="Other">.}</span></pre></dt>
+<dt id="603"><pre><span class="Keyword">proc</span> <span class="Identifier">thread_delete</span><span class="Other">(</span><span class="Identifier">th</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">PThread</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
@@ -3918,8 +3917,7 @@ disable opengl support
 <dd>
 
 </dd>
-<dt id="609"><pre><span class="Keyword">proc</span> <span class="Identifier">mutex_delete</span><span class="Other">(</span><span class="Identifier">mut</span><span class="Other">:</span> <span class="Identifier">PMutex</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_mutex_delete&quot;</span><span class="Other">,</span> 
-                                 <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span><span class="Other">.}</span></pre></dt>
+<dt id="609"><pre><span class="Keyword">proc</span> <span class="Identifier">mutex_delete</span><span class="Other">(</span><span class="Identifier">mut</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">PMutex</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
@@ -3938,8 +3936,7 @@ disable opengl support
 <dd>
 
 </dd>
-<dt id="613"><pre><span class="Keyword">proc</span> <span class="Identifier">semaphore_delete</span><span class="Other">(</span><span class="Identifier">sem</span><span class="Other">:</span> <span class="Identifier">PSemaphore</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> 
-    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_semaphore_delete&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span><span class="Other">.}</span></pre></dt>
+<dt id="613"><pre><span class="Keyword">proc</span> <span class="Identifier">semaphore_delete</span><span class="Other">(</span><span class="Identifier">sem</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">PSemaphore</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
@@ -3964,8 +3961,7 @@ disable opengl support
 <dd>
 
 </dd>
-<dt id="618"><pre><span class="Keyword">proc</span> <span class="Identifier">condition_delete</span><span class="Other">(</span><span class="Identifier">sem</span><span class="Other">:</span> <span class="Identifier">PCond</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_condition_delete&quot;</span><span class="Other">,</span> 
-                                    <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span><span class="Other">.}</span></pre></dt>
+<dt id="618"><pre><span class="Keyword">proc</span> <span class="Identifier">condition_delete</span><span class="Other">(</span><span class="Identifier">sem</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">PCond</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
@@ -3979,8 +3975,7 @@ disable opengl support
 <dd>
 
 </dd>
-<dt id="622"><pre><span class="Keyword">proc</span> <span class="Identifier">close_library</span><span class="Other">(</span><span class="Identifier">library</span><span class="Other">:</span> <span class="Identifier">PLibrary</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_close_library&quot;</span><span class="Other">,</span> 
-                                        <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span><span class="Other">.}</span></pre></dt>
+<dt id="622"><pre><span class="Keyword">proc</span> <span class="Identifier">close_library</span><span class="Other">(</span><span class="Identifier">library</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">PLibrary</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
@@ -4019,8 +4014,7 @@ disable opengl support
 <dd>
 
 </dd>
-<dt id="635"><pre><span class="Keyword">proc</span> <span class="Identifier">random_delete</span><span class="Other">(</span><span class="Identifier">mersenne</span><span class="Other">:</span> <span class="Identifier">PRandom</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_random_delete&quot;</span><span class="Other">,</span> 
-                                        <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span><span class="Other">.}</span></pre></dt>
+<dt id="635"><pre><span class="Keyword">proc</span> <span class="Identifier">random_delete</span><span class="Other">(</span><span class="Identifier">mersenne</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">PRandom</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
@@ -4117,8 +4111,7 @@ disable opengl support
 <dd>
 
 </dd>
-<dt id="661"><pre><span class="Keyword">proc</span> <span class="Identifier">noise_delete</span><span class="Other">(</span><span class="Identifier">noise</span><span class="Other">:</span> <span class="Identifier">PNoise</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_noise_delete&quot;</span><span class="Other">,</span> 
-                                   <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span><span class="Other">.}</span></pre></dt>
+<dt id="661"><pre><span class="Keyword">proc</span> <span class="Identifier">noise_delete</span><span class="Other">(</span><span class="Identifier">noise</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">PNoise</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
@@ -4278,7 +4271,7 @@ disable opengl support
 <dd>
 
 </dd>
-<dt id="703"><pre><span class="Keyword">proc</span> <span class="Identifier">map_delete</span><span class="Other">(</span><span class="Identifier">map</span><span class="Other">:</span> <span class="Identifier">PMap</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_map_delete&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span><span class="Other">.}</span></pre></dt>
+<dt id="703"><pre><span class="Keyword">proc</span> <span class="Identifier">map_delete</span><span class="Other">(</span><span class="Identifier">map</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">PMap</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
@@ -4375,8 +4368,7 @@ disable opengl support
 <dd>
 
 </dd>
-<dt id="725"><pre><span class="Keyword">proc</span> <span class="Identifier">path_delete</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <span class="Identifier">PPath</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_path_delete&quot;</span><span class="Other">,</span> 
-                                <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span><span class="Other">.}</span></pre></dt>
+<dt id="725"><pre><span class="Keyword">proc</span> <span class="Identifier">path_delete</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">PPath</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
@@ -4432,8 +4424,7 @@ disable opengl support
 <dd>
 
 </dd>
-<dt id="737"><pre><span class="Keyword">proc</span> <span class="Identifier">dijkstra_delete</span><span class="Other">(</span><span class="Identifier">dijkstra</span><span class="Other">:</span> <span class="Identifier">PDijkstra</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> 
-    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_dijkstra_delete&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span><span class="Other">.}</span></pre></dt>
+<dt id="737"><pre><span class="Keyword">proc</span> <span class="Identifier">dijkstra_delete</span><span class="Other">(</span><span class="Identifier">dijkstra</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">PDijkstra</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
@@ -4785,7 +4776,7 @@ dice format : [&lt;m&gt;(x|*)]&lt;n&gt;(D|d)&lt;f&gt;[(+|-)&lt;a&gt;]
 
 </dd>
 <dt id="876"><pre><span class="Keyword">proc</span> <span class="Identifier">parser_new_custom_type</span><span class="Other">(</span><span class="Identifier">parser</span><span class="Other">:</span> <span class="Identifier">PParser</span><span class="Other">;</span> <span class="Identifier">custom_type_parser</span><span class="Other">:</span> <span class="Identifier">PParserCustom</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">TValueType</span> <span class="Other">{.</span>
-    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">E_Base</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">TEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
@@ -4894,7 +4885,7 @@ triggers callbacks in the listener for each event during parsing
 <dd>
 
 </dd>
-<dt id="899"><pre><span class="Keyword">proc</span> <span class="Identifier">zip_delete</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <span class="Identifier">PZip</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_delete&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span><span class="Other">.}</span></pre></dt>
+<dt id="899"><pre><span class="Keyword">proc</span> <span class="Identifier">zip_delete</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">PZip</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
@@ -5063,8 +5054,7 @@ triggers callbacks in the listener for each event during parsing
 <dd>
 
 </dd>
-<dt id="934"><pre><span class="Keyword">proc</span> <span class="Identifier">text_delete</span><span class="Other">(</span><span class="Identifier">txt</span><span class="Other">:</span> <span class="Identifier">PText</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_text_delete&quot;</span><span class="Other">,</span> 
-                               <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span><span class="Other">.}</span></pre></dt>
+<dt id="934"><pre><span class="Keyword">proc</span> <span class="Identifier">text_delete</span><span class="Other">(</span><span class="Identifier">txt</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">PText</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 
 </dd>
@@ -5090,7 +5080,7 @@ triggers callbacks in the listener for each event during parsing
 
 </div>
 
-<small>Generated: 2012-12-06 15:00:23 UTC</small>
+<small>Generated: 2013-05-20 20:32:11 UTC</small>
 </div>
 </body>
 </html>

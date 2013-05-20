@@ -349,7 +349,7 @@ proc console_blit*(src: PConsole, xSrc, ySrc, wSrc, hSrc: int, dst: PConsole, xD
 
 #TCODLIB_API void TCOD_console_delete(TCOD_console_t console);
 proc TCOD_console_delete(con: PConsole) {.cdecl, importc: "TCOD_console_delete", dynlib: LIB_NAME.}
-proc console_delete*(con: var PConsole) {.destructor.} =
+proc console_delete*(con: var PConsole) =
   if con != nil:
     TCOD_console_delete(con)
     con = nil
