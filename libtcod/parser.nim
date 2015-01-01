@@ -562,9 +562,9 @@ proc parser_parse_entity*(parser: PParser, def: PParserStruct): bool =
   return true
 
 
-########################################
+#
 # generic parser
-########################################
+#
 
 var
   symbols, keywords: cstringArray

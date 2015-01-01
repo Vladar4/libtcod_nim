@@ -29,7 +29,7 @@
 import strutils
 
 
-type  
+type
   # dice roll
   TDice*{.bycopy.} = tuple[nb_rolls, nb_faces: int32, multiplier, addsub: float32]
 

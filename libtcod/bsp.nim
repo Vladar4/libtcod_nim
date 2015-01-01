@@ -30,8 +30,8 @@ type
   PBSP* = ptr TBSP
   TBSP*{.bycopy.} = object
     tree*: TTree # pseudo oop : bsp inherit tree
-    x*, y*, w*, h*: int # node position & size
-    position*: int # position of splitting
+    x*, y*, w*, h*: int32 # node position & size
+    position*: int32 # position of splitting
     level*: uint8 # level in the tree
     horizontal*: bool # horizontal splitting ?
 

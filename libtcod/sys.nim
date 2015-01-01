@@ -76,7 +76,7 @@ proc sys_get_sdl_window*(): pointer {.cdecl, importc: "TCOD_sys_get_sdl_window",
 
 
 type
-  TEvent* = int
+  TEvent* = int32
 
 const
   EVENT_KEY_PRESS* = 1

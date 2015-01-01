@@ -46,15 +46,15 @@ proc line*(xFrom, yFrom, xTo, yTo: int, listener: PLineListener): bool {.cdecl, 
 type
   PBresenhamData* = ptr TBresenhamData
   TBresenhamData*{.bycopy.} = object
-    stepx*: int
-    stepy*: int
-    e*: int
-    deltax*: int
-    deltay*: int
-    origx*: int
-    origy*: int
-    destx*: int
-    desty*: int
+    stepx*: int32
+    stepy*: int32
+    e*: int32
+    deltax*: int32
+    deltay*: int32
+    origx*: int32
+    origy*: int32
+    destx*: int32
+    desty*: int32
 
 
 #TCODLIB_API void TCOD_line_init_mt(int xFrom, int yFrom, int xTo, int yTo, TCOD_bresenham_data_t *data);

@@ -37,7 +37,7 @@ const
 proc path_new_using_map*(map: PMap, diagonalCost=DEFAULT_DIAGONAL_COST): PPath {.cdecl, importc: "TCOD_path_new_using_map", dynlib: LIB_NAME.}
 
 #TCODLIB_API TCOD_path_t TCOD_path_new_using_function(int map_width, int map_height, TCOD_path_func_t func, void *user_data, float diagonalCost);
-proc path_new_using_function*(map_width, map_height: int, func: PPathFunc, user_data: pointer = nil, diagonalCost=DEFAULT_DIAGONAL_COST): PPath {.cdecl, importc: "TCOD_path_new_using_function", dynlib: LIB_NAME.}
+proc path_new_using_function*(map_width, map_height: int, pathfunc: PPathFunc, user_data: pointer = nil, diagonalCost=DEFAULT_DIAGONAL_COST): PPath {.cdecl, importc: "TCOD_path_new_using_function", dynlib: LIB_NAME.}
 
 
 #TCODLIB_API bool TCOD_path_compute(TCOD_path_t path, int ox,int oy, int dx, int dy);
@@ -81,7 +81,7 @@ type
 proc dijkstra_new*(map: PMap, diagonalCost=DEFAULT_DIAGONAL_COST): PDijkstra {.cdecl, importc: "TCOD_dijkstra_new", dynlib: LIB_NAME.}
 
 #TCODLIB_API TCOD_dijkstra_t TCOD_dijkstra_new_using_function(int map_width, int map_height, TCOD_path_func_t func, void *user_data, float diagonalCost);
-proc dijkstra_new_using_function*(map_width, map_height: int, func: PPathFunc, user_data: pointer = nil, diagonalCost=DEFAULT_DIAGONAL_COST): PDijkstra {.cdecl, importc: "TCOD_dijkstra_new_using_function", dynlib: LIB_NAME.}
+proc dijkstra_new_using_function*(map_width, map_height: int, pathfunc: PPathFunc, user_data: pointer = nil, diagonalCost=DEFAULT_DIAGONAL_COST): PDijkstra {.cdecl, importc: "TCOD_dijkstra_new_using_function", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_dijkstra_compute (TCOD_dijkstra_t dijkstra, int root_x, int root_y);
 proc dijkstra_compute*(dijkstra: PDijkstra, root_x, root_y: int) {.cdecl, importc: "TCOD_dijkstra_compute", dynlib: LIB_NAME.}

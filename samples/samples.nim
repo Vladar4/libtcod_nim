@@ -84,7 +84,7 @@ proc render_colors(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
       if cols[c].b == 255'u8: dirb[c] = -1
       elif cols[c].b == 0'u8: dirb[c] = 1
     else:
-      nil
+      discard
 
   # ==== scan the whole screen, interpolating corner colors ====
   for x in 0..SAMPLE_SCREEN_WIDTH-1:
@@ -247,10 +247,13 @@ proc render_lines(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
   angle = sys_elapsed_seconds() * 2.0
   cos_angle = cos(angle)
   sin_angle = sin(angle)
-  xo = int(SAMPLE_SCREEN_WIDTH_2 * (1 + cos_angle))
-  yo = int(SAMPLE_SCREEN_HEIGHT_2 + sin_angle * SAMPLE_SCREEN_WIDTH_2)
-  xd = int(SAMPLE_SCREEN_WIDTH_2 * (1 - cos_angle))
-  yd = int(SAMPLE_SCREEN_HEIGHT_2 - sin_angle * SAMPLE_SCREEN_WIDTH_2)
+  let
+    SCRW2 = float32(SAMPLE_SCREEN_WIDTH_2)
+    SCRH2 = float32(SAMPLE_SCREEN_HEIGHT_2)
+  xo = int(SCRW2 * (1 + cos_angle))
+  yo = int(SCRH2 + sin_angle * SCRW2)
+  xd = int(SCRW2 * (1 - cos_angle))
+  yd = int(SCRH2 - sin_angle * SCRW2)
   # render the line
   discard line(xo, yo, xd, yd, line_listener)
   # print the current flag
@@ -273,7 +276,7 @@ proc render_noise(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
     TURBULENCE_WAVELET = 8
 
   var
-    funcName {.global.} = @["1 : perlin noise       ",
+    functName {.global.} = @["1 : perlin noise       ",
                             "2 : simplex noise      ",
                             "3 : wavelet noise      ",
                             "4 : perlin fbm         ",
@@ -282,7 +285,7 @@ proc render_noise(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
                             "7 : simplex turbulence ",
                             "8 : wavelet fbm        ",
                             "9 : wavelet turbulence "]
-    func {.global.} = PERLIN
+    funct {.global.} = PERLIN
     noise {.global.}: PNoise = nil
     dx {.global.} = 0.0
     dy {.global.} = 0.0
@@ -315,7 +318,7 @@ proc render_noise(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
       f[1] = zoom * float32(y / (2 * SAMPLE_SCREEN_HEIGHT) + dy)
       value = 0.0
       var pf = floatArrayToPtr(f)
-      case func
+      case funct
       of PERLIN: value = noise_get_ex(noise, pf, NOISE_PERLIN)
       of SIMPLEX: value = noise_get_ex(noise, pf, NOISE_SIMPLEX)
       of WAVELET: value = noise_get_ex(noise, pf, NOISE_WAVELET)
@@ -325,7 +328,7 @@ proc render_noise(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
       of TURBULENCE_SIMPLEX: value = noise_get_turbulence_ex(noise, pf, octaves, NOISE_SIMPLEX)
       of FBM_WAVELET: value = noise_get_fbm_ex(noise, pf, octaves, NOISE_WAVELET)
       of TURBULENCE_WAVELET: value = noise_get_turbulence_ex(noise, pf, octaves, NOISE_WAVELET)
-      else: nil
+      else: discard
       c= uint8((value + 1.0) / 2.0 * 255)
       # use a bluish color
       col.g = uint8(c.int / 2)
@@ -339,7 +342,7 @@ proc render_noise(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
   # draw a transparent rectangle
   console_set_default_background(sample_console, GREY)
   var n: int
-  if func <= WAVELET: n = 10
+  if funct <= WAVELET: n = 10
   else: n = 13
   console_rect(sample_console, 2, 2, 23, n, false, BKGND_MULTIPLY)
   # ==== This block causes error on Windows ====
@@ -350,19 +353,19 @@ proc render_noise(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
   #    console_set_char_foreground(sample_console, x, y, col)
 
   # draw the text
-  for curfunc in PERLIN..TURBULENCE_WAVELET:
-    if curfunc == func:
+  for curfunct in PERLIN..TURBULENCE_WAVELET:
+    if curfunct == funct:
         console_set_default_foreground(sample_console, WHITE)
         console_set_default_background(sample_console, LIGHT_BLUE)
-        console_print_ex(sample_console, 2, 2+curfunc, BKGND_SET, LEFT, funcName[curfunc])
+        console_print_ex(sample_console, 2, 2+curfunct, BKGND_SET, LEFT, functName[curfunct])
     else:
         console_set_default_foreground(sample_console, GREY)
-        console_print(sample_console, 2, 2+curfunc, funcName[curfunc])
+        console_print(sample_console, 2, 2+curfunct, functName[curfunct])
 
   # draw parameters
-  console_set_default_foreground(sample_console, white)
+  console_set_default_foreground(sample_console, WHITE)
   console_print(sample_console, 2, 11, "Y/H : zoom (%2.1f)       ", zoom)
-  if func > WAVELET:
+  if funct > WAVELET:
     console_print(sample_console, 2, 12, "E/D : hurst (%2.1f)      ", hurst)
     console_print(sample_console, 2, 13, "R/F : lacunarity (%2.1f) ", lacunarity)
     console_print(sample_console, 2, 14, "T/G : octaves (%2.1f)    ", octaves)
@@ -371,7 +374,7 @@ proc render_noise(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
   if key.vk == K_NONE: return
   if key.c >= '1' and key.c <= '9':
     # change the noise function
-    func = ord(key.c) - ord('1')
+    funct = ord(key.c) - ord('1')
   elif key.c == 'E' or key.c == 'e':
     # increase hurst
     hurst += 0.1
@@ -854,10 +857,10 @@ proc traverse_node(node: PBSP, userData: pointer): bool {.cdecl.} =
     if maxx == SAMPLE_SCREEN_WIDTH-1: dec(maxx)
     if maxy == SAMPLE_SCREEN_HEIGHT-1: dec(maxy)
     if randomRoom:
-      minx = random_get_int(nil, minx, maxx-minRoomSize+1)
-      miny = random_get_int(nil, miny, maxy-minRoomSize+1)
-      maxx = random_get_int(nil, minx+minRoomSize-1, maxx)
-      maxy = random_get_int(nil, miny+minRoomSize-1, maxy)
+      minx = random_get_int(nil, minx, maxx-minRoomSize+1).int32
+      miny = random_get_int(nil, miny, maxy-minRoomSize+1).int32
+      maxx = random_get_int(nil, minx+minRoomSize-1, maxx).int32
+      maxy = random_get_int(nil, miny+minRoomSize-1, maxy).int32
     
     # resize the node to fit the room
     node.x = minx
@@ -1160,25 +1163,25 @@ var
 
 proc burn(screen: PSurface, samplex, sampley, samplew, sampleh: int) =
   var
-    ridx = int(screen.format.Rshift.int / 8)
-    gidx = int(screen.format.Gshift.int / 8)
-    bidx = int(screen.format.Bshift.int / 8)
+    ridx = int(screen.format.rshift.int / 8)
+    gidx = int(screen.format.gshift.int / 8)
+    bidx = int(screen.format.bshift.int / 8)
   for x in samplex..samplex+samplew-1:
-    var p: PUInt8Array = cast[PUInt8Array](cast[int](screen.pixels) + x * screen.format.BytesPerPixel.int + sampley * screen.pitch.int)
+    var p: PUInt8Array = cast[PUInt8Array](cast[int](screen.pixels) + x * screen.format.bytesPerPixel.int + sampley * screen.pitch.int)
     for y in sampley..sampley+sampleh-1:
       var
         ir: uint8 = 0
         ig: uint8 = 0
         ib: uint8 = 0
-        p2: PUInt8Array = cast[PUInt8Array](cast[int](p) + screen.format.BytesPerPixel.int) # get pixel at x+1,y
+        p2: PUInt8Array = cast[PUInt8Array](cast[int](p) + screen.format.bytesPerPixel.int) # get pixel at x+1,y
       ir += p2[ridx]
       ig += p2[gidx]
       ib += p2[bidx]
-      p2 = cast[PUInt8Array](cast[int](p2) - 2 * screen.format.BytesPerPixel.int) # get pixel at x-1,y
+      p2 = cast[PUInt8Array](cast[int](p2) - 2 * screen.format.bytesPerPixel.int) # get pixel at x-1,y
       ir += p2[ridx]
       ig += p2[gidx]
       ib += p2[bidx]
-      p2 = cast[PUInt8Array](cast[int](p2) + screen.format.BytesPerPixel.int + screen.pitch.int) # get pixel at x,y+1
+      p2 = cast[PUInt8Array](cast[int](p2) + screen.format.bytesPerPixel.int + screen.pitch.int) # get pixel at x,y+1
       ir += p2[ridx]
       ig += p2[gidx]
       ib += p2[bidx]
@@ -1197,13 +1200,13 @@ proc burn(screen: PSurface, samplex, sampley, samplew, sampleh: int) =
 
 proc explode(screen: PSurface, samplex, sampley, samplew, sampleh: int) =
   var
-    ridx = int(screen.format.Rshift.int / 8)
-    gidx = int(screen.format.Gshift.int / 8)
-    bidx = int(screen.format.Bshift.int / 8)
+    ridx = int(screen.format.rshift.int / 8)
+    gidx = int(screen.format.gshift.int / 8)
+    bidx = int(screen.format.bshift.int / 8)
     dist = int(10 * (3.0 - delay))
 
   for x in samplex..samplex+samplew-1:
-    var p: PUInt8Array = cast[PUInt8Array](cast[int](screen.pixels) + x * screen.format.BytesPerPixel.int + sampley * screen.pitch.int)
+    var p: PUInt8Array = cast[PUInt8Array](cast[int](screen.pixels) + x * screen.format.bytesPerPixel.int + sampley * screen.pitch.int)
     for y in sampley..sampley+sampleh-1:
       var
         ir: uint8 = 0
@@ -1214,7 +1217,7 @@ proc explode(screen: PSurface, samplex, sampley, samplew, sampleh: int) =
           dx = random_get_int(nil, -dist, dist)
           dy = random_get_int(nil, -dist, dist)
           p2: PUInt8Array
-        p2 = cast[PUInt8Array](cast[int](p) + dx * screen.format.BytesPerPixel.int)
+        p2 = cast[PUInt8Array](cast[int](p) + dx * screen.format.bytesPerPixel.int)
         p2 = cast[PUInt8Array](cast[int](p2) + dy * screen.pitch.int)
         ir += p2[ridx]
         ig += p2[gidx]
@@ -1233,15 +1236,15 @@ proc blur(screen: PSurface, samplex, sampley, samplew, sampleh: int) =
   var
     f: array[0..2, float32]
     n: float32 = 0.0
-    ridx = uint8(screen.format.Rshift.int / 8)
-    gidx = uint8(screen.format.Gshift.int / 8)
-    bidx = uint8(screen.format.Bshift.int / 8)
+    ridx = uint8(screen.format.rshift.int / 8)
+    gidx = uint8(screen.format.gshift.int / 8)
+    bidx = uint8(screen.format.bshift.int / 8)
 
   f[2] = sys_elapsed_seconds()
   if noise == nil:
     noise = noise_new(3, NOISE_DEFAULT_HURST, NOISE_DEFAULT_LACUNARITY, nil)
   for x in samplex..samplex+samplew-1:
-    var p: PUInt8Array = cast[PUInt8Array](cast[int](screen.pixels) + x * screen.format.BytesPerPixel.int + sampley * screen.pitch.int)
+    var p: PUInt8Array = cast[PUInt8Array](cast[int](screen.pixels) + x * screen.format.bytesPerPixel.int + sampley * screen.pitch.int)
     f[0] = x / samplew
     for y in sampley..sampley+sampleh-1:
       var
@@ -1261,7 +1264,7 @@ proc blur(screen: PSurface, samplex, sampley, samplew, sampleh: int) =
         ir += p[ridx].int
         ig += p[gidx].int
         ib += p[bidx].int
-        p = cast[PUInt8Array](cast[int](p) - 2 * screen.format.BytesPerPixel.int) # get pixel at x+2,y
+        p = cast[PUInt8Array](cast[int](p) - 2 * screen.format.bytesPerPixel.int) # get pixel at x+2,y
         ir += p[ridx].int
         ig += p[gidx].int
         ib += p[bidx].int
@@ -1269,7 +1272,7 @@ proc blur(screen: PSurface, samplex, sampley, samplew, sampleh: int) =
         ir += p[ridx].int
         ig += p[gidx].int
         ib += p[bidx].int
-        p = cast[PUInt8Array](cast[int](p) + 2 * screen.format.BytesPerPixel.int) # get pixel at x,y+2
+        p = cast[PUInt8Array](cast[int](p) + 2 * screen.format.bytesPerPixel.int) # get pixel at x,y+2
         ir += p[ridx].int
         ig += p[gidx].int
         ib += p[bidx].int
@@ -1280,7 +1283,7 @@ proc blur(screen: PSurface, samplex, sampley, samplew, sampleh: int) =
         ir += p[ridx].int
         ig += p[gidx].int
         ib += p[bidx].int
-        p = cast[PUInt8Array](cast[int](p) + 2 * screen.format.BytesPerPixel.int) # get pixel at x+2,y
+        p = cast[PUInt8Array](cast[int](p) + 2 * screen.format.bytesPerPixel.int) # get pixel at x+2,y
         ir += p[ridx].int
         ig += p[gidx].int
         ib += p[bidx].int
@@ -1288,7 +1291,7 @@ proc blur(screen: PSurface, samplex, sampley, samplew, sampleh: int) =
         ir += p[ridx].int
         ig += p[gidx].int
         ib += p[bidx].int
-        p = cast[PUInt8Array](cast[int](p) - 2 * screen.format.BytesPerPixel.int) # get pixel at x,y+2
+        p = cast[PUInt8Array](cast[int](p) - 2 * screen.format.bytesPerPixel.int) # get pixel at x,y+2
         ir += p[ridx].int
         ig += p[gidx].int
         ib += p[bidx].int
@@ -1299,7 +1302,7 @@ proc blur(screen: PSurface, samplex, sampley, samplew, sampleh: int) =
         ir += p[ridx].int
         ig += p[gidx].int
         ib += p[bidx].int
-        p = cast[PUInt8Array](cast[int](p) - screen.format.BytesPerPixel.int) # get pixel at x-1,y
+        p = cast[PUInt8Array](cast[int](p) - screen.format.bytesPerPixel.int) # get pixel at x-1,y
         ir += p[ridx].int
         ig += p[gidx].int
         ib += p[bidx].int
@@ -1307,7 +1310,7 @@ proc blur(screen: PSurface, samplex, sampley, samplew, sampleh: int) =
         ir += p[ridx].int
         ig += p[gidx].int
         ib += p[bidx].int
-        p = cast[PUInt8Array](cast[int](p) + screen.format.BytesPerPixel.int) # get pixel at x,y-1
+        p = cast[PUInt8Array](cast[int](p) + screen.format.bytesPerPixel.int) # get pixel at x,y-1
         ir += p[ridx].int
         ig += p[gidx].int
         ib += p[bidx].int
@@ -1318,7 +1321,7 @@ proc blur(screen: PSurface, samplex, sampley, samplew, sampleh: int) =
         ir += p[ridx].int
         ig += p[gidx].int
         ib += p[bidx].int
-        p = cast[PUInt8Array](cast[int](p) + screen.format.BytesPerPixel.int) # get pixel at x+1,y
+        p = cast[PUInt8Array](cast[int](p) + screen.format.bytesPerPixel.int) # get pixel at x+1,y
         ir += p[ridx].int
         ig += p[gidx].int
         ib += p[bidx].int
@@ -1326,7 +1329,7 @@ proc blur(screen: PSurface, samplex, sampley, samplew, sampleh: int) =
         ir += p[ridx].int
         ig += p[gidx].int
         ib += p[bidx].int
-        p = cast[PUInt8Array](cast[int](p) - screen.format.BytesPerPixel.int) # get pixel at x,y+1
+        p = cast[PUInt8Array](cast[int](p) - screen.format.bytesPerPixel.int) # get pixel at x,y+1
         ir += p[ridx].int
         ig += p[gidx].int
         ib += p[bidx].int
@@ -1362,7 +1365,7 @@ proc SDL_render(sdlSurface: pointer) {.cdecl.} =
   of 0 : blur(screen, samplex, sampley, SAMPLE_SCREEN_WIDTH * charw, SAMPLE_SCREEN_HEIGHT * charh)
   of 1 : explode(screen, samplex, sampley, SAMPLE_SCREEN_WIDTH * charw, SAMPLE_SCREEN_HEIGHT * charh)
   of 2 : burn(screen, samplex, sampley, SAMPLE_SCREEN_WIDTH * charw, SAMPLE_SCREEN_HEIGHT * charh)
-  else: nil
+  else: discard
 
 
 proc render_sdl(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
@@ -1474,6 +1477,7 @@ while argn < argc:
     quit(0)
   else:
     # ignore parameter
+    discard
   argn += 1
 
 if font_flags == 0:

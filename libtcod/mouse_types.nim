@@ -29,10 +29,10 @@
 # mouse data
 type
   TMouse*{.bycopy.} = object
-    x*, y*: int ## absolute position
-    dx*, dy*: int ## movement since last update in pixels
-    cx*, cy*: int ## cell coordinates in the root console
-    dcx*, dcy*: int ## movement since last update in console cells
+    x*, y*: int32 ## absolute position
+    dx*, dy*: int32 ## movement since last update in pixels
+    cx*, cy*: int32 ## cell coordinates in the root console
+    dcx*, dcy*: int32 ## movement since last update in console cells
     lbutton*: bool ## left button status
     rbutton*: bool ## right button status
     mbutton*: bool ## middle button status

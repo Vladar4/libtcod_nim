@@ -1,10 +1,10 @@
-libtcod-nim 1.5.1 v0.96
+libtcod-nim 1.5.1 v0.97
 =======================
 
-libtcod-nim is a wrapper of the libtcod library for the Nimrod language.
+libtcod-nim is a wrapper of the libtcod library for the Nim language.
 
 * libtcod homepage: http://doryen.eptalys.net/libtcod/
-* Nimrod homepage: http://nimrod-code.org/
+* Nim homepage: http://nim-lang.org/
 
 Libtcod, a.k.a. “The Doryen Library”, is a free, fast, portable and uncomplicated API for roguelike developers providing an advanced true color console, input, and lots of other utilities frequently used in roguelikes.
 
@@ -20,6 +20,10 @@ Also you may need SDL, OpenGL or GLSL dynamic libraries installed, depending on 
 
 CHANGELOG:
 ==========
+**v0.97**
+* adaptation for Nim 0.10.2
+* fixed data types for correct work on 64-bit systems
+* WideCString fix
 
 **v0.96**
 * fixed unicode output procedures

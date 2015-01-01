@@ -154,7 +154,7 @@ when not NO_UNICODE:
       TUTF32Char = distinct int32
       WideCString = ref array[0..1_000_000, TUTF32Char]
 
-    when not defined(c_strlen):
+    when not declared(c_strlen):
       proc c_strlen(a: cstring): int {.nodecl, noSideEffect, importc: "strlen".}
 
     when true: # optimized procedure
