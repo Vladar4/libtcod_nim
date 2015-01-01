@@ -1,6 +1,6 @@
 [Package]
 name          = "libtcod-nim"
-version       = "0.96"
+version       = "0.97"
 author        = "Vladar"
 description   = """Wrapper of the libtcod library for the Nim language."""
 license       = "zlib"
