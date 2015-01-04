@@ -29,14 +29,14 @@
 from os import walkFiles, joinPath
 
 
-#TCODLIB_API uint32 TCOD_sys_elapsed_milli();
-proc sys_elapsed_milli*(): uint32 {.cdecl, importc: "TCOD_sys_elapsed_milli", dynlib: LIB_NAME.}
+#TCODLIB_API cuint TCOD_sys_elapsed_milli();
+proc sys_elapsed_milli*(): cuint {.cdecl, importc: "TCOD_sys_elapsed_milli", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_sys_elapsed_seconds();
 proc sys_elapsed_seconds*(): float32 {.cdecl, importc: "TCOD_sys_elapsed_seconds", dynlib: LIB_NAME.}
 
-#TCODLIB_API void TCOD_sys_sleep_milli(uint32 val);
-proc sys_sleep_milli*(val: uint32) {.cdecl, importc: "TCOD_sys_sleep_milli", dynlib: LIB_NAME.}
+#TCODLIB_API void TCOD_sys_sleep_milli(cuint val);
+proc sys_sleep_milli*(val: cuint) {.cdecl, importc: "TCOD_sys_sleep_milli", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_sys_save_screenshot(const char *filename);
 proc sys_save_screenshot*(filename: cstring) {.cdecl, importc: "TCOD_sys_save_screenshot", dynlib: LIB_NAME.}
@@ -76,7 +76,7 @@ proc sys_get_sdl_window*(): pointer {.cdecl, importc: "TCOD_sys_get_sdl_window",
 
 
 type
-  TEvent* = int32
+  TEvent* = cint
 
 const
   EVENT_KEY_PRESS* = 1
@@ -119,11 +119,11 @@ proc sys_get_directory_content*(path, pattern: string): seq[string] =
 #TCODLIB_API bool TCOD_sys_file_exists(const char * filename, ...);
 proc sys_file_exists*(filename: cstring): bool {.cdecl, importc: "TCOD_sys_file_exists", varargs, dynlib: LIB_NAME.}
 
-#TCODLIB_API bool TCOD_sys_read_file(const char *filename, unsigned char **buf, uint32 *size);
-proc sys_read_file*(filename: cstring, buf: pointer, size: ptr uint32): bool {.cdecl, importc: "TCOD_sys_read_file", dynlib: LIB_NAME.}
+#TCODLIB_API bool TCOD_sys_read_file(const char *filename, unsigned char **buf, cuint *size);
+proc sys_read_file*(filename: cstring, buf: pointer, size: ptr cuint): bool {.cdecl, importc: "TCOD_sys_read_file", dynlib: LIB_NAME.}
 
-#TCODLIB_API bool TCOD_sys_write_file(const char *filename, unsigned char *buf, uint32 size);
-proc sys_write_file*(filename: cstring, buf: pointer, size: uint32): bool {.cdecl, importc: "TCOD_sys_write_file", dynlib: LIB_NAME.}
+#TCODLIB_API bool TCOD_sys_write_file(const char *filename, unsigned char *buf, cuint size);
+proc sys_write_file*(filename: cstring, buf: pointer, size: cuint): bool {.cdecl, importc: "TCOD_sys_write_file", dynlib: LIB_NAME.}
 
 
 # clipboard

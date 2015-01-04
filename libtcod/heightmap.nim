@@ -29,7 +29,7 @@
 type
   PHeightmap* = ptr THeightmap
   THeightmap*{.bycopy.} = object
-    w, h: int32
+    w, h: cint
     values: ptr float32
 
 

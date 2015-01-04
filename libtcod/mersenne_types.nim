@@ -31,7 +31,7 @@ import strutils
 
 type
   # dice roll
-  TDice*{.bycopy.} = tuple[nb_rolls, nb_faces: int32, multiplier, addsub: float32]
+  TDice*{.bycopy.} = tuple[nb_rolls, nb_faces: cint, multiplier, addsub: float32]
 
   # PRNG algorithms
   TRandomAlgo* = enum

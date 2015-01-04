@@ -46,8 +46,8 @@ proc random_save*(mersenne: PRandom): PRandom {.cdecl, importc: "TCOD_random_sav
 #TCODLIB_API void TCOD_random_restore(TCOD_random_t mersenne, TCOD_random_t backup);
 proc random_restore*(mersenne, backup: PRandom) {.cdecl, importc: "TCOD_random_restore", dynlib: LIB_NAME.}
 
-#TCODLIB_API TCOD_random_t TCOD_random_new_from_seed(TCOD_random_algo_t algo, uint32 seed);
-proc random_new_from_seed*(algo: TRandomAlgo, seed: uint32): PRandom {.cdecl, importc: "TCOD_random_new_from_seed", dynlib: LIB_NAME.}
+#TCODLIB_API TCOD_random_t TCOD_random_new_from_seed(TCOD_random_algo_t algo, cuint seed);
+proc random_new_from_seed*(algo: TRandomAlgo, seed: cuint): PRandom {.cdecl, importc: "TCOD_random_new_from_seed", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_random_delete(TCOD_random_t mersenne);
 proc TCOD_random_delete(mersenne: PRandom) {.cdecl, importc: "TCOD_random_delete", dynlib: LIB_NAME.}

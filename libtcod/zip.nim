@@ -66,8 +66,8 @@ proc zip_put_console*(zip: PZip, val: PConsole) {.cdecl, importc: "TCOD_zip_put_
 #TCODLIB_API void TCOD_zip_put_data(TCOD_zip_t zip, int nbBytes, const void *data);
 proc zip_put_data*(zip: PZip, nbBytes: int, data: pointer) {.cdecl, importc: "TCOD_zip_put_data", dynlib: LIB_NAME.}
 
-#TCODLIB_API uint32 TCOD_zip_get_current_bytes(TCOD_zip_t zip);
-proc zip_get_current_bytes*(zip: PZip): uint32 {.cdecl, importc: "TCOD_zip_get_current_bytes", dynlib: LIB_NAME.}
+#TCODLIB_API cuint TCOD_zip_get_current_bytes(TCOD_zip_t zip);
+proc zip_get_current_bytes*(zip: PZip): cuint {.cdecl, importc: "TCOD_zip_get_current_bytes", dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_zip_save_to_file(TCOD_zip_t zip, const char *filename);
 proc zip_save_to_file*(zip: PZip, filename: cstring): int {.cdecl, importc: "TCOD_zip_save_to_file", dynlib: LIB_NAME.}
@@ -101,9 +101,9 @@ proc zip_get_console*(zip: PZip): PConsole {.cdecl, importc: "TCOD_zip_get_conso
 #TCODLIB_API int TCOD_zip_get_data(TCOD_zip_t zip, int nbBytes, void *data);
 proc zip_get_data*(zip: PZip, nbBytes: int, data: pointer): int {.cdecl, importc: "TCOD_zip_get_data", dynlib: LIB_NAME.}
 
-#TCODLIB_API uint32 TCOD_zip_get_remaining_bytes(TCOD_zip_t zip);
-proc zip_get_remaining_bytes*(zip: PZip): uint32 {.cdecl, importc: "TCOD_zip_get_remaining_bytes", dynlib: LIB_NAME.}
+#TCODLIB_API cuint TCOD_zip_get_remaining_bytes(TCOD_zip_t zip);
+proc zip_get_remaining_bytes*(zip: PZip): cuint {.cdecl, importc: "TCOD_zip_get_remaining_bytes", dynlib: LIB_NAME.}
 
-#TCODLIB_API void TCOD_zip_skip_bytes(TCOD_zip_t zip, uint32 nbBytes);
-proc zip_skip_bytes*(zip: PZip, nbBytes: uint32) {.cdecl, importc: "TCOD_zip_skip_bytes", dynlib: LIB_NAME.}
+#TCODLIB_API void TCOD_zip_skip_bytes(TCOD_zip_t zip, cuint nbBytes);
+proc zip_skip_bytes*(zip: PZip, nbBytes: cuint) {.cdecl, importc: "TCOD_zip_skip_bytes", dynlib: LIB_NAME.}
 

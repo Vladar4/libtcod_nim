@@ -81,7 +81,7 @@ type
     case kind*: TValueType
     of TYPE_BOOL: b*: bool
     of TYPE_CHAR: c*: char
-    of TYPE_INT: i*: int32
+    of TYPE_INT: i*: cint
     of TYPE_FLOAT: f*: float32
     of TYPE_STRING, TYPE_VALUELIST00..TYPE_VALUELIST15: s*: string
     of TYPE_COLOR: col*: TColor
@@ -326,7 +326,7 @@ proc parse_dice_value*(): TValue =
   if p < 0:
     parser_error("parseDiceValue : bad dice format. [<m>(x|*)]<n>(D|d)<f>[(+|-)<a>] expected instead of '$#'", $lex.tok)
   # parse nb_rolls
-  result.dice.nb_rolls = int32(parseInt(substr($lex.tok, begin, p-1)))
+  result.dice.nb_rolls = cint(parseInt(substr($lex.tok, begin, p-1)))
   begin = p + 1
   # faces
   p = find($lex.tok, '+')
@@ -336,9 +336,9 @@ proc parse_dice_value*(): TValue =
       minus = true
   # parse faces
   if p < 0:
-    result.dice.nb_faces = int32(parseInt(substr($lex.tok, begin)))
+    result.dice.nb_faces = cint(parseInt(substr($lex.tok, begin)))
   else:
-    result.dice.nb_faces = int32(parseInt(substr($lex.tok, begin, p-1)))
+    result.dice.nb_faces = cint(parseInt(substr($lex.tok, begin, p-1)))
   if p > 0:
     # parse addsub
     begin = p + 1
@@ -802,7 +802,7 @@ proc parser_get_char_property*(parser: PParser, name: string): char =
   else: return value.c
 
 
-proc parser_get_int_property*(parser: PParser, name: string): int32 =
+proc parser_get_int_property*(parser: PParser, name: string): cint =
   let value = get_property(parser, TYPE_INT, name)
   if value.kind == TYPE_NONE: return 0
   else: return value.i
@@ -827,7 +827,7 @@ proc parser_get_color_property*(parser: PParser, name: string): TColor =
 
 
 proc parser_get_dice_property*(parser: PParser, name: string): TDice =
-  var default_dice: TDice = (int32(0), int32(0), float32(0.0), float32(0.0))
+  var default_dice: TDice = (cint(0), cint(0), float32(0.0), float32(0.0))
   let value = get_property(parser, TYPE_DICE, name)
   if value.kind == TYPE_NONE: return default_dice
   else: return value.dice

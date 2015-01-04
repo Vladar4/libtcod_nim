@@ -57,16 +57,16 @@ const
 type
   PLex* = ptr TLex
   TLex*{.bycopy.} = object
-    file_line*, token_type*, token_int_val*, token_idx*: int32
+    file_line*, token_type*, token_int_val*, token_idx*: cint
     token_float_val*: float32
     tok*: cstring
-    toklen*: int32
+    toklen*: cint
     lastStringDelim*: char
     pos*: cstring
     buf*: cstring
     filename*: cstring
     last_javadoc_comment*: cstring
-    nb_symbols, nb_keywords, flags: int32
+    nb_symbols, nb_keywords, flags: cint
     symbols: array[0..LEX_MAX_SYMBOLS-1, array[0..LEX_SYMBOL_SIZE-1, char]]
     keywords: array[0..LEX_MAX_KEYWORDS-1, array[0..LEX_KEYWORD_SIZE-1, char]]
     simpleCmt: cstring
@@ -80,7 +80,7 @@ type
 #TCODLIB_API TCOD_lex_t *TCOD_lex_new_intern();
 proc lex_new_intern*(): PLex {.cdecl, importc: "TCOD_lex_new_intern", dynlib: LIB_NAME.}
 #TCODLIB_API TCOD_lex_t *TCOD_lex_new(const char **symbols, const char **keywords, const char *simpleComment, const char *commentStart, const char *commentStop, const char *javadocCommentStart, const char *stringDelim, int flags);
-proc lex_new*(symbols, keywords: cstringArray, simpleComment, commentStart, commentStop, javadocCommentStart, stringDelim: cstring, flags: int32): PLex {.cdecl, importc: "TCOD_lex_new", dynlib: LIB_NAME.}
+proc lex_new*(symbols, keywords: cstringArray, simpleComment, commentStart, commentStop, javadocCommentStart, stringDelim: cstring, flags: cint): PLex {.cdecl, importc: "TCOD_lex_new", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_lex_delete(TCOD_lex_t *lex);
 proc lex_delete*(lex: PLex) {.cdecl, importc: "TCOD_lex_delete", dynlib: LIB_NAME.}
@@ -94,20 +94,20 @@ proc lex_set_data_file*(lex: PLex, filename: cstring): bool {.cdecl, importc: "T
 
 
 #TCODLIB_API int TCOD_lex_parse(TCOD_lex_t *lex);
-proc lex_parse*(lex: PLex): int32 {.cdecl, importc: "TCOD_lex_parse", dynlib: LIB_NAME.}
+proc lex_parse*(lex: PLex): cint {.cdecl, importc: "TCOD_lex_parse", dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_lex_parse_until_token_type(TCOD_lex_t *lex,int token_type);
-proc lex_parse_until_token_type*(lex: PLex, token_type: int32): int32 {.cdecl, importc: "TCOD_lex_parse_until_token_type", dynlib: LIB_NAME.}
+proc lex_parse_until_token_type*(lex: PLex, token_type: cint): cint {.cdecl, importc: "TCOD_lex_parse_until_token_type", dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_lex_parse_until_token_value(TCOD_lex_t *lex,const char *token_value);
-proc lex_parse_until_token_value*(lex: PLex, token_value: cstring): int32 {.cdecl, importc: "TCOD_lex_parse_until_token_value", dynlib: LIB_NAME.}
+proc lex_parse_until_token_value*(lex: PLex, token_value: cstring): cint {.cdecl, importc: "TCOD_lex_parse_until_token_value", dynlib: LIB_NAME.}
 
 
 #TCODLIB_API bool TCOD_lex_expect_token_type(TCOD_lex_t *lex,int token_type);
-proc lex_expect_token_type*(lex: PLex, token_type: int32): bool {.cdecl, importc: "TCOD_lex_expect_token_type", dynlib: LIB_NAME.}
+proc lex_expect_token_type*(lex: PLex, token_type: cint): bool {.cdecl, importc: "TCOD_lex_expect_token_type", dynlib: LIB_NAME.}
 
 #TCODLIB_API bool TCOD_lex_expect_token_value(TCOD_lex_t *lex,int token_type,const char *token_value);
-proc lex_expect_token_value*(lex: PLex, token_type: int32, token_value: cstring): bool {.cdecl, importc: "TCOD_lex_expect_token_value", dynlib: LIB_NAME.}
+proc lex_expect_token_value*(lex: PLex, token_type: cint, token_value: cstring): bool {.cdecl, importc: "TCOD_lex_expect_token_value", dynlib: LIB_NAME.}
 
 
 #TCODLIB_API void TCOD_lex_savepoint(TCOD_lex_t *lex,TCOD_lex_t *savept);
@@ -120,12 +120,12 @@ proc lex_restore*(lex, savept: PLex) {.cdecl, importc: "TCOD_lex_restore", dynli
 proc lex_get_last_javadoc*(lex: PLex): cstring {.cdecl, importc: "TCOD_lex_get_last_javadoc", dynlib: LIB_NAME.}
 
 #TCODLIB_API const char *TCOD_lex_get_token_name(int token_type);
-proc lex_get_token_name*(token_type: int32): cstring {.cdecl, importc: "TCOD_lex_get_token_name", dynlib: LIB_NAME.}
+proc lex_get_token_name*(token_type: cint): cstring {.cdecl, importc: "TCOD_lex_get_token_name", dynlib: LIB_NAME.}
 
 #TCODLIB_API char *TCOD_lex_get_last_error();
 proc lex_get_last_error*(): cstring {.cdecl, importc: "TCOD_lex_get_last_error", dynlib: LIB_NAME.}
 
 
 #TCODLIB_API int TCOD_lex_hextoint(char c);
-proc lex_hextoint*(c: char): int32 {.cdecl, importc: "TCOD_lex_hextoint", dynlib: LIB_NAME.}
+proc lex_hextoint*(c: char): cint {.cdecl, importc: "TCOD_lex_hextoint", dynlib: LIB_NAME.}
 

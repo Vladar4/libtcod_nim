@@ -148,10 +148,10 @@ when not NO_UNICODE:
   when defined(linux):
     import unicode
 
-    # modified for linux (int32) WideCString from Nimrod's system/widestrs.nim
+    # modified for linux (cint) WideCString from Nimrod's system/widestrs.nim
 
     type
-      TUTF32Char = distinct int32
+      TUTF32Char = distinct cint
       WideCString = ref array[0..1_000_000, TUTF32Char]
 
     when not declared(c_strlen):
@@ -199,10 +199,10 @@ when not NO_UNICODE:
           elif ch >% UNI_MAX_UTF32:
             result[d] = UNI_REPLACEMENT_CHAR
           else:
-            let ch = int32(ch) -% halfBase
-            result[d] = TUTF32Char((ch shr halfShift) +% int32(UNI_SUR_HIGH_START))
+            let ch = cint(ch) -% halfBase
+            result[d] = TUTF32Char((ch shr halfShift) +% cint(UNI_SUR_HIGH_START))
             inc d
-            result[d] = TUTF32Char((ch and halfMask) +% int32(UNI_SUR_LOW_START))
+            result[d] = TUTF32Char((ch and halfMask) +% cint(UNI_SUR_LOW_START))
           inc d
         result[d] = TUTF32Char(0'i32)
     
