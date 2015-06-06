@@ -70,16 +70,16 @@ proc image_get_size*(image: PImage, w, h: ptr int) {.cdecl, importc: "TCOD_image
 proc image_get_pixel*(image: PImage, x, y: int): TColor {.cdecl, importc: "TCOD_image_get_pixel", dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_image_get_alpha(TCOD_image_t image,int x, int y);
-proc image_get_alpha*(image: PImage, x, y: int): int {.cdecl, importc: "TCOD_image_get_alpha", dynlib: LIB_NAME.}
+proc image_get_alpha*(image: PImage, x, y: int): cint {.cdecl, importc: "TCOD_image_get_alpha", dynlib: LIB_NAME.}
 
 #TCODLIB_API TCOD_color_t TCOD_image_get_mipmap_pixel(TCOD_image_t image,float x0,float y0, float x1, float y1);
-proc image_get_mipmap_pixel*(image: PImage, x0, y0, x1, y1: float32): TColor {.cdecl, importc: "TCOD_image_get_mipmap_pixel", dynlib: LIB_NAME.}
+proc image_get_mipmap_pixel*(image: PImage, x0, y0, x1, y1: cfloat): TColor {.cdecl, importc: "TCOD_image_get_mipmap_pixel", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_image_put_pixel(TCOD_image_t image,int x, int y,TCOD_color_t col);
 proc image_put_pixel*(image: PImage, x, y: int, col: TColor) {.cdecl, importc: "TCOD_image_put_pixel", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_image_blit(TCOD_image_t image, TCOD_console_t console, float x, float y, TCOD_bkgnd_flag_t bkgnd_flag, float scalex, float scaley, float angle);
-proc image_blit*(image: PImage, console: PConsole, x, y: float32, bkgnd_flag: TBkgndFlag, scalex, scaley, angle: float32) {.cdecl, importc: "TCOD_image_blit", dynlib: LIB_NAME.}
+proc image_blit*(image: PImage, console: PConsole, x, y: cfloat, bkgnd_flag: TBkgndFlag, scalex, scaley, angle: cfloat) {.cdecl, importc: "TCOD_image_blit", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_image_blit_rect(TCOD_image_t image, TCOD_console_t console, int x, int y, int w, int h, TCOD_bkgnd_flag_t bkgnd_flag);
 proc image_blit_rect*(image: PImage, console: PConsole, x, y, w, h: int, bkgnd_flag: TBkgndFlag) {.cdecl, importc: "TCOD_image_blit_rect", dynlib: LIB_NAME.}

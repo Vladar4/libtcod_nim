@@ -82,7 +82,7 @@ type
     of TYPE_BOOL: b*: bool
     of TYPE_CHAR: c*: char
     of TYPE_INT: i*: cint
-    of TYPE_FLOAT: f*: float32
+    of TYPE_FLOAT: f*: cfloat
     of TYPE_STRING, TYPE_VALUELIST00..TYPE_VALUELIST15: s*: string
     of TYPE_COLOR: col*: TColor
     of TYPE_DICE: dice*: TDice
@@ -247,7 +247,7 @@ proc parse_float_value*(): TValue =
   if lex.token_type == LEX_FLOAT:
     result.f = lex.token_float_val
   else:
-    result.f = float32(lex.token_int_val)
+    result.f = cfloat(lex.token_int_val)
 
 
 proc parse_string_value*(): TValue =
@@ -317,7 +317,7 @@ proc parse_dice_value*(): TValue =
     p = find($lex.tok, '*')
   if p > 0:
     # parse multiplier
-    result.dice.multiplier = float32(parseFloat(substr($lex.tok, begin, p-1)))
+    result.dice.multiplier = cfloat(parseFloat(substr($lex.tok, begin, p-1)))
     begin = p + 1
   # nb_rolls
   p = find($lex.tok, 'D')
@@ -342,7 +342,7 @@ proc parse_dice_value*(): TValue =
   if p > 0:
     # parse addsub
     begin = p + 1
-    result.dice.addsub = float32(parseFloat(substr($lex.tok, begin)))
+    result.dice.addsub = cfloat(parseFloat(substr($lex.tok, begin)))
     if minus:
       result.dice.addsub = -result.dice.addsub
 
@@ -808,7 +808,7 @@ proc parser_get_int_property*(parser: PParser, name: string): cint =
   else: return value.i
 
 
-proc parser_get_float_property*(parser: PParser, name: string): float32 =
+proc parser_get_float_property*(parser: PParser, name: string): cfloat =
   let value = get_property(parser, TYPE_FLOAT, name)
   if value.kind == TYPE_NONE: return 0.0
   else: return value.f
@@ -827,7 +827,7 @@ proc parser_get_color_property*(parser: PParser, name: string): TColor =
 
 
 proc parser_get_dice_property*(parser: PParser, name: string): TDice =
-  var default_dice: TDice = (cint(0), cint(0), float32(0.0), float32(0.0))
+  var default_dice: TDice = (cint(0), cint(0), cfloat(0.0), cfloat(0.0))
   let value = get_property(parser, TYPE_DICE, name)
   if value.kind == TYPE_NONE: return default_dice
   else: return value.dice

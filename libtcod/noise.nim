@@ -43,8 +43,8 @@ const
   NOISE_DEFAULT_LACUNARITY* = 2.0'f32
 
 
-template floatArrayToPtr*(f: var openarray[float32]): ptr float32 =
-  cast[ptr float32](addr(f))
+template floatArrayToPtr*(f: var openarray[cfloat]): ptr cfloat =
+  cast[ptr cfloat](addr(f))
 
 
 # create a new noise object
@@ -57,22 +57,22 @@ proc noise_new*(dimensions: int, hurst=NOISE_DEFAULT_HURST, lacunarity=NOISE_DEF
 proc noise_set_type*(noise: PNoise, noise_type=NOISE_DEFAULT) {.cdecl, importc: "TCOD_noise_set_type", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_noise_get_ex (TCOD_noise_t noise, float *f, TCOD_noise_type_t type);
-proc noise_get_ex*(noise: PNoise, f: ptr float32, noise_type=NOISE_DEFAULT): float32 {.cdecl, importc: "TCOD_noise_get_ex", dynlib: LIB_NAME.}
+proc noise_get_ex*(noise: PNoise, f: ptr cfloat, noise_type=NOISE_DEFAULT): cfloat {.cdecl, importc: "TCOD_noise_get_ex", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_noise_get_fbm_ex (TCOD_noise_t noise, float *f, float octaves, TCOD_noise_type_t type);
-proc noise_get_fbm_ex*(noise: PNoise, f: ptr float32, octaves: float32, noise_type=NOISE_DEFAULT): float32 {.cdecl, importc: "TCOD_noise_get_fbm_ex", dynlib: LIB_NAME.}
+proc noise_get_fbm_ex*(noise: PNoise, f: ptr cfloat, octaves: cfloat, noise_type=NOISE_DEFAULT): cfloat {.cdecl, importc: "TCOD_noise_get_fbm_ex", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_noise_get_turbulence_ex (TCOD_noise_t noise, float *f, float octaves, TCOD_noise_type_t type);
-proc noise_get_turbulence_ex*(noise: PNoise, f: ptr float32, octaves: float32, noise_type=NOISE_DEFAULT): float32 {.cdecl, importc: "TCOD_noise_get_turbulence_ex", dynlib: LIB_NAME.}
+proc noise_get_turbulence_ex*(noise: PNoise, f: ptr cfloat, octaves: cfloat, noise_type=NOISE_DEFAULT): cfloat {.cdecl, importc: "TCOD_noise_get_turbulence_ex", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_noise_get (TCOD_noise_t noise, float *f);
-proc noise_get*(noise: PNoise, f: ptr float32): float32 {.cdecl, importc: "TCOD_noise_get", dynlib: LIB_NAME.}
+proc noise_get*(noise: PNoise, f: ptr cfloat): cfloat {.cdecl, importc: "TCOD_noise_get", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_noise_get_fbm (TCOD_noise_t noise, float *f, float octaves);
-proc noise_get_fbm*(noise: PNoise, f: ptr float32, octaves: float32): float32 {.cdecl, importc: "TCOD_noise_get_fbm", dynlib: LIB_NAME.}
+proc noise_get_fbm*(noise: PNoise, f: ptr cfloat, octaves: cfloat): cfloat {.cdecl, importc: "TCOD_noise_get_fbm", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_noise_get_turbulence (TCOD_noise_t noise, float *f, float octaves);
-proc noise_get_turbulence*(noise: PNoise, f: ptr float32, octaves: float32): float32 {.cdecl, importc: "TCOD_noise_get_turbulence", dynlib: LIB_NAME.}
+proc noise_get_turbulence*(noise: PNoise, f: ptr cfloat, octaves: cfloat): cfloat {.cdecl, importc: "TCOD_noise_get_turbulence", dynlib: LIB_NAME.}
 
 
 # delete the noise object

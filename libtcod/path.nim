@@ -27,7 +27,7 @@
 
 
 type
-  PPathFunc* = proc(xFrom, yFrom, xTo, yTo: int, user_data: pointer): float32 {.cdecl.}
+  PPathFunc* = proc(xFrom, yFrom, xTo, yTo: int, user_data: pointer): cfloat {.cdecl.}
   PPath* = pointer
 
 const
@@ -50,7 +50,7 @@ proc path_walk*(path: PPath, x, y: ptr int, recalculate_when_needed: bool): bool
 proc path_is_empty*(path: PPath): bool {.cdecl, importc: "TCOD_path_is_empty", dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_path_size(TCOD_path_t path);
-proc path_size*(path: PPath): int {.cdecl, importc: "TCOD_path_size", dynlib: LIB_NAME.}
+proc path_size*(path: PPath): cint {.cdecl, importc: "TCOD_path_size", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_path_reverse(TCOD_path_t path);
 proc path_reverse*(path: PPath) {.cdecl, importc: "TCOD_path_reverse", dynlib: LIB_NAME.}
@@ -87,7 +87,7 @@ proc dijkstra_new_using_function*(map_width, map_height: int, pathfunc: PPathFun
 proc dijkstra_compute*(dijkstra: PDijkstra, root_x, root_y: int) {.cdecl, importc: "TCOD_dijkstra_compute", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_dijkstra_get_distance (TCOD_dijkstra_t dijkstra, int x, int y);
-proc dijkstra_get_distance*(dijkstra: PDijkstra, x, y: int): float32 {.cdecl, importc: "TCOD_dijkstra_get_distance", dynlib: LIB_NAME.}
+proc dijkstra_get_distance*(dijkstra: PDijkstra, x, y: int): cfloat {.cdecl, importc: "TCOD_dijkstra_get_distance", dynlib: LIB_NAME.}
 
 #TCODLIB_API bool TCOD_dijkstra_path_set (TCOD_dijkstra_t dijkstra, int x, int y);
 proc dijkstra_path_set*(dijkstra: PDijkstra, x, y: int): bool {.cdecl, importc: "TCOD_dijkstra_path_set", dynlib: LIB_NAME.}
@@ -97,7 +97,7 @@ proc dijkstra_path_set*(dijkstra: PDijkstra, x, y: int): bool {.cdecl, importc: 
 proc dijkstra_is_empty*(path: PDijkstra): bool {.cdecl, importc: "TCOD_dijkstra_is_empty", dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_dijkstra_size(TCOD_dijkstra_t path);
-proc dijkstra_size*(path: PDijkstra): int {.cdecl, importc: "TCOD_dijkstra_size", dynlib: LIB_NAME.}
+proc dijkstra_size*(path: PDijkstra): cint {.cdecl, importc: "TCOD_dijkstra_size", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_dijkstra_reverse(TCOD_dijkstra_t path);
 proc dijkstra_reverse*(path: PDijkstra) {.cdecl, importc: "TCOD_dijkstra_reverse", dynlib: LIB_NAME.}

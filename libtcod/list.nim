@@ -109,7 +109,7 @@ proc list_clear_and_delete*(list: var PList) =
 
 
 #TCODLIB_API int TCOD_list_size(TCOD_list_t l);
-proc list_size*(list: PList): int {.cdecl, importc: "TCOD_list_size", dynlib: LIB_NAME.}
+proc list_size*(list: PList): cint {.cdecl, importc: "TCOD_list_size", dynlib: LIB_NAME.}
 
 #TCODLIB_API void ** TCOD_list_insert_before(TCOD_list_t l,const void *elt,int before);
 proc list_insert_before*(list: PList, elt: pointer, before: int): ptr pointer {.cdecl, importc: "TCOD_list_insert_before", dynlib: LIB_NAME.}

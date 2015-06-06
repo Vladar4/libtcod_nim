@@ -33,7 +33,7 @@ from os import walkFiles, joinPath
 proc sys_elapsed_milli*(): cuint {.cdecl, importc: "TCOD_sys_elapsed_milli", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_sys_elapsed_seconds();
-proc sys_elapsed_seconds*(): float32 {.cdecl, importc: "TCOD_sys_elapsed_seconds", dynlib: LIB_NAME.}
+proc sys_elapsed_seconds*(): cfloat {.cdecl, importc: "TCOD_sys_elapsed_seconds", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_sys_sleep_milli(cuint val);
 proc sys_sleep_milli*(val: cuint) {.cdecl, importc: "TCOD_sys_sleep_milli", dynlib: LIB_NAME.}
@@ -54,10 +54,10 @@ proc sys_get_renderer*(): TRenderer {.cdecl, importc: "TCOD_sys_get_renderer", d
 proc sys_set_fps*(val: int) {.cdecl, importc: "TCOD_sys_set_fps", dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_sys_get_fps();
-proc sys_get_fps*(): int {.cdecl, importc: "TCOD_sys_get_fps", dynlib: LIB_NAME.}
+proc sys_get_fps*(): cint {.cdecl, importc: "TCOD_sys_get_fps", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_sys_get_last_frame_length();
-proc sys_get_last_frame_length*(): float32 {.cdecl, importc: "TCOD_sys_get_last_frame_length", dynlib: LIB_NAME.}
+proc sys_get_last_frame_length*(): cfloat {.cdecl, importc: "TCOD_sys_get_last_frame_length", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_sys_get_current_resolution(int *w, int *h);
 proc sys_get_current_resolution*(w, h: ptr int) {.cdecl, importc: "TCOD_sys_get_current_resolution", dynlib: LIB_NAME.}
@@ -140,7 +140,7 @@ type
   PSemaphore* = pointer
   PMutex* = pointer
   PCond* = pointer
-  PCallback* = proc(p: pointer): int {.cdecl.}
+  PCallback* = proc(p: pointer): cint {.cdecl.}
 
 
 # threads
@@ -156,7 +156,7 @@ proc thread_delete*(th: var PThread) =
 
 
 #TCODLIB_API int TCOD_sys_get_num_cores();
-proc sys_get_num_cores*(): int {.cdecl, importc: "TCOD_sys_get_num_cores", dynlib: LIB_NAME.}
+proc sys_get_num_cores*(): cint {.cdecl, importc: "TCOD_sys_get_num_cores", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_thread_wait(TCOD_thread_t th);
 proc thread_wait*(th: PThread) {.cdecl, importc: "TCOD_thread_wait", dynlib: LIB_NAME.}

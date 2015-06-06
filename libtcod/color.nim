@@ -38,7 +38,7 @@ template color_RGB*(r, g, b: int): TColor =
 proc color_RGB*(r, g, b: uint8): TColor {.cdecl, importc: "TCOD_color_RGB", dynlib: LIB_NAME.}
 
 #TCODLIB_API TCOD_color_t TCOD_color_HSV(float h, float s, float v);
-proc color_HSV*(h, s, v: float32): TColor {.cdecl, importc: "TCOD_color_", dynlib: LIB_NAME.}
+proc color_HSV*(h, s, v: cfloat): TColor {.cdecl, importc: "TCOD_color_", dynlib: LIB_NAME.}
 
 
 # basic operations
@@ -55,48 +55,48 @@ proc color_subtract*(c1, c2: TColor): TColor {.cdecl, importc: "TCOD_color_subtr
 proc color_multiply*(c1, c2: TColor): TColor {.cdecl, importc: "TCOD_color_multiply", dynlib: LIB_NAME.}
 
 #TCODLIB_API TCOD_color_t TCOD_color_multiply_scalar (TCOD_color_t c1, float value);
-proc color_multiply_scalar*(c1: TColor, value: float32): TColor {.cdecl, importc: "TCOD_color_multiply_scalar", dynlib: LIB_NAME.}
+proc color_multiply_scalar*(c1: TColor, value: cfloat): TColor {.cdecl, importc: "TCOD_color_multiply_scalar", dynlib: LIB_NAME.}
 
 #TCODLIB_API TCOD_color_t TCOD_color_lerp (TCOD_color_t c1, TCOD_color_t c2, float coef);
 when defined(windows): # WINDOWS BUGFIX
- proc color_lerp*(c1, c2: TColor, coef: float32): TColor {.inline.} =
-   result.r = uint8(float32(c1.r) + float32(int(c2.r) - int(c1.r)) * coef)
-   result.g = uint8(float32(c1.g) + float32(int(c2.g) - int(c1.g)) * coef)
-   result.b = uint8(float32(c1.b) + float32(int(c2.b) - int(c1.b)) * coef) 
+ proc color_lerp*(c1, c2: TColor, coef: cfloat): TColor {.inline.} =
+   result.r = uint8(cfloat(c1.r) + cfloat(int(c2.r) - int(c1.r)) * coef)
+   result.g = uint8(cfloat(c1.g) + cfloat(int(c2.g) - int(c1.g)) * coef)
+   result.b = uint8(cfloat(c1.b) + cfloat(int(c2.b) - int(c1.b)) * coef) 
 else:
-  proc color_lerp*(c1, c2: TColor, coef: float32): TColor {.cdecl, importc: "TCOD_color_lerp", dynlib: LIB_NAME.}
+  proc color_lerp*(c1, c2: TColor, coef: cfloat): TColor {.cdecl, importc: "TCOD_color_lerp", dynlib: LIB_NAME.}
 
 
 # HSV transformations
 #TCODLIB_API void TCOD_color_set_HSV (TCOD_color_t *c,float h, float s, float v);
-proc color_set_HSV*(c: ptr TColor, h, s, v: float32) {.cdecl, importc: "TCOD_color_set_HSV", dynlib: LIB_NAME.}
+proc color_set_HSV*(c: ptr TColor, h, s, v: cfloat) {.cdecl, importc: "TCOD_color_set_HSV", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_color_get_HSV (TCOD_color_t c,float * h, float * s, float * v);
-proc color_get_HSV*(c: TColor, h, s, v: ptr float32) {.cdecl, importc: "TCOD_color_get_HSV", dynlib: LIB_NAME.}
+proc color_get_HSV*(c: TColor, h, s, v: ptr cfloat) {.cdecl, importc: "TCOD_color_get_HSV", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_color_get_hue (TCOD_color_t c);
-proc color_get_hue*(c: TColor): float32 {.cdecl, importc: "TCOD_color_get_hue", dynlib: LIB_NAME.}
+proc color_get_hue*(c: TColor): cfloat {.cdecl, importc: "TCOD_color_get_hue", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_color_set_hue (TCOD_color_t *c, float h);
-proc color_set_hue*(c: ptr TColor, h: float32) {.cdecl, importc: "TCOD_color_set_hue", dynlib: LIB_NAME.}
+proc color_set_hue*(c: ptr TColor, h: cfloat) {.cdecl, importc: "TCOD_color_set_hue", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_color_get_saturation (TCOD_color_t c);
-proc color_get_saturation*(c: TColor): float32 {.cdecl, importc: "TCOD_color_get_saturation", dynlib: LIB_NAME.}
+proc color_get_saturation*(c: TColor): cfloat {.cdecl, importc: "TCOD_color_get_saturation", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_color_set_saturation (TCOD_color_t *c, float s);
-proc color_set_saturation*(c: ptr TColor, s: float32) {.cdecl, importc: "TCOD_color_set_saturation", dynlib: LIB_NAME.}
+proc color_set_saturation*(c: ptr TColor, s: cfloat) {.cdecl, importc: "TCOD_color_set_saturation", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_color_get_value (TCOD_color_t c);
-proc color_get_value*(c: TColor): float32 {.cdecl, importc: "TCOD_color_get_value", dynlib: LIB_NAME.}
+proc color_get_value*(c: TColor): cfloat {.cdecl, importc: "TCOD_color_get_value", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_color_set_value (TCOD_color_t *c, float v);
-proc color_set_value*(c: ptr TColor, v: float32) {.cdecl, importc: "TCOD_color_set_value", dynlib: LIB_NAME.}
+proc color_set_value*(c: ptr TColor, v: cfloat) {.cdecl, importc: "TCOD_color_set_value", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_color_shift_hue (TCOD_color_t *c, float hshift);
-proc color_shift_hue*(c: ptr TColor, hshift: float32) {.cdecl, importc: "TCOD_color_shift_hue", dynlib: LIB_NAME.}
+proc color_shift_hue*(c: ptr TColor, hshift: cfloat) {.cdecl, importc: "TCOD_color_shift_hue", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_color_scale_HSV (TCOD_color_t *c, float scoef, float vcoef);
-proc color_scale_HSV*(c: ptr TColor, scoef, vcoef: float32) {.cdecl, importc: "TCOD_color_scale_HSV", dynlib: LIB_NAME.}
+proc color_scale_HSV*(c: ptr TColor, scoef, vcoef: cfloat) {.cdecl, importc: "TCOD_color_scale_HSV", dynlib: LIB_NAME.}
 
 
 # color map

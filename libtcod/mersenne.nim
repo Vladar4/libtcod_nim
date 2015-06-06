@@ -63,24 +63,24 @@ proc random_set_distribution*(mersenne: PRandom, distribution: TDistribution) {.
 
 
 #TCODLIB_API int TCOD_random_get_int (TCOD_random_t mersenne, int min, int max);
-proc random_get_int*(mersenne: PRandom, min, max: int): int {.cdecl, importc: "TCOD_random_get_int", dynlib: LIB_NAME.}
+proc random_get_int*(mersenne: PRandom, min, max: int): cint {.cdecl, importc: "TCOD_random_get_int", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_random_get_float (TCOD_random_t mersenne, float min, float max);
-proc random_get_float*(mersenne: PRandom, min, max: float32): float32 {.cdecl, importc: "TCOD_random_get_float", dynlib: LIB_NAME.}
+proc random_get_float*(mersenne: PRandom, min, max: cfloat): cfloat {.cdecl, importc: "TCOD_random_get_float", dynlib: LIB_NAME.}
 
 #TCODLIB_API double TCOD_random_get_double (TCOD_random_t mersenne, double min, double max);
-proc random_get_double*(mersenne: PRandom, min, max: float64): float64 {.cdecl, importc: "TCOD_random_get_double", dynlib: LIB_NAME.}
+proc random_get_double*(mersenne: PRandom, min, max: cdouble): cdouble {.cdecl, importc: "TCOD_random_get_double", dynlib: LIB_NAME.}
 
 
 
 #TCODLIB_API int TCOD_random_get_int_mean (TCOD_random_t mersenne, int min, int max, int mean);
-proc random_get_int_mean*(mersenne: PRandom, min, max, mean: int): int {.cdecl, importc: "TCOD_random_get_int_mean", dynlib: LIB_NAME.}
+proc random_get_int_mean*(mersenne: PRandom, min, max, mean: int): cint {.cdecl, importc: "TCOD_random_get_int_mean", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_random_get_float_mean (TCOD_random_t mersenne, float min, float max, float mean);
-proc random_get_float_mean*(mersenne: PRandom, min, max, mean: float32): float32 {.cdecl, importc: "TCOD_random_get_float_mean", dynlib: LIB_NAME.}
+proc random_get_float_mean*(mersenne: PRandom, min, max, mean: cfloat): cfloat {.cdecl, importc: "TCOD_random_get_float_mean", dynlib: LIB_NAME.}
 
 #TCODLIB_API double TCOD_random_get_double_mean (TCOD_random_t mersenne, double min, double max, double mean);
-proc random_get_double_mean*(mersenne: PRandom, min, max, mean: float64): float64 {.cdecl, importc: "TCOD_random_get_double_mean", dynlib: LIB_NAME.}
+proc random_get_double_mean*(mersenne: PRandom, min, max, mean: cdouble): cdouble {.cdecl, importc: "TCOD_random_get_double_mean", dynlib: LIB_NAME.}
 
 
 
@@ -88,8 +88,8 @@ proc random_get_double_mean*(mersenne: PRandom, min, max, mean: float64): float6
 proc random_dice_new*(s: cstring): TDice {.cdecl, importc: "TCOD_random_dice_new", dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_random_dice_roll (TCOD_random_t mersenne, TCOD_dice_t dice);
-proc random_dice_roll*(mersenne: PRandom, dice: TDice): int {.cdecl, importc: "TCOD_random_dice_roll", dynlib: LIB_NAME.}
+proc random_dice_roll*(mersenne: PRandom, dice: TDice): cint {.cdecl, importc: "TCOD_random_dice_roll", dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_random_dice_roll_s (TCOD_random_t mersenne, const char * s);
-proc random_dice_roll_s*(mersenne: PRandom, s: cstring): int {.cdecl, importc: "TCOD_random_dice_roll_s", dynlib: LIB_NAME.}
+proc random_dice_roll_s*(mersenne: PRandom, s: cstring): cint {.cdecl, importc: "TCOD_random_dice_roll_s", dynlib: LIB_NAME.}
 

@@ -1,4 +1,4 @@
-libtcod-nim 1.5.1 v0.97
+libtcod-nim 1.5.1 v0.98
 =======================
 
 libtcod-nim is a wrapper of the libtcod library for the Nim language.
@@ -20,6 +20,11 @@ Also you may need SDL, OpenGL or GLSL dynamic libraries installed, depending on 
 
 CHANGELOG:
 ==========
+**v0.98 {*WIP*}**
+* adaptation for Nim 0.11.2
+* more type-related fixes
+{***WIP***}
+
 **v0.97**
 * adaptation for Nim 0.10.2
 * fixed data types for correct work on 64-bit systems

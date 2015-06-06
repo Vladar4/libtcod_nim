@@ -49,7 +49,7 @@ proc zip_put_char*(zip: PZip, val: char) {.cdecl, importc: "TCOD_zip_put_char", 
 proc zip_put_int*(zip: PZip, val: int) {.cdecl, importc: "TCOD_zip_put_int", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_zip_put_float(TCOD_zip_t zip, float val);
-proc zip_put_float*(zip: PZip, val: float32) {.cdecl, importc: "TCOD_zip_put_float", dynlib: LIB_NAME.}
+proc zip_put_float*(zip: PZip, val: cfloat) {.cdecl, importc: "TCOD_zip_put_float", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_zip_put_string(TCOD_zip_t zip, const char *val);
 proc zip_put_string*(zip: PZip, val: cstring) {.cdecl, importc: "TCOD_zip_put_string", dynlib: LIB_NAME.}
@@ -70,21 +70,21 @@ proc zip_put_data*(zip: PZip, nbBytes: int, data: pointer) {.cdecl, importc: "TC
 proc zip_get_current_bytes*(zip: PZip): cuint {.cdecl, importc: "TCOD_zip_get_current_bytes", dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_zip_save_to_file(TCOD_zip_t zip, const char *filename);
-proc zip_save_to_file*(zip: PZip, filename: cstring): int {.cdecl, importc: "TCOD_zip_save_to_file", dynlib: LIB_NAME.}
+proc zip_save_to_file*(zip: PZip, filename: cstring): cint {.cdecl, importc: "TCOD_zip_save_to_file", dynlib: LIB_NAME.}
 
 
 # input interface
 #TCODLIB_API int TCOD_zip_load_from_file(TCOD_zip_t zip, const char *filename);
-proc zip_load_from_file*(zip: PZip, filename: cstring): int {.cdecl, importc: "TCOD_zip_load_from_file", dynlib: LIB_NAME.}
+proc zip_load_from_file*(zip: PZip, filename: cstring): cint {.cdecl, importc: "TCOD_zip_load_from_file", dynlib: LIB_NAME.}
 
 #TCODLIB_API char TCOD_zip_get_char(TCOD_zip_t zip);
 proc zip_get_char*(zip: PZip): char {.cdecl, importc: "TCOD_zip_get_char", dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_zip_get_int(TCOD_zip_t zip);
-proc zip_get_int*(zip: PZip): int {.cdecl, importc: "TCOD_zip_get_int", dynlib: LIB_NAME.}
+proc zip_get_int*(zip: PZip): cint {.cdecl, importc: "TCOD_zip_get_int", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_zip_get_float(TCOD_zip_t zip);
-proc zip_get_float*(zip: PZip): float32 {.cdecl, importc: "TCOD_zip_get_float", dynlib: LIB_NAME.}
+proc zip_get_float*(zip: PZip): cfloat {.cdecl, importc: "TCOD_zip_get_float", dynlib: LIB_NAME.}
 
 #TCODLIB_API const char *TCOD_zip_get_string(TCOD_zip_t zip);
 proc zip_get_string*(zip: PZip): cstring {.cdecl, importc: "TCOD_zip_get_string", dynlib: LIB_NAME.}
@@ -99,7 +99,7 @@ proc zip_get_image*(zip: PZip): PImage {.cdecl, importc: "TCOD_zip_get_image", d
 proc zip_get_console*(zip: PZip): PConsole {.cdecl, importc: "TCOD_zip_get_console", dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_zip_get_data(TCOD_zip_t zip, int nbBytes, void *data);
-proc zip_get_data*(zip: PZip, nbBytes: int, data: pointer): int {.cdecl, importc: "TCOD_zip_get_data", dynlib: LIB_NAME.}
+proc zip_get_data*(zip: PZip, nbBytes: int, data: pointer): cint {.cdecl, importc: "TCOD_zip_get_data", dynlib: LIB_NAME.}
 
 #TCODLIB_API cuint TCOD_zip_get_remaining_bytes(TCOD_zip_t zip);
 proc zip_get_remaining_bytes*(zip: PZip): cuint {.cdecl, importc: "TCOD_zip_get_remaining_bytes", dynlib: LIB_NAME.}

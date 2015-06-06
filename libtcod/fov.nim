@@ -80,11 +80,11 @@ proc map_is_transparent*(map: PMap, x, y: int): bool {.cdecl, importc: "TCOD_map
 proc map_is_walkable*(map: PMap, x, y: int): bool {.cdecl, importc: "TCOD_map_is_walkable", dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_map_get_width(TCOD_map_t map);
-proc map_get_width*(map: PMap): int {.cdecl, importc: "TCOD_map_get_width", dynlib: LIB_NAME.}
+proc map_get_width*(map: PMap): cint {.cdecl, importc: "TCOD_map_get_width", dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_map_get_height(TCOD_map_t map);
-proc map_get_height*(map: PMap): int {.cdecl, importc: "TCOD_map_get_height", dynlib: LIB_NAME.}
+proc map_get_height*(map: PMap): cint {.cdecl, importc: "TCOD_map_get_height", dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_map_get_nb_cells(TCOD_map_t map);
-proc map_get_nb_cells*(map: PMap): int {.cdecl, importc: "TCOD_map_get_nb_cells", dynlib: LIB_NAME.}
+proc map_get_nb_cells*(map: PMap): cint {.cdecl, importc: "TCOD_map_get_nb_cells", dynlib: LIB_NAME.}
 

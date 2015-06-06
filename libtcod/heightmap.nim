@@ -30,7 +30,7 @@ type
   PHeightmap* = ptr THeightmap
   THeightmap*{.bycopy.} = object
     w, h: cint
-    values: ptr float32
+    values: ptr cfloat
 
 
 #TCODLIB_API TCOD_heightmap_t *TCOD_heightmap_new(int w,int h);
@@ -41,41 +41,41 @@ proc heightmap_delete*(hm: PHeightmap) {.cdecl, importc: "TCOD_heightmap_delete"
 
 
 #TCODLIB_API float TCOD_heightmap_get_value(const TCOD_heightmap_t *hm, int x, int y);
-proc heightmap_get_value*(hm: PHeightmap, x, y: int): float32 {.cdecl, importc: "TCOD_heightmap_get_value", dynlib: LIB_NAME.}
+proc heightmap_get_value*(hm: PHeightmap, x, y: int): cfloat {.cdecl, importc: "TCOD_heightmap_get_value", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_heightmap_get_interpolated_value(const TCOD_heightmap_t *hm, float x, float y);
-proc heightmap_get_interpolated_value*(hm: PHeightmap, x, y: float32): float32 {.cdecl, importc: "TCOD_heightmap_get_interpolated_value", dynlib: LIB_NAME.}
+proc heightmap_get_interpolated_value*(hm: PHeightmap, x, y: cfloat): cfloat {.cdecl, importc: "TCOD_heightmap_get_interpolated_value", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_heightmap_set_value(TCOD_heightmap_t *hm, int x, int y, float value);
-proc heightmap_set_value*(hm: PHeightmap, x, y: int, value: float32) {.cdecl, importc: "TCOD_heightmap_set_value", dynlib: LIB_NAME.}
+proc heightmap_set_value*(hm: PHeightmap, x, y: int, value: cfloat) {.cdecl, importc: "TCOD_heightmap_set_value", dynlib: LIB_NAME.}
 
 #TCODLIB_API float TCOD_heightmap_get_slope(const TCOD_heightmap_t *hm, int x, int y);
-proc heightmap_get_slope*(hm: PHeightmap, x, y: int): float32 {.cdecl, importc: "TCOD_heightmap_get_slope", dynlib: LIB_NAME.}
+proc heightmap_get_slope*(hm: PHeightmap, x, y: int): cfloat {.cdecl, importc: "TCOD_heightmap_get_slope", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_heightmap_get_normal(const TCOD_heightmap_t *hm, float x, float y, float n[3], float waterLevel);
-proc heightmap_get_normal*(hm: PHeightmap, x, y: float32, n: ptr array[0..2, float32], waterLevel: float32) {.cdecl, importc: "TCOD_heightmap_get_normal", dynlib: LIB_NAME.}
+proc heightmap_get_normal*(hm: PHeightmap, x, y: cfloat, n: ptr array[0..2, cfloat], waterLevel: cfloat) {.cdecl, importc: "TCOD_heightmap_get_normal", dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_heightmap_count_cells(const TCOD_heightmap_t *hm, float min, float max);
-proc heightmap_count_cells*(hm: PHeightmap, min, max: float32): int {.cdecl, importc: "TCOD_heightmap_count_cells", dynlib: LIB_NAME.}
+proc heightmap_count_cells*(hm: PHeightmap, min, max: cfloat): cint {.cdecl, importc: "TCOD_heightmap_count_cells", dynlib: LIB_NAME.}
 
 #TCODLIB_API bool TCOD_heightmap_has_land_on_border(const TCOD_heightmap_t *hm, float waterLevel);
-proc heightmap_has_land_on_border*(hm: PHeightmap, waterLevel: float32): bool {.cdecl, importc: "TCOD_heightmap_has_land_on_border", dynlib: LIB_NAME.}
+proc heightmap_has_land_on_border*(hm: PHeightmap, waterLevel: cfloat): bool {.cdecl, importc: "TCOD_heightmap_has_land_on_border", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_heightmap_get_minmax(const TCOD_heightmap_t *hm, float *min, float *max);
-proc heightmap_get_minmax*(hm: PHeightmap, min, max: ptr float32) {.cdecl, importc: "TCOD_heightmap_get_minmax", dynlib: LIB_NAME.}
+proc heightmap_get_minmax*(hm: PHeightmap, min, max: ptr cfloat) {.cdecl, importc: "TCOD_heightmap_get_minmax", dynlib: LIB_NAME.}
 
 
 #TCODLIB_API void TCOD_heightmap_copy(const TCOD_heightmap_t *hm_source,TCOD_heightmap_t *hm_dest);
 proc heightmap_copy*(hm_source, hm_dest: PHeightmap) {.cdecl, importc: "TCOD_heightmap_copy", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_heightmap_add(TCOD_heightmap_t *hm, float value);
-proc heightmap_add*(hm: PHeightmap, value: float32) {.cdecl, importc: "TCOD_heightmap_add", dynlib: LIB_NAME.}
+proc heightmap_add*(hm: PHeightmap, value: cfloat) {.cdecl, importc: "TCOD_heightmap_add", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_heightmap_scale(TCOD_heightmap_t *hm, float value);
-proc heightmap_scale*(hm: PHeightmap, value: float32) {.cdecl, importc: "TCOD_heightmap_scale", dynlib: LIB_NAME.}
+proc heightmap_scale*(hm: PHeightmap, value: cfloat) {.cdecl, importc: "TCOD_heightmap_scale", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_heightmap_clamp(TCOD_heightmap_t *hm, float min, float max);
-proc heightmap_clamp*(hm: PHeightmap, min, max: float32) {.cdecl, importc: "TCOD_heightmap_clamp", dynlib: LIB_NAME.}
+proc heightmap_clamp*(hm: PHeightmap, min, max: cfloat) {.cdecl, importc: "TCOD_heightmap_clamp", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_heightmap_normalize(TCOD_heightmap_t *hm, float min, float max);
 proc heightmap_normalize*(hm: PHeightmap, min=0.0'f32, max=1.0'f32) {.cdecl, importc: "TCOD_heightmap_normalize", dynlib: LIB_NAME.}
@@ -84,7 +84,7 @@ proc heightmap_normalize*(hm: PHeightmap, min=0.0'f32, max=1.0'f32) {.cdecl, imp
 proc heightmap_clear*(hm: PHeightmap) {.cdecl, importc: "TCOD_heightmap_clear", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_heightmap_lerp_hm(const TCOD_heightmap_t *hm1, const TCOD_heightmap_t *hm2, TCOD_heightmap_t *hmres, float coef);
-proc heightmap_lerp_hm*(hm1, hm2, hmres: PHeightmap, coef: float32) {.cdecl, importc: "TCOD_heightmap_lerp_hm", dynlib: LIB_NAME.}
+proc heightmap_lerp_hm*(hm1, hm2, hmres: PHeightmap, coef: cfloat) {.cdecl, importc: "TCOD_heightmap_lerp_hm", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_heightmap_add_hm(const TCOD_heightmap_t *hm1, const TCOD_heightmap_t *hm2, TCOD_heightmap_t *hmres);
 proc heightmap_add_hm*(hm1, hm2, hmres: PHeightmap) {.cdecl, importc: "TCOD_heightmap_add_hm", dynlib: LIB_NAME.}
@@ -94,27 +94,27 @@ proc heightmap_multiply_hm*(hm1, hm2, hmres: PHeightmap) {.cdecl, importc: "TCOD
 
 
 #TCODLIB_API void TCOD_heightmap_add_hill(TCOD_heightmap_t *hm, float hx, float hy, float hradius, float hheight);
-proc heightmap_add_hill*(hm: PHeightmap, hx, hy, hradius, hheight: float32) {.cdecl, importc: "TCOD_heightmap_add_hill", dynlib: LIB_NAME.}
+proc heightmap_add_hill*(hm: PHeightmap, hx, hy, hradius, hheight: cfloat) {.cdecl, importc: "TCOD_heightmap_add_hill", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_heightmap_dig_hill(TCOD_heightmap_t *hm, float hx, float hy, float hradius, float hheight);
-proc heightmap_dig_hill*(hm: PHeightmap, hx, hy, hradius, hheight: float32) {.cdecl, importc: "TCOD_heightmap_dig_hill", dynlib: LIB_NAME.}
+proc heightmap_dig_hill*(hm: PHeightmap, hx, hy, hradius, hheight: cfloat) {.cdecl, importc: "TCOD_heightmap_dig_hill", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_heightmap_dig_bezier(TCOD_heightmap_t *hm, int px[4], int py[4], float startRadius, float startDepth, float endRadius, float endDepth);
-proc heightmap_dig_bezier*(hm: PHeightmap, px, py: array[0..3, int], startRadius, startDepth, endRadius, endDepth: float32) {.cdecl, importc: "TCOD_heightmap_dig_bezier", dynlib: LIB_NAME.}
+proc heightmap_dig_bezier*(hm: PHeightmap, px, py: array[0..3, int], startRadius, startDepth, endRadius, endDepth: cfloat) {.cdecl, importc: "TCOD_heightmap_dig_bezier", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_heightmap_rain_erosion(TCOD_heightmap_t *hm, int nbDrops,float erosionCoef,float sedimentationCoef,TCOD_random_t rnd);
-proc heightmap_rain_erosion*(hm: PHeightmap, nbDrops: int, erosionCoef, sedimentationCoef: float32, rnd: PRandom = nil) {.cdecl, importc: "TCOD_heightmap_rain_erosion", dynlib: LIB_NAME.}
+proc heightmap_rain_erosion*(hm: PHeightmap, nbDrops: int, erosionCoef, sedimentationCoef: cfloat, rnd: PRandom = nil) {.cdecl, importc: "TCOD_heightmap_rain_erosion", dynlib: LIB_NAME.}
 
 
 #/* TCODLIB_API void TCOD_heightmap_heat_erosion(TCOD_heightmap_t *hm, int nbPass,float minSlope,float erosionCoef,float sedimentationCoef,TCOD_random_t rnd); */
-#proc heightmap_heat_erosion*(hm: PHeightmap, nbPass: int, minSlope, erosionCoef, sedimentationCoef: float32, rnd: PRandom = nil) {.cdecl, importc: "TCOD_heightmap_heat_erosion", dynlib: LIB_NAME.}
+#proc heightmap_heat_erosion*(hm: PHeightmap, nbPass: int, minSlope, erosionCoef, sedimentationCoef: cfloat, rnd: PRandom = nil) {.cdecl, importc: "TCOD_heightmap_heat_erosion", dynlib: LIB_NAME.}
 
 
 #TCODLIB_API void TCOD_heightmap_kernel_transform(TCOD_heightmap_t *hm, int kernelsize, const int *dx, const int *dy, const float *weight, float minLevel,float maxLevel);
-proc heightmap_kernel_transform*(hm: PHeightmap, kernelsize: int, dx, dy: ptr int, weight: ptr float32, minLevel, maxLevel: float32) {.cdecl, importc: "TCOD_heightmap_kernel_transform", dynlib: LIB_NAME.}
+proc heightmap_kernel_transform*(hm: PHeightmap, kernelsize: int, dx, dy: ptr int, weight: ptr cfloat, minLevel, maxLevel: cfloat) {.cdecl, importc: "TCOD_heightmap_kernel_transform", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_heightmap_add_voronoi(TCOD_heightmap_t *hm, int nbPoints, int nbCoef, const float *coef,TCOD_random_t rnd);
-proc heightmap_add_voronoi*(hm: PHeightmap, nbPoints, nbCoef: int, coef: ptr float32, rnd: PRandom = nil) {.cdecl, importc: "TCOD_heightmap_add_voronoi", dynlib: LIB_NAME.}
+proc heightmap_add_voronoi*(hm: PHeightmap, nbPoints, nbCoef: int, coef: ptr cfloat, rnd: PRandom = nil) {.cdecl, importc: "TCOD_heightmap_add_voronoi", dynlib: LIB_NAME.}
 
 
 #/* TCODLIB_API void TCOD_heightmap_mid_point_deplacement(TCOD_heightmap_t *hm, TCOD_random_t rnd); */
@@ -122,11 +122,11 @@ proc heightmap_add_voronoi*(hm: PHeightmap, nbPoints, nbCoef: int, coef: ptr flo
 
 
 #TCODLIB_API void TCOD_heightmap_add_fbm(TCOD_heightmap_t *hm, TCOD_noise_t noise,float mulx, float muly, float addx, float addy, float octaves, float delta, float scale); 
-proc heightmap_add_fbm*(hm: PHeightmap, noise: PNoise, mulx, muly, addx, addy, octaves, delta, scale: float32) {.cdecl, importc: "TCOD_heightmap_add_fbm", dynlib: LIB_NAME.}
+proc heightmap_add_fbm*(hm: PHeightmap, noise: PNoise, mulx, muly, addx, addy, octaves, delta, scale: cfloat) {.cdecl, importc: "TCOD_heightmap_add_fbm", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_heightmap_scale_fbm(TCOD_heightmap_t *hm, TCOD_noise_t noise,float mulx, float muly, float addx, float addy, float octaves, float delta, float scale); 
-proc heightmap_scale_fbm*(hm: PHeightmap, noise: PNoise, mulx, muly, addx, addy, octaves, delta, scale: float32) {.cdecl, importc: "TCOD_heightmap_scale_fbm", dynlib: LIB_NAME.}
+proc heightmap_scale_fbm*(hm: PHeightmap, noise: PNoise, mulx, muly, addx, addy, octaves, delta, scale: cfloat) {.cdecl, importc: "TCOD_heightmap_scale_fbm", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_heightmap_islandify(TCOD_heightmap_t *hm, float seaLevel,TCOD_random_t rnd);
-proc heightmap_islandify*(hm: PHeightmap, seaLevel: float32, rnd: PRandom = nil) {.cdecl, importc: "TCOD_heightmap_islandify", dynlib: LIB_NAME.}
+proc heightmap_islandify*(hm: PHeightmap, seaLevel: cfloat, rnd: PRandom = nil) {.cdecl, importc: "TCOD_heightmap_islandify", dynlib: LIB_NAME.}
 

@@ -47,7 +47,7 @@ proc render_colors(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
     TOPRIGHT = 1
     BOTTOMLEFT = 2
     BOTTOMRIGHT = 3
-  
+
   var
     # random corner colors
     cols {.global.}: array[0..3, TColor] = [(50'u8,40'u8,150'u8),
@@ -60,12 +60,12 @@ proc render_colors(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
     textColor, col, top, bottom: TColor
     xcoef, ycoef: float32
     c: int
-  
+
   # ==== slighty modify the corner colors ====
   if first:
     sys_set_fps(0) # unlimited fps
     console_clear(sample_console)
-  
+
   # ==== slighty modify the corner colors ====
   for c in 0..3:
     # move each corner color
@@ -97,7 +97,7 @@ proc render_colors(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
       # get the current cell color
       col = color_lerp(top, bottom, ycoef)
       console_set_char_background(sample_console, x, y, col, BKGND_SET)
-  
+
   # ==== print the text ====
   # get the background color at the text position
   textColor = console_get_char_background(sample_console, SAMPLE_SCREEN_WIDTH_2, 5)
@@ -106,7 +106,7 @@ proc render_colors(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
   textColor.g = 255'u8 - textColor.g
   textColor.b = 255'u8 - textColor.b
   console_set_default_foreground(sample_console, textColor)
-  
+
   # put random text (for performance tests)
   for x in 0..SAMPLE_SCREEN_WIDTH-1:
     for y in 0..SAMPLE_SCREEN_HEIGHT-1:
@@ -116,7 +116,7 @@ proc render_colors(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
       c = random_get_int(nil, ord('a'), ord('z'))
       console_set_default_foreground(sample_console, col)
       console_put_char(sample_console, x, y, c, BKGND_NONE)
-  
+
   # the background behind the text is slightly darkened using the BKGND_MULTIPLY flag
   console_set_default_background(sample_console, GREY)
   discard console_print_rect_ex(sample_console, SAMPLE_SCREEN_WIDTH_2, 5,
@@ -137,20 +137,20 @@ proc render_offscreen(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.}
     y {.global.} = 0 # secondary screen position y
     xdir {.global.} = 1 # movement direction x
     ydir {.global.} = 1 # movement direction y
-  
+
   if not init:
     init = true
     secondary = console_new(SAMPLE_SCREEN_WIDTH_2, SAMPLE_SCREEN_HEIGHT_2)
     screenshot = console_new(SAMPLE_SCREEN_WIDTH, SAMPLE_SCREEN_HEIGHT)
     console_print_frame(secondary, 0, 0, SAMPLE_SCREEN_WIDTH_2, SAMPLE_SCREEN_HEIGHT_2, false, BKGND_SET, "Offscreen console")
     discard console_print_rect_ex(secondary, SAMPLE_SCREEN_WIDTH_4, 2, SAMPLE_SCREEN_WIDTH_2-2, SAMPLE_SCREEN_HEIGHT_2, BKGND_NONE, CENTER, "You can render to an offscreen console and blit in on another one, simulating alpha transparency.")
-  
+
   if first:
     sys_set_fps(30) # limited to 30 fps
     # get a "screenshot" of the current sample screen
     console_blit(sample_console, 0, 0, SAMPLE_SCREEN_WIDTH, SAMPLE_SCREEN_HEIGHT, screenshot, 0, 0, 1.0, 1.0)
   inc(counter)
-  
+
   if counter mod 20 == 0:
     # move the secondary screen every 2 seconds
     x += xdir
@@ -159,7 +159,7 @@ proc render_offscreen(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.}
     elif x == -5: xdir=1
     if y == SAMPLE_SCREEN_HEIGHT_2+5: ydir = -1
     elif y == -5: ydir=1
-  
+
   # restore the initial screen
   console_blit(screenshot, 0, 0, SAMPLE_SCREEN_WIDTH, SAMPLE_SCREEN_HEIGHT, sample_console, 0, 0, 1.0, 1.0)
   # blit the overlapping screen
@@ -199,12 +199,12 @@ proc render_lines(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
     alpha: float32 # alpha value when blending mode = TCOD_BKGND_ALPHA
     angle, cos_angle, sin_angle: float32 # segment angle data
     recty: int # gradient vertical position
-  
+
   if key.vk == K_ENTER or key.vk == K_KPENTER:
     # switch to the next blending mode
     inc(bk_flag)
     if (bk_flag and 0xff) > BKGND_ALPH: bk_flag = BKGND_NONE
-  
+
   if (bk_flag and 0xff) == BKGND_ALPH:
     # for the alpha mode, update alpha every frame
     alpha = (1.0 + cos(sys_elapsed_seconds() * 2)) / 2.0
@@ -213,7 +213,7 @@ proc render_lines(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
     # for the add alpha mode, update alpha every frame
     alpha = (1.0 + cos(sys_elapsed_seconds() * 2)) / 2.0
     bk_flag = bkgnd_addalpha(alpha)
-  
+
   if not init:
     bk = console_new(SAMPLE_SCREEN_WIDTH, SAMPLE_SCREEN_HEIGHT)
     # initialize the colored background
@@ -489,7 +489,7 @@ proc render_fov(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
       for x in 0..SAMPLE_SCREEN_WIDTH-1:
         if smap[y][x] == '=':
           console_put_char(sample_console, x, y, CHAR_DHLINE, BKGND_NONE)
-  
+
   if recompute_fov:
     recompute_fov = false
     var radius: int
@@ -627,7 +627,7 @@ proc render_path(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
     busy {.global.}: float32
     oldChar {.global.}: int = ord(' ')
     mx, my: int
-  
+
   if map == nil:
     # initialize the map
     map = map_new(SAMPLE_SCREEN_WIDTH, SAMPLE_SCREEN_HEIGHT)
@@ -651,7 +651,7 @@ proc render_path(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
     console_put_char(sample_console, px, py, '@', BKGND_NONE)
     console_print(sample_console, 1, 1, "IJKL / mouse :\nmove destination\nTAB : A*/dijkstra")
     console_print(sample_console, 1, 4, "Using : A*")
-    
+
     # draw windows
     for y in 0..SAMPLE_SCREEN_HEIGHT-1:
       for x in 0..SAMPLE_SCREEN_WIDTH-1:
@@ -659,7 +659,7 @@ proc render_path(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
           console_put_char(sample_console, x, y, CHAR_DHLINE, BKGND_NONE)
 
     recalculatePath=true
- 
+
   if recalculatePath == true:
     if usingAstar:
       discard path_compute(path, px, py, dx, dy)
@@ -675,7 +675,7 @@ proc render_path(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
       discard dijkstra_path_set(dijkstra, dx, dy)
     recalculatePath = false
     busy = 0.2
-  
+
   # draw the dungeon
   for y in 0..SAMPLE_SCREEN_HEIGHT-1:
     for x in 0..SAMPLE_SCREEN_WIDTH-1:
@@ -719,7 +719,7 @@ proc render_path(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
         discard dijkstra_path_walk(dijkstra, addr(px), addr(py))
         console_put_char(sample_console, px, py, '@', BKGND_NONE)
         recalculatePath = true
-  
+
   if (key.c == 'I' or key.c == 'i') and dy > 0:
     # destination move north
     console_put_char(sample_console, dx, dy, oldChar, BKGND_NONE)
@@ -744,7 +744,7 @@ proc render_path(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
     console_put_char(sample_console, dx, dy, '+', BKGND_NONE)
     if smap[dy][dx] == ' ':
       recalculatePath = true
-  elif (key.c == 'L' or key.c == 'l') and dx < SAMPLE_SCREEN_WIDTH -1:
+  elif (key.c == 'L' or key.c == 'l') and dx < SAMPLE_SCREEN_WIDTH - 1:
     # destination move east
     console_put_char(sample_console, dx, dy, oldChar, BKGND_NONE)
     inc(dx)
@@ -861,7 +861,7 @@ proc traverse_node(node: PBSP, userData: pointer): bool {.cdecl.} =
       miny = random_get_int(nil, miny, maxy-minRoomSize+1).int32
       maxx = random_get_int(nil, minx+minRoomSize-1, maxx).int32
       maxy = random_get_int(nil, miny+minRoomSize-1, maxy).int32
-    
+
     # resize the node to fit the room
     node.x = minx
     node.y = miny
@@ -883,7 +883,7 @@ proc traverse_node(node: PBSP, userData: pointer): bool {.cdecl.} =
     # create a corridor between the two lower nodes
     if node.horizontal:
       # vertical corridor
-      if left.x + left.w -1 < right.x or right.x + right.w - 1 < left.x:
+      if left.x + left.w - 1 < right.x or right.x + right.w - 1 < left.x:
         # no overlapping zone. we need a Z shaped corridor
         var
           x1 = random_get_int(nil, left.x, left.x + left.w - 1)
@@ -972,7 +972,7 @@ proc render_bsp(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
       if wall: cl = darkWall
       else: cl = darkGround
       console_set_char_background(sample_console, x, y, cl, BKGND_SET)
-  
+
   if key.vk == K_ENTER or key.vk == K_KPENTER:
     generate = true
   elif key.c == ' ':
@@ -1255,7 +1255,7 @@ proc blur(screen: PSurface, samplex, sampley, samplew, sampleh: int) =
       if (y - sampley) mod 8 == 0:
         f[1] = y / sampleh
         n = noise_get_fbm(noise, floatArrayToPtr(f), 3.0)
- 
+
       dec = int(3 * (n + 1.0))
       count = 0
       if dec == 4:
@@ -1361,6 +1361,7 @@ proc SDL_render(sdlSurface: pointer) {.cdecl.} =
       sdl_callback_enabled=false # no forced redraw for burn effect
     else:
       sdl_callback_enabled = true
+
   case effectNum
   of 0 : blur(screen, samplex, sampley, SAMPLE_SCREEN_WIDTH * charw, SAMPLE_SCREEN_HEIGHT * charh)
   of 1 : explode(screen, samplex, sampley, SAMPLE_SCREEN_WIDTH * charw, SAMPLE_SCREEN_HEIGHT * charh)
@@ -1546,7 +1547,7 @@ while not console_is_window_closed():
       # set colors for other renderers
       console_set_default_foreground(nil, GREY)
       console_set_default_background(nil, BLACK)
-    
+
     console_print_ex(nil, 42, 46-(NB_RENDERERS.int-i), BKGND_SET, LEFT, renderer_name[i])
 
   # update the game screen

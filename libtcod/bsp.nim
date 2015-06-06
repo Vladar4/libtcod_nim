@@ -90,7 +90,7 @@ proc bsp_resize*(node: PBSP, x, y, w, h: int) {.cdecl, importc: "TCOD_bsp_resize
 proc bsp_split_once*(node: PBSP, horizontal: bool, position: int) {.cdecl, importc: "TCOD_bsp_split_once", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_bsp_split_recursive(TCOD_bsp_t *node, TCOD_random_t randomizer, int nb, int minHSize, int minVSize, float maxHRatio, float maxVRatio);
-proc bsp_split_recursive*(node: PBSP, randomizer: PRandom, nb, minHSize, minVSize: int, maxHRatio, maxVRatio: float32) {.cdecl, importc: "TCOD_bsp_split_recursive", dynlib: LIB_NAME.}
+proc bsp_split_recursive*(node: PBSP, randomizer: PRandom, nb, minHSize, minVSize: int, maxHRatio, maxVRatio: cfloat) {.cdecl, importc: "TCOD_bsp_split_recursive", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_bsp_remove_sons(TCOD_bsp_t *node);
 proc bsp_remove_sons*(node: PBSP) {.cdecl, importc: "TCOD_bsp_remove_sons", dynlib: LIB_NAME.}

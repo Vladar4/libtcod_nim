@@ -30,10 +30,10 @@ include
   console_types
 
 
-proc bkgnd_alpha*(alpha: float32): TBkgndFlag {.inline.} =
+proc bkgnd_alpha*(alpha: cfloat): TBkgndFlag {.inline.} =
   return BKGND_ALPH or (int(alpha*255) shl 8)
 
-proc bkgnd_addalpha*(alpha: float32): TBkgndFlag {.inline.} =
+proc bkgnd_addalpha*(alpha: cfloat): TBkgndFlag {.inline.} =
   return BKGND_ADDA or (int(alpha*255) shl 8)
 
 type
@@ -120,13 +120,13 @@ proc console_print*(con: PConsole, x, y: int, fmt: cstring) {.cdecl, importc: "T
 proc console_print_ex*(con: PConsole, x, y: int, flag: TBkgndFlag, alignment: TAlignment, fmt: cstring) {.cdecl, importc: "TCOD_console_print_ex", varargs, dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_console_print_rect(TCOD_console_t con,int x, int y, int w, int h, const char *fmt, ...);
-proc console_print_rect*(con: PConsole, x, y, w, h: int, fmt: cstring): int {.cdecl, importc: "TCOD_console_print_rect", varargs, dynlib: LIB_NAME.}
+proc console_print_rect*(con: PConsole, x, y, w, h: int, fmt: cstring): cint {.cdecl, importc: "TCOD_console_print_rect", varargs, dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_console_print_rect_ex(TCOD_console_t con,int x, int y, int w, int h, TCOD_bkgnd_flag_t flag, TCOD_alignment_t alignment, const char *fmt, ...);
-proc console_print_rect_ex*(con: PConsole, x, y, w, h: int, flag: TBkgndFlag, alignment: TAlignment, fmt: cstring): int {.cdecl, importc: "TCOD_console_print_rect_ex", varargs, dynlib: LIB_NAME.}
+proc console_print_rect_ex*(con: PConsole, x, y, w, h: int, flag: TBkgndFlag, alignment: TAlignment, fmt: cstring): cint {.cdecl, importc: "TCOD_console_print_rect_ex", varargs, dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_console_get_height_rect(TCOD_console_t con,int x, int y, int w, int h, const char *fmt, ...);
-proc console_get_height_rect*(con: PConsole, x, y, w, h: int, fmt: cstring): int {.cdecl, importc: "TCOD_console_get_height_rect", varargs, dynlib: LIB_NAME.}
+proc console_get_height_rect*(con: PConsole, x, y, w, h: int, fmt: cstring): cint {.cdecl, importc: "TCOD_console_get_height_rect", varargs, dynlib: LIB_NAME.}
 
 
 
@@ -155,7 +155,7 @@ when not NO_UNICODE:
       WideCString = ref array[0..1_000_000, TUTF32Char]
 
     when not declared(c_strlen):
-      proc c_strlen(a: cstring): int {.nodecl, noSideEffect, importc: "strlen".}
+      proc c_strlen(a: cstring): cint {.nodecl, noSideEffect, importc: "strlen".}
 
     when true: # optimized procedure
 
@@ -236,25 +236,25 @@ when not NO_UNICODE:
 
 
   #TCODLIB_API int TCOD_console_print_rect_utf(TCOD_console_t con,int x, int y, int w, int h, const wchar_t *fmt, ...);
-  proc TCOD_console_print_rect_utf(con: PConsole, x, y, w, h: int, fmt: WideCString): int {.cdecl, importc: "TCOD_console_print_rect_utf", varargs, dynlib: LIB_NAME.}
+  proc TCOD_console_print_rect_utf(con: PConsole, x, y, w, h: int, fmt: WideCString): cint {.cdecl, importc: "TCOD_console_print_rect_utf", varargs, dynlib: LIB_NAME.}
 
-  proc console_print_rect_utf*(con: PConsole, x, y, w, h: int, fmt: string): int =
+  proc console_print_rect_utf*(con: PConsole, x, y, w, h: int, fmt: string): cint =
     var wcs = newWCS(fmt)
     result = TCOD_console_print_rect_utf(con, x, y, w, h, wcs)
 
 
   #TCODLIB_API int TCOD_console_print_rect_ex_utf(TCOD_console_t con,int x, int y, int w, int h, TCOD_bkgnd_flag_t flag, TCOD_alignment_t alignment, const wchar_t *fmt, ...);
-  proc TCOD_console_print_rect_ex_utf(con: PConsole, x, y, w, h: int, flag: TBkgndFlag, alignment: TAlignment, fmt: WideCString): int {.cdecl, importc: "TCOD_console_print_rect_ex_utf", varargs, dynlib: LIB_NAME.}
+  proc TCOD_console_print_rect_ex_utf(con: PConsole, x, y, w, h: int, flag: TBkgndFlag, alignment: TAlignment, fmt: WideCString): cint {.cdecl, importc: "TCOD_console_print_rect_ex_utf", varargs, dynlib: LIB_NAME.}
 
-  proc console_print_rect_ex_utf*(con: PConsole, x, y, w, h: int, flag: TBkgndFlag, alignment: TAlignment, fmt: string): int =
+  proc console_print_rect_ex_utf*(con: PConsole, x, y, w, h: int, flag: TBkgndFlag, alignment: TAlignment, fmt: string): cint =
     var wcs = newWCS(fmt)
     result = TCOD_console_print_rect_ex_utf(con, x, y, w, h, flag, alignment, wcs)
 
 
   #TCODLIB_API int TCOD_console_get_height_rect_utf(TCOD_console_t con,int x, int y, int w, int h, const wchar_t *fmt, ...);
-  proc TCOD_console_get_height_rect_utf(con: PConsole, x, y, w, h: int, fmt: WideCString): int {.cdecl, importc: "TCOD_console_get_height_rect_utf", varargs, dynlib: LIB_NAME.}
+  proc TCOD_console_get_height_rect_utf(con: PConsole, x, y, w, h: int, fmt: WideCString): cint {.cdecl, importc: "TCOD_console_get_height_rect_utf", varargs, dynlib: LIB_NAME.}
 
-  proc console_get_height_rect_utf*(con: PConsole, x, y, w, h: int, fmt: string): int =
+  proc console_get_height_rect_utf*(con: PConsole, x, y, w, h: int, fmt: string): cint =
     var wcs = newWCS(fmt)
     result = TCOD_console_get_height_rect_utf(con, x, y, w, h, wcs)
 
@@ -272,7 +272,7 @@ proc console_get_char_background*(con: PConsole, x, y: int): TColor {.cdecl, imp
 proc console_get_char_foreground*(con: PConsole, x, y: int): TColor {.cdecl, importc: "TCOD_console_get_char_foreground", dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_console_get_char(TCOD_console_t con,int x, int y);
-proc console_get_char*(con: PConsole, x, y: int): int {.cdecl, importc: "TCOD_console_get_char", dynlib: LIB_NAME.}
+proc console_get_char*(con: PConsole, x, y: int): cint {.cdecl, importc: "TCOD_console_get_char", dynlib: LIB_NAME.}
 
 
 
@@ -336,10 +336,10 @@ proc console_save_apf*(con: PConsole, filename: cstring): bool {.cdecl, importc:
 proc console_new*(w, h: int): PConsole {.cdecl, importc: "TCOD_console_new", dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_console_get_width(TCOD_console_t con);
-proc console_get_width*(con: PConsole): int {.cdecl, importc: "TCOD_console_get_width", dynlib: LIB_NAME.}
+proc console_get_width*(con: PConsole): cint {.cdecl, importc: "TCOD_console_get_width", dynlib: LIB_NAME.}
 
 #TCODLIB_API int TCOD_console_get_height(TCOD_console_t con);
-proc console_get_height*(con: PConsole): int {.cdecl, importc: "TCOD_console_get_height", dynlib: LIB_NAME.}
+proc console_get_height*(con: PConsole): cint {.cdecl, importc: "TCOD_console_get_height", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_console_set_key_color(TCOD_console_t con,TCOD_color_t col);
 proc console_set_key_color*(con: PConsole, col: TColor) {.cdecl, importc: "TCOD_console_set_key_color", dynlib: LIB_NAME.}
