@@ -95,7 +95,6 @@ type
     K_SPACE,
     K_CHAR
 
-
   # key data : special code or character
   TKey*{.bycopy.} = object
     vk*: TKeycode
@@ -107,9 +106,6 @@ type
     ralt*: bool
     rctrl*: bool
     shift*: bool
-
-
-
 
   TColctrl* = enum
     COLCTRL_1 = 1,
@@ -123,10 +119,6 @@ type
 
   TBkgndFlag* = int
 
-  TKeyStatus* = enum
-    KEY_PRESSED = 1,
-    KEY_RELEASED = 2
-
   TRenderer* = enum
     RENDERER_GLSL,
     RENDERER_OPENGL,
@@ -139,6 +131,9 @@ type
     CENTER
 
 const
+  KEY_PRESSED* = 1
+  KEY_RELEASED* = 2
+
   COLCTRL_NUMBER* = COLCTRL_5
 
   # custom font flags
