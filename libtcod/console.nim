@@ -58,7 +58,7 @@ proc console_is_window_closed*(): bool {.cdecl, importc: "TCOD_console_is_window
 
 
 #TCODLIB_API void TCOD_console_set_custom_font(const char *fontFile, int flags,int nb_char_horiz, int nb_char_vertic);
-proc console_set_custom_font*(fontFile: cstring, flags: int, nb_char_horiz=0, nb_char_vertic=0) {.cdecl, importc: "TCOD_console_set_custom_font", dynlib: LIB_NAME.}
+proc console_set_custom_font*(fontFile: cstring, flags: int=FONT_LAYOUT_ASCII_INCOL, nb_char_horiz=0, nb_char_vertic=0) {.cdecl, importc: "TCOD_console_set_custom_font", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_console_map_ascii_code_to_font(int asciiCode, int fontCharX, int fontCharY);
 proc console_map_ascii_code_to_font*(asciiCode, fontCharX, fontCharY: int) {.cdecl, importc: "TCOD_console_map_ascii_code_to_int", dynlib: LIB_NAME.}
@@ -84,7 +84,7 @@ proc console_set_default_foreground*(con: PConsole, col: TColor) {.cdecl, import
 proc console_clear*(con: PConsole) {.cdecl, importc: "TCOD_console_clear", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_console_set_char_background(TCOD_console_t con,int x, int y, TCOD_color_t col, TCOD_bkgnd_flag_t flag);
-proc console_set_char_background*(con: PConsole, x, y: int, col: TColor, flag=BKGND_SET) {.cdecl, importc: "TCOD_console_set_char_background", dynlib: LIB_NAME.}
+proc console_set_char_background*(con: PConsole, x, y: int, col: TColor, flag: TBkgndFlag=BKGND_SET) {.cdecl, importc: "TCOD_console_set_char_background", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_console_set_char_foreground(TCOD_console_t con,int x, int y, TCOD_color_t col);
 proc console_set_char_foreground*(con: PConsole, x, y: int, col: TColor) {.cdecl, importc: "TCOD_console_set_char_foreground", dynlib: LIB_NAME.}
@@ -102,7 +102,7 @@ proc console_putc_har_ex*(con: PConsole, x, y: int, c: char, fore, back: TColor)
 
 
 #TCODLIB_API void TCOD_console_set_background_flag(TCOD_console_t con,TCOD_bkgnd_flag_t flag);
-proc console_set_background_flag*(con: PConsole, flag: TBkgndFlag) {.cdecl, importc: "TCOD_console_set_background_flag", dynlib: LIB_NAME.}
+proc console_set_background_flag*(con: PConsole, flag: TBkgndFlag=BKGND_DEFAULT) {.cdecl, importc: "TCOD_console_set_background_flag", dynlib: LIB_NAME.}
 
 #TCODLIB_API TCOD_bkgnd_flag_t TCOD_console_get_background_flag(TCOD_console_t con);
 proc console_get_background_flag*(con: PConsole): TBkgndFlag {.cdecl, importc: "TCOD_console_get_background_flag", dynlib: LIB_NAME.}
@@ -140,7 +140,7 @@ proc console_hline*(con: PConsole, x, y, line: int, flag=BKGND_DEFAULT) {.cdecl,
 proc console_vline*(con: PConsole, x, y, line: int, flag=BKGND_DEFAULT) {.cdecl, importc: "TCOD_console_vline", dynlib: LIB_NAME.}
 
 #TCODLIB_API void TCOD_console_print_frame(TCOD_console_t con,int x,int y,int w,int h, bool empty, TCOD_bkgnd_flag_t flag, const char *fmt, ...);
-proc console_print_frame*(con: PConsole, x, y, w, h: int, empty: bool, flag=BKGND_DEFAULT, fmt: cstring = nil) {.cdecl, importc: "TCOD_console_print_frame", varargs, dynlib: LIB_NAME.}
+proc console_print_frame*(con: PConsole, x, y, w, h: int, empty: bool, flag=BKGND_DEFAULT, fmt: cstring=nil) {.cdecl, importc: "TCOD_console_print_frame", varargs, dynlib: LIB_NAME.}
 
 
 # unicode support
@@ -298,7 +298,7 @@ proc console_set_color_control*(con: TColctrl, fore, back: TColor) {.cdecl, impo
 
 
 #TCODLIB_API TCOD_key_t TCOD_console_check_for_keypress(int flags);
-proc console_check_for_keypress*(flags: int): TKey {.cdecl, importc: "TCOD_console_check_for_keypress", dynlib: LIB_NAME.}
+proc console_check_for_keypress*(flags: int=KEY_RELEASED): TKey {.cdecl, importc: "TCOD_console_check_for_keypress", dynlib: LIB_NAME.}
 
 #TCODLIB_API TCOD_key_t TCOD_console_wait_for_keypress(bool flush);
 proc console_wait_for_keypress*(flush: bool): TKey {.cdecl, importc: "TCOD_console_wait_for_keypress", dynlib: LIB_NAME.}
