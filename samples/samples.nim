@@ -4,12 +4,12 @@
 # It's in the public domain.
 #
 
-import libtcod, unsigned, os, parseutils, math
+import libtcod, os, parseutils, math
 
 
 # a sample has a name and a rendering function
 type
-  PSampleRender = proc(first: bool, key: ptr TKey, mouse: ptr TMouse){.closure.}
+  PSampleRender = proc(first: bool, key: ptr TKey, mouse: ptr TMouse){.cdecl.}
   TSample = tuple[name: string, render: PSampleRender]
 
 const
@@ -41,7 +41,7 @@ var sample_console: PConsole
 # ***************************
 # true colors sample
 # ***************************
-proc render_colors(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
+proc render_colors(first: bool, key: ptr TKey, mouse: ptr TMouse) {.cdecl.} =
   const
     TOPLEFT = 0
     TOPRIGHT = 1
@@ -127,7 +127,7 @@ proc render_colors(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
 # ***************************
 # offscreen console sample
 # ***************************
-proc render_offscreen(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
+proc render_offscreen(first: bool, key: ptr TKey, mouse: ptr TMouse) {.cdecl.} =
   var
     secondary {.global.}: PConsole # second screen
     screenshot {.global.}: PConsole # second screen
@@ -177,7 +177,7 @@ proc line_listener(x, y: int): bool {.cdecl.} =
   return true
 
 
-proc render_lines(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
+proc render_lines(first: bool, key: ptr TKey, mouse: ptr TMouse) {.cdecl.} =
   var
     bk {.global.}: PConsole # colored background
     init {.global.} = false
@@ -263,7 +263,7 @@ proc render_lines(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
 # ***************************
 # noise sample
 # ***************************
-proc render_noise(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
+proc render_noise(first: bool, key: ptr TKey, mouse: ptr TMouse) {.cdecl.} =
   const
     PERLIN = 0
     SIMPLEX = 1
@@ -416,7 +416,7 @@ proc mode_str(mode: bool): string =
   if mode: return "on "
   return "off"
 
-proc render_fov(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
+proc render_fov(first: bool, key: ptr TKey, mouse: ptr TMouse) {.cdecl.} =
   const
     TORCH_RADIUS = 10.0
     SQUARED_TORCH_RADIUS = TORCH_RADIUS * TORCH_RADIUS
@@ -590,7 +590,7 @@ proc render_fov(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
 # path sample
 # ***************************
 var usingAstar = true
-proc render_path(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
+proc render_path(first: bool, key: ptr TKey, mouse: ptr TMouse) {.cdecl.} =
   var
     smap {.global.} = @["##############################################",
                         "#######################      #################",
@@ -782,7 +782,7 @@ var
   roomWalls = true # if true, there is always a wall on north & west side of a room
 
 type
-  TMap = array [0..SAMPLE_SCREEN_WIDTH-1, array[0..SAMPLE_SCREEN_HEIGHT-1, char]]
+  TMap = array[0..SAMPLE_SCREEN_WIDTH-1, array[0..SAMPLE_SCREEN_HEIGHT-1, char]]
 
 # draw a vertical line
 proc vline(map: ptr TMap, x, y1, y2: int) =
@@ -921,7 +921,7 @@ proc traverse_node(node: PBSP, userData: pointer): bool {.cdecl.} =
         hline_right(map, right.x, y)
   return true
 
-proc render_bsp(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
+proc render_bsp(first: bool, key: ptr TKey, mouse: ptr TMouse) {.cdecl.} =
   var
     bsp {.global.}: PBSP = nil
     generate {.global.} = true
@@ -1002,7 +1002,7 @@ proc render_bsp(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
 # ***************************
 # image sample
 # ***************************
-proc render_image(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
+proc render_image(first: bool, key: ptr TKey, mouse: ptr TMouse) {.cdecl.} =
   var
     img {.global.}: PImage = nil
     circle {.global.}: PImage = nil
@@ -1061,7 +1061,7 @@ proc mw_mode_str(mwup, mwdn: bool): string {.inline.} =
   elif mwdn: return "DOWN"
   return ""
 
-proc render_mouse(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
+proc render_mouse(first: bool, key: ptr TKey, mouse: ptr TMouse) {.cdecl.} =
   var
     lbut {.global.} = false
     rbut {.global.} = false
@@ -1102,7 +1102,7 @@ proc render_mouse(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
 # ***************************
 # name generator sample
 # ***************************
-proc render_name(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
+proc render_name(first: bool, key: ptr TKey, mouse: ptr TMouse) {.cdecl.} =
   var
     curSet {.global.} = 0
     delay {.global.} = 0.0
@@ -1369,7 +1369,7 @@ proc SDL_render(sdlSurface: pointer) {.cdecl.} =
   else: discard
 
 
-proc render_sdl(first: bool, key: ptr TKey, mouse: ptr TMouse) {.closure.} =
+proc render_sdl(first: bool, key: ptr TKey, mouse: ptr TMouse) {.cdecl.} =
   if first:
     sys_set_fps(30) # limited to 30 fps
     # use noise sample as background. rendering is done in SampleRenderer

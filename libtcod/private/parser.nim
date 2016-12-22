@@ -93,11 +93,11 @@ type
   # parser listener
   PParserListener* = ref TParserListener
   TParserListener* = object
-    new_struct*:   proc(str: PParserStruct, name: string): bool {.closure.}
-    new_flag*:     proc(name: string): bool {.closure.}
-    new_property*: proc(propname: string, value_type: TValueType, value: TValue): bool {.closure.}
-    end_struct*:   proc(str: PParserStruct, name: string): bool {.closure.}
-    error*:        proc(msg: string) {.closure.}
+    new_struct*:   proc(str: PParserStruct, name: string): bool {.cdecl.}
+    new_flag*:     proc(name: string): bool {.cdecl.}
+    new_property*: proc(propname: string, value_type: TValueType, value: TValue): bool {.cdecl.}
+    end_struct*:   proc(str: PParserStruct, name: string): bool {.cdecl.}
+    error*:        proc(msg: string) {.cdecl.}
 
   TStructProp = tuple[name: string, value: TValueType, mandat: bool]
   TProp = tuple[name: string, value_type: TValueType, value: TValue]
@@ -120,7 +120,7 @@ type
     props: seq[TProp] # list of properties if default listener is used
 
   # a custom type parser
-  PParserCustom* = proc(lex: PLex, listener: PParserListener, str: PParserStruct, propname: string): TValue {.closure.}
+  PParserCustom* = proc(lex: PLex, listener: PParserListener, str: PParserStruct, propname: string): TValue {.cdecl.}
 
 
 #======= PRIVATE =======#
@@ -133,11 +133,11 @@ var
   listener, default_listener: PParserListener
 
 # default listener
-proc default_new_struct(str: PParserStruct, name: string): bool {.closure.}
-proc default_new_flag(name: string): bool {.closure.}
-proc default_new_property(propname: string, value_type: TValueType, value: TValue): bool {.closure.}
-proc default_end_struct(str: PParserStruct, name: string): bool {.closure.}
-proc default_error(msg: string) {.closure.}
+proc default_new_struct(str: PParserStruct, name: string): bool {.cdecl.}
+proc default_new_flag(name: string): bool {.cdecl.}
+proc default_new_property(propname: string, value_type: TValueType, value: TValue): bool {.cdecl.}
+proc default_end_struct(str: PParserStruct, name: string): bool {.cdecl.}
+proc default_error(msg: string) {.cdecl.}
 
 new(default_listener)
 default_listener.new_struct = default_new_struct

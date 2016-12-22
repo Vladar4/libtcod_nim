@@ -20,10 +20,9 @@ Also you may need SDL, OpenGL or GLSL dynamic libraries installed, depending on 
 
 CHANGELOG:
 ==========
-**v0.98 {*WIP*}**
-* adaptation for Nim 0.11.2
+**v0.98
+* adaptation for new versions of Nim
 * more type-related fixes
-{***WIP***}
 
 **v0.97**
 * adaptation for Nim 0.10.2

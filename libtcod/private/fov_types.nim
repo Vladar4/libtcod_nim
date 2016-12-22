@@ -49,6 +49,6 @@ type
     FOV_RESTRICTIVE,
     NB_FOV_ALGORITHMS
 
-template FOV_Permissive*(x: expr): stmt =
+template FOV_Permissive*(x: untyped): typed =
   TFOVAlgorithm(FOV_PERMISSIVE_0 + (x))
 
