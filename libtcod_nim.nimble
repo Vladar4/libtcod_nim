@@ -7,5 +7,5 @@ license       = "zlib"
 
 # Dependencies
 
-Requires: "nim >= 0.15.0"
+requires "nim >= 0.15.0"
 
