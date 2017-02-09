@@ -36,6 +36,11 @@ when defined(linux):
     const LIB_NAME* = "libtcod_debug.so"
   else:
     const LIB_NAME* = "libtcod.so"
+elif defined(MacOSX):
+  when defined(debug):
+    const LIB_NAME* = "libtcod_debug.dylib"
+  else:
+    const LIB_NAME* = "libtcod.dylib"
 else: # windows
   when defined(debug):
     const LIB_NAME* = "libtcod-mingw-debug.dll"
