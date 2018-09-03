@@ -1,7 +1,7 @@
 libtcod_nim 1.5.1 v0.98
 =======================
 
-libtcod_nim is a wrapper of the libtcod library for the Nim language.
+libtcod_nim is a wrapper of the libtcod library for the Nim language (from v0.15.0 to v0.18.0).
 
 * libtcod homepage: http://roguecentral.org/doryen/libtcod/
 * Nim homepage: http://nim-lang.org/
