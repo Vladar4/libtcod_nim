@@ -35,7 +35,7 @@ when defined(linux):
   when defined(debug):
     const LIB_NAME* = "libtcod_debug.so"
   else:
-    const LIB_NAME* = "libtcod.so"
+    const LIB_NAME* = "libtcod.so(|.1.5.1)"
 elif defined(MacOSX):
   when defined(debug):
     const LIB_NAME* = "libtcod_debug.dylib"
@@ -51,5 +51,5 @@ const
   HEXVERSION* = 0x010501
   STRVERSION* = "1.5.1"
   TECHVERSION* = 0x01050103
-  WRAPPERVERSION* = "0.95"
+  WRAPPERVERSION* = "0.98"
 
