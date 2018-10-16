@@ -7,6 +7,6 @@ license       = "zlib"
 
 # Dependencies
 
-requires "nim >= 0.15.0 & <= 0.18.0"
+requires "nim >= 0.15.0 & <= 0.19.0"
 requires "sdl1"
 

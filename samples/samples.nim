@@ -4,7 +4,7 @@
 # It's in the public domain.
 #
 
-import libtcod, os, parseutils, math
+import ../libtcod, os, parseutils, math
 
 
 # a sample has a name and a rendering function
