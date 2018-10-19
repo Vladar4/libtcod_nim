@@ -160,7 +160,7 @@ when not NO_UNICODE:
     when true: # optimized procedure
 
       proc newWCS(s: string): WideCString =
-        if s.isNil: return nil
+        #if s.isNil: return nil # strings can't be nil anymore (Nim v0.18.1)
         let len = c_strlen(s)
         unsafeNew(result, len * 4 + 2)
         #result = cast[WideCString](alloc(len * 4 + 2))
@@ -185,7 +185,7 @@ when not NO_UNICODE:
         UNI_SUR_LOW_END = TRune(0xDFFF)
 
       proc newWCS(s: string): WideCString =
-        if s.isNil: return nil
+        #if s.isNil: return nil # strings can't be nil anymore (Nim v0.18.1)
         let len = c_strlen(s)
         unsafeNew(result, len * 4 + 2)
         #result = cast[WideCString](alloc(len * 4 + 2))
