@@ -1,2 +1,2 @@
-nim c -p:../libtcod -d:release --opt:speed samples.nim
+nim c -p:.. -d:release --opt:speed samples.nim
 

@@ -1,2 +1,2 @@
-nim c -p:../libtcod -d:debug samples.nim
+nim c -p:.. -d:debug samples.nim
 

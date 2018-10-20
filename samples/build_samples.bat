@@ -1,2 +1,2 @@
-nim c -p:../libtcod -d:debug --deadCodeElim:on samples.nim
+nim c -p:.. -d:debug --deadCodeElim:on samples.nim
 
