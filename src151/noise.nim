@@ -29,7 +29,7 @@
 type
   PNoise* = pointer
 
-  TNoiseType* = enum
+  TNoiseType* {.size: sizeof(cint).} = enum
     NOISE_DEFAULT = 0,
     NOISE_PERLIN = 1,
     NOISE_SIMPLEX = 2,

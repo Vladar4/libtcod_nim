@@ -27,7 +27,7 @@
 
 
 type
-  TKeycode* = enum
+  TKeycode* {.size: sizeof(cint).} = enum
     K_NONE,
     K_ESCAPE,
     K_BACKSPACE,
@@ -107,7 +107,7 @@ type
     rctrl*: bool
     shift*: bool
 
-  TColctrl* = enum
+  TColctrl* {.size: sizeof(cint).} = enum
     COLCTRL_1 = 1,
     COLCTRL_2,
     COLCTRL_3,
@@ -119,13 +119,13 @@ type
 
   TBkgndFlag* = int
 
-  TRenderer* = enum
+  TRenderer* {.size: sizeof(cint).} = enum
     RENDERER_GLSL,
     RENDERER_OPENGL,
     RENDERER_SDL,
     NB_RENDERERS
 
-  TAlignment* = enum
+  TAlignment* {.size: sizeof(cint).} = enum
     LEFT,
     RIGHT,
     CENTER

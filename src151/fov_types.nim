@@ -25,34 +25,30 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-
-import strutils
+# FOV_BASIC : http://roguebasin.roguelikedevelopment.org/index.php?title=Ray_casting
+# FOV_DIAMOND : http://www.geocities.com/temerra/los_rays.html
+# FOV_SHADOW : http://roguebasin.roguelikedevelopment.org/index.php?title=FOV_using_recursive_shadowcasting
+# FOV_PERMISSIVE : http://roguebasin.roguelikedevelopment.org/index.php?title=Precise_Permissive_Field_of_View
+# FOV_RESTRICTIVE : Mingos' Restrictive Precise Angle Shadowcasting (contribution by Mingos)
 
 
 type
-  # dice roll
-  TDice*{.bycopy.} = tuple[nb_rolls, nb_faces: cint, multiplier, addsub: cfloat]
+  TFOVAlgorithm* {.size: sizeof(cint).} = enum
+    FOV_BASIC,
+    FOV_DIAMOND,
+    FOV_SHADOW,
+    FOV_PERMISSIVE_0,
+    FOV_PERMISSIVE_1,
+    FOV_PERMISSIVE_2,
+    FOV_PERMISSIVE_3,
+    FOV_PERMISSIVE_4,
+    FOV_PERMISSIVE_5,
+    FOV_PERMISSIVE_6,
+    FOV_PERMISSIVE_7,
+    FOV_PERMISSIVE_8,
+    FOV_RESTRICTIVE,
+    NB_FOV_ALGORITHMS
 
-  # PRNG algorithms
-  TRandomAlgo* = enum
-    RNG_MT,
-    RNG_CMWC
-
-  TDistribution* = enum
-    DISTRIBUTION_LINEAR,
-    DISTRIBUTION_GAUSSIAN,
-    DISTRIBUTION_GAUSSIAN_RANGE,
-    DISTRIBUTION_GAUSSIAN_INVERSE,
-    DISTRIBUTION_GAUSSIAN_RANGE_INVERSE
-
-
-proc repr*(dice: TDice): string =
-  result = ""
-  if dice.multiplier != 1.0:
-    result.add(formatFloat(dice.multiplier, ffDefault, 0) & "*")
-  result.add(repr(dice.nb_rolls) & "d" & repr(dice.nb_faces))
-  if dice.addsub != 0.0:
-    if dice.addsub > 0.0:
-      result.add("+")
-    result.add(formatFloat(dice.addsub, ffDefault, 0))
+template FOV_Permissive*(x: untyped): typed =
+  TFOVAlgorithm(FOV_PERMISSIVE_0 + (x))
 

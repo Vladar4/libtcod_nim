@@ -31,24 +31,48 @@ proc lerp*[T](a, b, x: T): T =
   return a + x * (b - a)
 
 
-include
-  src/libtcod_define,
-  src/color,
-  src/console,
-  src/mouse,
-  src/image,
-  src/sys,
-  src/mersenne,
-  src/noise,
-  src/bresenham,
-  src/tree,
-  src/bsp,
-  src/fov,
-  src/path,
-  src/heightmap,
-  src/lex,
-  src/parser,
-  src/zip,
-  src/namegen,
-  src/txtfield
+when defined tcod151:
+  include
+    src151/libtcod_define,
+    src151/color,
+    src151/console,
+    src151/mouse,
+    src151/image,
+    src151/sys,
+    src151/mersenne,
+    src151/noise,
+    src151/bresenham,
+    src151/tree,
+    src151/bsp,
+    src151/fov,
+    src151/path,
+    src151/heightmap,
+    src151/lex,
+    src151/parser,
+    src151/zip,
+    src151/namegen,
+    src151/txtfield
+
+else: # tcod170
+  import
+    src170/bresenham,
+    src170/bsp,
+    src170/color,
+    src170/console,
+    src170/console_rexpaint,
+    src170/fov,
+    src170/heightmap,
+    src170/image,
+    src170/lex,
+    src170/list,
+    src170/mersenne,
+    src170/mouse,
+    src170/namegen,
+    src170/noise,
+    src170/path,
+    src170/parser,
+    src170/sys,
+    src170/tree,
+    src170/txtfield,
+    src170/zip
 
