@@ -1,2 +1,2 @@
-nim c -p:.. -d:debug samples.nim
+nim c -d:debug samples.nim
 

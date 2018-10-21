@@ -1,2 +1,2 @@
-nim c -p:.. -d:debug --deadCodeElim:on samples.nim
+nim c -d:debug --deadCodeElim:on samples.nim
 

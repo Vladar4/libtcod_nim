@@ -1,2 +1,2 @@
-nim c -p:.. -d:release --opt:speed samples.nim
+nim c -d:release --opt:speed samples.nim
 
