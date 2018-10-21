@@ -25,64 +25,31 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
+{.deadCodeElim: on.}
 
-# utility proc
-proc lerp*[T](a, b, x: T): T =
-  return a + x * (b - a)
+const
+  NO_UNICODE* = false  ## disable unicode support
+  NO_OPENGL* = false   ## disable opengl support
 
+when defined(linux):
+  const LIB_NAME* = "libtcod.so(|.0.0.0)"
 
-when defined tcod151:
-  include
-    src151/libtcod_define,
-    src151/color,
-    src151/console,
-    src151/mouse,
-    src151/image,
-    src151/sys,
-    src151/mersenne,
-    src151/noise,
-    src151/noise_defaults,
-    src151/bresenham,
-    src151/tree,
-    src151/bsp,
-    src151/fov,
-    src151/path,
-    src151/heightmap,
-    src151/lex,
-    src151/parser,
-    src151/zip,
-    src151/namegen,
-    src151/txtfield
+elif defined(MacOSX):
+  when defined(debug):
+    const LIB_NAME* = "libtcod_debug.dylib"
+  else:
+    const LIB_NAME* = "libtcod.dylib"
 
-else: # tcod170
-  import
-    src170/libtcod_define,
-    #
-    src170/console_types,
-    src170/fov_types,
-    src170/mersenne_types,
-    src170/mouse_types,
-    src170/noise_defaults,
-    #
-    src170/bresenham,
-    src170/bsp,
-    src170/color,
-    src170/console,
-    src170/console_rexpaint,
-    src170/fov,
-    src170/heightmap,
-    src170/image,
-    src170/lex,
-    src170/list,
-    src170/mersenne,
-    src170/mouse,
-    src170/namegen,
-    src170/noise,
-    src170/parser,
-    src170/path,
-    src170/sys,
-    src170/tree,
-    src170/txtfield,
-    #src170/wrappers,
-    src170/zip
+else: # windows
+  when defined(debug):
+    const LIB_NAME* = "libtcod-mingw-debug.dll"
+  else:
+    const LIB_NAME* = "libtcod-mingw.dll"
+
+const
+  HEXVERSION* = 0x00010700
+  STRVERSION* = "1.7.0"
+  TECHVERSION* = 0x01070000
+  STRVERSIONNAME* = "libtcod 1.7.0"
+  WRAPPERVERSION* = "0.99"
 
