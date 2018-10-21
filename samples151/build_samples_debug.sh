@@ -1,2 +1,2 @@
-nim c -d:debug samples.nim
+nim c -d:debug --define:tcod151 samples.nim
 
