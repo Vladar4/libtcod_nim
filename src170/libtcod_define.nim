@@ -35,16 +35,10 @@ when defined(linux):
   const LIB_NAME* = "libtcod.so(|.0.0.0)"
 
 elif defined(MacOSX):
-  when defined(debug):
-    const LIB_NAME* = "libtcod_debug.dylib"
-  else:
-    const LIB_NAME* = "libtcod.dylib"
+  const LIB_NAME* = "libtcod.dylib"
 
 else: # windows
-  when defined(debug):
-    const LIB_NAME* = "libtcod-mingw-debug.dll"
-  else:
-    const LIB_NAME* = "libtcod-mingw.dll"
+  const LIB_NAME* = "libtcod.dll"
 
 const
   HEXVERSION* = 0x00010700
