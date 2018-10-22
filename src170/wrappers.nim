@@ -26,8 +26,7 @@
 ##  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
 
-import
-  console_types, image, mouse_types, parser
+# import console_types, image, mouse_types, parser
 
 ##  Wrappers to ease other languages integration.
 

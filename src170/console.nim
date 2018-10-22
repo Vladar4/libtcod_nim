@@ -26,17 +26,18 @@
 ##  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
 
-import
-  color, console_types, image, list
+# import color, console_types, image, list
 
-template bkgnd_Alpha*(alpha: untyped): untyped =
-  ((BkgndFlag)(BKGND_ALPH or (((uint8)(alpha * 255)) shl 8)))
+template bkgndAlpha*(alpha: untyped): untyped =
+  ((BkgndFlag)(BKGND_ALPH.uint8 or (((uint8)(alpha * 255)) shl 8)))
 
-template bkgnd_Addalpha*(alpha: untyped): untyped =
-  ((BkgndFlag)(BKGND_ADDA or (((uint8)(alpha * 255)) shl 8)))
+template bkgndAddalpha*(alpha: untyped): untyped =
+  ((BkgndFlag)(BKGND_ADDA.uint8 or (((uint8)(alpha * 255)) shl 8)))
 
 proc consoleInitRoot*(
-  w, h: cint; title: cstring; fullscreen: bool; renderer: Renderer) {.
+  w, h: cint; title: cstring;
+  fullscreen: bool = false;
+  renderer: Renderer = RENDERER_SDL) {.
     cdecl, importc: "TCOD_console_init_root", dynlib: LIB_NAME.}
 
 proc consoleSetWindowTitle*(
@@ -103,13 +104,22 @@ proc consoleSetChar*(
   con: Console; x, y, c: cint) {.
     cdecl, importc: "TCOD_console_set_char", dynlib: LIB_NAME.}
 
+template consoleSetChar*(con: Console; x, y: cint; c: char) =
+  consoleSetChar(con, x, y, c.cint)
+
 proc consolePutChar*(
   con: Console; x, y, c: cint; flag: BkgndFlag) {.
     cdecl, importc: "TCOD_console_put_char", dynlib: LIB_NAME.}
 
+template consolePutChar*(con: Console; x, y: cint; c: char; flag: BkgndFlag) =
+  consolePutChar(con, x, y, c.cint, flag)
+
 proc consolePutCharEx*(
   con: Console; x, y, c: cint; fore, back: Color) {.
     cdecl, importc: "TCOD_console_put_char_ex", dynlib: LIB_NAME.}
+
+template consolePutCharEx*(con: Console; x, y: cint; c: char; fore, back: Color) =
+  consolePutCharEx(con, x, y, c.cint, fore, back)
 
 proc consoleSetBackgroundFlag*(
   con: Console; flag: BkgndFlag) {.
@@ -162,8 +172,7 @@ proc consoleVline*(
     cdecl, importc: "TCOD_console_vline", dynlib: LIB_NAME.}
 
 proc consolePrintFrame*(
-  con: Console; x, y, w, h: cint; empty: bool; flag: BkgndFlagT;
-  fmt: cstring) {.
+  con: Console; x, y, w, h: cint; empty: bool; flag: BkgndFlag; fmt: cstring) {.
     varargs, cdecl, importc: "TCOD_console_print_frame", dynlib: LIB_NAME.}
 
 when not defined(NO_UNICODE): ##  unicode support
@@ -232,22 +241,44 @@ when not defined(NO_UNICODE): ##  unicode support
   else: # windows
     template newWCS(s: string): WideCString = newWideCString(s)
 
+
   proc consoleMapStringToFontUtf*(
     s: WideCString; fontCharX, fontCharY: cint) {.
       cdecl, importc: "TCOD_console_map_string_to_font_utf", dynlib: LIB_NAME.}
 
+  proc consoleMapStringToFontUtf*(s: string, fontCharX, fontCharY: cint) =
+    var wcs = newWCS(s)
+    consoleMapStringToFontUtf(wcs, fontCharX, fontCharY)
+
+
   proc consolePrintUtf*(
     con: Console; x, y: cint; fmt: WideCString) {.
       varargs, cdecl, importc: "TCOD_console_print_utf", dynlib: LIB_NAME.}
+
+  proc consolePrintUtf*(con: Console, x, y: cint, fmt: string) =
+    var wcs = newWCS(fmt)
+    console_print_utf(con, x, y, wcs)
+
 
   proc consolePrintExUtf*(
     con: Console; x, y: cint; flag: BkgndFlag; alignment: Alignment;
     fmt: WideCString) {.
       varargs, cdecl, importc: "TCOD_console_print_ex_utf", dynlib: LIB_NAME.}
 
+  proc consolePrintExUtf*(con: Console, x, y: cint, flag: BkgndFlag,
+                          alignment: Alignment, fmt: string) =
+    var wcs = newWCS(fmt)
+    console_print_ex_utf(con, x, y, flag, alignment, wcs)
+
+
   proc consolePrintRectUtf*(
     con: Console; x, y, w, h: cint; fmt: WideCString): cint {.
       varargs, cdecl, importc: "TCOD_console_print_rect_utf", dynlib: LIB_NAME.}
+
+  proc consolePrintRectUtf*(con: Console, x, y, w, h: cint, fmt: string): cint =
+    var wcs = newWCS(fmt)
+    result = consolePrintRectUtf(con, x, y, w, h, wcs)
+
 
   proc consolePrintRectExUtf*(
     con: Console; x, y, w, h: cint; flag: BkgndFlag; alignment: Alignment;
@@ -255,10 +286,21 @@ when not defined(NO_UNICODE): ##  unicode support
       varargs, cdecl, importc: "TCOD_console_print_rect_ex_utf",
       dynlib: LIB_NAME.}
 
+  proc consolePrintRectExUtf*(con: Console, x, y, w, h: cint, flag: BkgndFlag,
+                              alignment: Alignment, fmt: string): cint =
+    var wcs = newWCS(fmt)
+    result = consolePrintRectExUtf(con, x, y, w, h, flag, alignment, wcs)
+
+
   proc consoleGetHeightRectUtf*(
     con: Console; x, y, w, h: cint; fmt: WideCString): cint {.
       varargs, cdecl, importc: "TCOD_console_get_height_rect_utf",
       dynlib: LIB_NAME.}
+
+  proc consoleGetHeightRectUtf*(con: Console, x, y, w, h: cint,
+                                fmt: string): cint =
+    var wcs = newWCS(fmt)
+    result = console_get_height_rect_utf(con, x, y, w, h, wcs)
 
 # ^ when not defined(NO_UNICODE)
 
@@ -363,12 +405,18 @@ proc consoleSetKeyColor*(
 proc consoleBlit*(
   src: Console; xSrc, ySrc, wSrc, hSrc: cint;
   dst: Console; xDst, yDst: cint;
-  foregroundAlpha, backgroundAlpha: cfloat) {.
+  foregroundAlpha: cfloat = 1.0,
+  backgroundAlpha: cfloat = 1.0) {.
     cdecl, importc: "TCOD_console_blit", dynlib: LIB_NAME.}
 
-proc consoleDelete*(
+proc consoleDelete_internal(
   console: Console) {.
     cdecl, importc: "TCOD_console_delete", dynlib: LIB_NAME.}
+
+proc consoleDelete*(con: var Console) =
+  if con != nil:
+    consoleDelete_internal(con)
+    con = nil
 
 proc consoleCredits*() {.
     cdecl, importc: "TCOD_console_credits", dynlib: LIB_NAME.}

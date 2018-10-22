@@ -26,8 +26,7 @@
 ##  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
 
-import
-  color, console_types, image
+# import color, console_types, image
 
 
 type
@@ -37,10 +36,14 @@ type
 proc zipNew*(): Zip {.
     cdecl, importc: "TCOD_zip_new", dynlib: LIB_NAME.}
 
-proc zipDelete*(
+proc zipDelete_internal(
   zip: Zip) {.
     cdecl, importc: "TCOD_zip_delete", dynlib: LIB_NAME.}
 
+proc zipDelete*(zip: var Zip) =
+  if zip != nil:
+    zipDelete_internal(zip)
+    zip = nil
 
 proc zipPutChar*(
   zip: Zip; val: char) {.

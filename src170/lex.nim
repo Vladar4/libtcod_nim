@@ -90,9 +90,14 @@ proc lexNew*(
   javadocCommentStart, stringDelim: cstring; flags: cint): Lex {.
     cdecl, importc: "TCOD_lex_new", dynlib: LIB_NAME.}
 
-proc lexDelete*(
+proc lexDelete_internal(
   lex: Lex) {.
     cdecl, importc: "TCOD_lex_delete", dynlib: LIB_NAME.}
+
+proc lexDelete*(lex: var Lex) =
+  if lex != nil:
+    lexDelete_internal(lex)
+    lex = nil
 
 proc lexSetDataBuffer*(
   lex: Lex; dat: cstring) {.

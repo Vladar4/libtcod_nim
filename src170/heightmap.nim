@@ -26,8 +26,7 @@
 ##  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
 
-import
-  mersenne_types, noise
+# import mersenne_types, noise
 
 
 type
@@ -41,9 +40,14 @@ proc heightmapNew*(
   w, h: cint): Heightmap {.
     cdecl, importc: "TCOD_heightmap_new", dynlib: LIB_NAME.}
 
-proc heightmapDelete*(
+proc heightmapDelete_internal(
   hm: Heightmap) {.
     cdecl, importc: "TCOD_heightmap_delete", dynlib: LIB_NAME.}
+
+proc heightmapDelete*(hm: var Heightmap) =
+  if hm != nil:
+    heightmapDelete_internal(hm)
+    hm = nil
 
 proc heightmapGetValue*(
   hm: Heightmap; x, y: cint): cfloat {.
@@ -128,13 +132,13 @@ proc heightmapDigBezier*(
 
 proc heightmapRainErosion*(
   hm: Heightmap; nbDrops: cint;
-  erosionCoef, sedimentationCoef: cfloat; rnd: Random) {.
+  erosionCoef, sedimentationCoef: cfloat; rnd: Random = nil) {.
     cdecl, importc: "TCOD_heightmap_rain_erosion", dynlib: LIB_NAME.}
 
 #[
 proc heightmapHeatErosion(
   hm: Heightmap; nbPass: cint,
-  minSlope, erosionCoef, sedimentationCoef: cfloat; rnd: Random) {.
+  minSlope, erosionCoef, sedimentationCoef: cfloat; rnd: Random = nil) {.
     cdecl, importc: "TCOD_heightmap_heat_erosion", dynlib: LIB_NAME.}
 ]#
 
@@ -144,7 +148,7 @@ proc heightmapKernelTransform*(
     cdecl, importc: "TCOD_heightmap_kernel_transform", dynlib: LIB_NAME.}
 
 proc heightmapAddVoronoi*(
-  hm: Heightmap; nbPoints, nbCoef: cint; coef: ptr cfloat; rnd: Random) {.
+  hm: Heightmap; nbPoints, nbCoef: cint; coef: ptr cfloat; rnd: Random = nil) {.
     cdecl, importc: "TCOD_heightmap_add_voronoi", dynlib: LIB_NAME.}
 
 proc heightmapMidPointDisplacement*(
@@ -162,6 +166,6 @@ proc heightmapScaleFbm*(
     cdecl, importc: "TCOD_heightmap_scale_fbm", dynlib: LIB_NAME.}
 
 proc heightmapIslandify*(
-  hm: Heightmap; seaLevel: cfloat; rnd: Random) {.
+  hm: Heightmap; seaLevel: cfloat; rnd: Random = nil) {.
     cdecl, importc: "TCOD_heightmap_islandify", dynlib: LIB_NAME.}
 

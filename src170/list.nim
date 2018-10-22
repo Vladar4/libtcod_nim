@@ -41,9 +41,14 @@ proc listDuplicate*(
   l: List): List {.
     cdecl, importc: "TCOD_list_duplicate", dynlib: LIB_NAME.}
 
-proc listDelete*(
+proc listDelete_internal(
   l: List) {.
     cdecl, importc: "TCOD_list_delete", dynlib: LIB_NAME.}
+
+proc listDelete*(l: var List) =
+  if l != nil:
+    listDelete_internal(l)
+    l = nil
 
 proc listPush*(
   l: List; elt: pointer) {.
@@ -105,9 +110,14 @@ proc listClear*(
   l: List) {.
     cdecl, importc: "TCOD_list_clear", dynlib: LIB_NAME.}
 
-proc listClearAndDelete*(
+proc listClearAndDelete_internal(
   l: List) {.
     cdecl, importc: "TCOD_list_clear_and_delete", dynlib: LIB_NAME.}
+
+proc listClearAndDelete*(l: var List) =
+  if l != nil:
+    listClearAndDelete_internal(l)
+    l = nil
 
 proc listSize*(
   l: List): cint {.

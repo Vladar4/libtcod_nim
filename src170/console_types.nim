@@ -169,32 +169,32 @@ type
     BKGND_SCREEN, BKGND_COLOR_DODGE, BKGND_COLOR_BURN, BKGND_ADD, BKGND_ADDA,
     BKGND_BURN, BKGND_OVERLAY, BKGND_ALPH, BKGND_DEFAULT
 
-  KeyStatus* {.size: sizeof(cint).} = enum
-    KEY_PRESSED = 1, KEY_RELEASED = 2
 
-type
-  FontFlags* {.size: sizeof(cint).} = enum ##  \
+const
+  KEY_PRESSED* = 1
+  KEY_RELEASED* = 2
+
+  FONT_LAYOUT_ASCII_INCOL* = 1  ##  \
     ##  These font flags can be OR'd together into a bit-field and passed to
     ##  ``console_set_custom_font``
     ##
-    FONT_LAYOUT_ASCII_INCOL = 1 ##  \
-      ##  Tiles are arranged in column-major order.
-      ##  ::
-      ##    0 3 6
-      ##    1 4 7
-      ##    2 5 8
-      ##
-    FONT_LAYOUT_ASCII_INROW = 2 ##  \
-      ##  Tiles are arranged in row-major order.
-      ##  ::
-      ##    0 1 2
-      ##    3 4 5
-      ##    6 7 8
-      ##
-    FONT_TYPE_GREYSCALE = 4 ##  Converts all tiles into a monochrome gradient
-    FONT_LAYOUT_TCOD = 8    ##  A unique layout used by some of libtcod's fonts
+    ##  Tiles are arranged in column-major order.
+    ##  ::
+    ##    0 3 6
+    ##    1 4 7
+    ##    2 5 8
+    ##
+  FONT_LAYOUT_ASCII_INROW* = 2  ##  \
+    ##  Tiles are arranged in row-major order.
+    ##  ::
+    ##    0 1 2
+    ##    3 4 5
+    ##    6 7 8
+    ##
+  FONT_TYPE_GREYSCALE* = 4  ##  Converts all tiles into a monochrome gradient
+  FONT_TYPE_GRAYSCALE* = FONT_TYPE_GREYSCALE
+  FONT_LAYOUT_TCOD* = 8     ##  A unique layout used by some of libtcod's fonts
 
-const FONT_TYPE_GRAYSCALE = FONT_TYPE_GREYSCALE
 
 
 type

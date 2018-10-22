@@ -41,7 +41,6 @@ when defined tcod151:
     src151/sys,
     src151/mersenne,
     src151/noise,
-    src151/noise_defaults,
     src151/bresenham,
     src151/tree,
     src151/bsp,
@@ -55,33 +54,33 @@ when defined tcod151:
     src151/txtfield
 
 else: # tcod170
-  import
+  include
     src170/libtcod_define,
     #
+    src170/color,
     src170/console_types,
     src170/fov_types,
+    src170/image,
+    src170/list,
+    src170/lex,
     src170/mersenne_types,
     src170/mouse_types,
     src170/noise_defaults,
+    src170/noise,
+    src170/tree,
     #
     src170/bresenham,
     src170/bsp,
-    src170/color,
     src170/console,
     src170/console_rexpaint,
     src170/fov,
     src170/heightmap,
-    src170/image,
-    src170/lex,
-    src170/list,
     src170/mersenne,
     src170/mouse,
     src170/namegen,
-    src170/noise,
     src170/parser,
     src170/path,
     src170/sys,
-    src170/tree,
     src170/txtfield,
     #src170/wrappers,
     src170/zip

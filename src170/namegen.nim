@@ -30,8 +30,7 @@
 ##  This file was written by Dominik "Mingos" Marczuk.
 ##
 
-import
-  list, mersenne_types
+# import list, mersenne_types
 
 
 type
@@ -39,23 +38,29 @@ type
 
 
 proc namegenParse*(
-  filename: cstring; random: Random) {.
+  filename: cstring; random: Random = nil) {.
     cdecl, importc: "TCOD_namegen_parse", dynlib: LIB_NAME.}
   ##  parse a file with syllable sets
 
 proc namegenGenerate*(
-  name: cstring; allocate: bool): cstring {.
+  name: cstring; allocate: bool = false): cstring {.
     cdecl, importc: "TCOD_namegen_generate", dynlib: LIB_NAME.}
   ##  generate a name
 
 proc namegenGenerateCustom*(
-  name, rule: cstring; allocate: bool): cstring {.
+  name, rule: cstring; allocate: bool = false): cstring {.
     cdecl, importc: "TCOD_namegen_generate_custom", dynlib: LIB_NAME.}
   ##  generate a name using a custom generation rule
 
-proc namegenGetSets*(): List {.
+proc namegenGetSetsList*(): List {.
     cdecl, importc: "TCOD_namegen_get_sets", dynlib: LIB_NAME.}
   ##  retrieve the list of all available syllable set names
+
+proc namegenGetSets*(): seq[string] =
+  ##  retrieve the list of all available syllable set names
+  var list = namegenGetSetsList()
+  result = cstringArrayToSeq(cast[cstringArray](listBegin(list)), listSize(list))
+  listDelete(list)
 
 proc namegenDestroy*() {.
     cdecl, importc: "TCOD_namegen_destroy", dynlib: LIB_NAME.}

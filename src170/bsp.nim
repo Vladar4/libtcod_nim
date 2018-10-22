@@ -26,8 +26,7 @@
 ##  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
 
-import
-  mersenne_types, tree
+# import mersenne_types, tree
 
 type
   Bsp* = ptr BspObj
@@ -47,9 +46,14 @@ proc bspNewWithSize*(
   x, y, w, h: cint): Bsp {.
     cdecl, importc: "TCOD_bsp_new_with_size", dynlib: LIB_NAME.}
 
-proc bspDelete*(
+proc bspDelete_internal(
   node: Bsp) {.
     cdecl, importc: "TCOD_bsp_delete", dynlib: LIB_NAME.}
+
+proc bspDelete*(node: var Bsp) =
+  if node != nil:
+    bspDelete_internal(node)
+    node = nil
 
 proc bspLeft*(
   node: Bsp): Bsp {.
@@ -68,23 +72,23 @@ proc bspIsLeaf*(
     cdecl, importc: "TCOD_bsp_is_leaf", dynlib: LIB_NAME.}
 
 proc bspTraversePreOrder*(
-  node: Bsp; listener: BspCallback; userData: pointer): bool {.
+  node: Bsp; listener: BspCallback; userData: pointer = nil): bool {.
     cdecl, importc: "TCOD_bsp_traverse_pre_order", dynlib: LIB_NAME.}
 
 proc bspTraverseInOrder*(
-  node: Bsp; listener: BspCallback; userData: pointer): bool {.
+  node: Bsp; listener: BspCallback; userData: pointer = nil): bool {.
     cdecl, importc: "TCOD_bsp_traverse_in_order", dynlib: LIB_NAME.}
 
 proc bspTraversePostOrder*(
-  node: Bsp; listener: BspCallback; userData: pointer): bool {.
+  node: Bsp; listener: BspCallback; userData: pointer = nil): bool {.
     cdecl, importc: "TCOD_bsp_traverse_post_order", dynlib: LIB_NAME.}
 
 proc bspTraverseLevelOrder*(
-  node: Bsp; listener: BspCallback; userData: pointer): bool {.
+  node: Bsp; listener: BspCallback; userData: pointer = nil): bool {.
     cdecl, importc: "TCOD_bsp_traverse_level_order", dynlib: LIB_NAME.}
 
 proc bspTraverseInvertedLevelOrder*(
-  node: Bsp; listener: BspCallback; userData: pointer): bool {.
+  node: Bsp; listener: BspCallback; userData: pointer = nil): bool {.
     cdecl, importc: "TCOD_bsp_traverse_inverted_level_order", dynlib: LIB_NAME.}
 
 proc bspContains*(

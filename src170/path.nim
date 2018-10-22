@@ -26,21 +26,25 @@
 ##  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
 
-import
-  fov_types
+# import fov_types
 
 type
   PathProc* = proc (
     xFrom, yFrom, xTo, yTo: cint; userData: pointer): cfloat {.cdecl.}
   Path* = pointer
 
+
+const
+  DEFAULT_DIAGONAL_COST*: cfloat = 1.41
+
+
 proc pathNewUsingMap*(
-  map: Map; diagonalCost: cfloat): Path {.
+  map: Map; diagonalCost: cfloat = DEFAULT_DIAGONAL_COST): Path {.
     cdecl, importc: "TCOD_path_new_using_map", dynlib: LIB_NAME.}
 
 proc pathNewUsingProcedure*(
   mapWidth, mapHeight: cint; procedure: PathProc;
-  userData: pointer; diagonalCost: cfloat): Path {.
+  userData: pointer; diagonalCost: cfloat = DEFAULT_DIAGONAL_COST): Path {.
     cdecl, importc: "TCOD_path_new_using_function", dynlib: LIB_NAME.}
 
 proc pathCompute*(
@@ -75,9 +79,14 @@ proc pathGetDestination*(
   path: Path; x, y: ptr cint) {.
     cdecl, importc: "TCOD_path_get_destination", dynlib: LIB_NAME.}
 
-proc pathDelete*(
+proc pathDelete_internal(
   path: Path) {.
     cdecl, importc: "TCOD_path_delete", dynlib: LIB_NAME.}
+
+proc pathDelete*(path: var Path) =
+  if path != nil:
+    pathDelete_internal(path)
+    path = nil
 
 
 #  Dijkstra stuff - by Mingos
@@ -86,12 +95,12 @@ type
   Dijkstra* = pointer
 
 proc dijkstraNew*(
-  map: Map; diagonalCost: cfloat): Dijkstra {.
+  map: Map; diagonalCost: cfloat = DEFAULT_DIAGONAL_COST): Dijkstra {.
     cdecl, importc: "TCOD_dijkstra_new", dynlib: LIB_NAME.}
 
 proc dijkstraNewUsingProcedure*(
   mapWidth, mapHeight: cint; procedure: PathProc;
-  userData: pointer; diagonalCost: cfloat): Dijkstra {.
+  userData: pointer; diagonalCost: cfloat = DEFAULT_DIAGONAL_COST): Dijkstra {.
     cdecl, importc: "TCOD_dijkstra_new_using_function", dynlib: LIB_NAME.}
 
 proc dijkstraCompute*(
@@ -126,7 +135,12 @@ proc dijkstraPathWalk*(
   dijkstra: Dijkstra; x, y: ptr cint): bool {.
     cdecl, importc: "TCOD_dijkstra_path_walk", dynlib: LIB_NAME.}
 
-proc dijkstraDelete*(
+proc dijkstraDelete_internal(
   dijkstra: Dijkstra) {.
     cdecl, importc: "TCOD_dijkstra_delete", dynlib: LIB_NAME.}
+
+proc dijkstraDelete*(dijkstra: var Dijkstra) =
+  if dijkstra != nil:
+    dijkstraDelete_internal(dijkstra)
+    dijkstra = nil
 

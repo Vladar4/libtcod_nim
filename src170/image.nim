@@ -26,8 +26,7 @@
 ##  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
 
-import
-  color, console_types
+# import color, console_types
 
 
 type
@@ -111,10 +110,14 @@ proc imageBlit2x*(
   image: Image; dest: Console; dx, dy, sx, sy, w, h: cint) {.
     cdecl, importc: "TCOD_image_blit_2x", dynlib: LIB_NAME.}
 
-
-proc imageDelete*(
+proc imageDelete_internal(
   image: Image) {.
     cdecl, importc: "TCOD_image_delete", dynlib: LIB_NAME.}
+
+proc imageDelete*(image: var Image) =
+  if image != nil:
+    imageDelete_internal(image)
+    image = nil
 
 proc imageSetKeyColor*(
   image: Image; keyColor: Color) {.

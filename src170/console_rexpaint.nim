@@ -26,8 +26,7 @@
 ##  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
 
-import
-  console, console_types, list
+# import console, console_types, list
 
 
 proc consoleFromXp*(

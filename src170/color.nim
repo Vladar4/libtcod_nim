@@ -27,12 +27,13 @@
 ##
 
 type
-  Color* {.bycopy.} = object ##  \
-    ##  An RGB color struct.
-    r*, g*, b*: uint8
+  Color* {.bycopy.} = tuple [r, g, b: uint8] ## An RGB color tuple.
 
 
 #  constructors
+
+template colorRGB*(r, g, b: int): Color =
+  (uint8(r), uint8(g), uint8(b))
 
 proc colorRGB*(
   r, g, b: uint8): Color {.
@@ -65,9 +66,15 @@ proc colorMultiplyScalar*(
   c1: Color; value: cfloat): Color {.
     cdecl, importc: "TCOD_color_multiply_scalar", dynlib: LIB_NAME.}
 
-proc colorLerp*(
-  c1, c2: Color; coef: cfloat): Color {.
-    cdecl, importc: "TCOD_color_lerp", dynlib: LIB_NAME.}
+when defined(windows): # WINDOWS BUGFIX
+ proc color_lerp*(c1, c2: Color, coef: cfloat): Color {.inline.} =
+   result.r = uint8(cfloat(c1.r) + cfloat(int(c2.r) - int(c1.r)) * coef)
+   result.g = uint8(cfloat(c1.g) + cfloat(int(c2.g) - int(c1.g)) * coef)
+   result.b = uint8(cfloat(c1.b) + cfloat(int(c2.b) - int(c1.b)) * coef)
+else:
+  proc colorLerp*(
+    c1, c2: Color; coef: cfloat): Color {.
+      cdecl, importc: "TCOD_color_lerp", dynlib: LIB_NAME.}
 
 
 #  HSV transformations
@@ -159,424 +166,424 @@ const
   COLOR_LEVELS*       = 8
 
 
-var colors* {.importc: "TCOD_colors", dynlib: LIB_NAME.}:
+var COLORS* {.importc: "TCOD_colors", dynlib: LIB_NAME.}:
     array[COLOR_NB, array[COLOR_LEVELS, Color]] ##  color array
 
 #  grey levels
 
-var black* {.importc: "TCOD_black", dynlib: LIB_NAME.}: Color
+var BLACK* {.importc: "TCOD_black", dynlib: LIB_NAME.}: Color
 
-var darkestGrey* {.importc: "TCOD_darkest_grey", dynlib: LIB_NAME.}: Color
+var DARKEST_GREY* {.importc: "TCOD_darkest_grey", dynlib: LIB_NAME.}: Color
 
-var darkerGrey* {.importc: "TCOD_darker_grey", dynlib: LIB_NAME.}: Color
+var darker_Grey* {.importc: "TCOD_darker_grey", dynlib: LIB_NAME.}: Color
 
-var darkGrey* {.importc: "TCOD_dark_grey", dynlib: LIB_NAME.}: Color
+var DARK_GREY* {.importc: "TCOD_dark_grey", dynlib: LIB_NAME.}: Color
 
-var grey* {.importc: "TCOD_grey", dynlib: LIB_NAME.}: Color
+var GREY* {.importc: "TCOD_grey", dynlib: LIB_NAME.}: Color
 
-var lightGrey* {.importc: "TCOD_light_grey", dynlib: LIB_NAME.}: Color
+var LIGHT_GREY* {.importc: "TCOD_light_grey", dynlib: LIB_NAME.}: Color
 
-var lighterGrey* {.importc: "TCOD_lighter_grey", dynlib: LIB_NAME.}: Color
+var LIGHTER_GREY* {.importc: "TCOD_lighter_grey", dynlib: LIB_NAME.}: Color
 
-var lightestGrey* {.importc: "TCOD_lightest_grey", dynlib: LIB_NAME.}: Color
+var LIGHTEST_GREY* {.importc: "TCOD_lightest_grey", dynlib: LIB_NAME.}: Color
 
-var darkestGray* {.importc: "TCOD_darkest_gray", dynlib: LIB_NAME.}: Color
+var DARKEST_GRAY* {.importc: "TCOD_darkest_gray", dynlib: LIB_NAME.}: Color
 
-var darkerGray* {.importc: "TCOD_darker_gray", dynlib: LIB_NAME.}: Color
+var DARKER_GRAY* {.importc: "TCOD_darker_gray", dynlib: LIB_NAME.}: Color
 
-var darkGray* {.importc: "TCOD_dark_gray", dynlib: LIB_NAME.}: Color
+var DARK_GRAY* {.importc: "TCOD_dark_gray", dynlib: LIB_NAME.}: Color
 
-var gray* {.importc: "TCOD_gray", dynlib: LIB_NAME.}: Color
+var GRAY* {.importc: "TCOD_gray", dynlib: LIB_NAME.}: Color
 
-var lightGray* {.importc: "TCOD_light_gray", dynlib: LIB_NAME.}: Color
+var LIGHT_GRAY* {.importc: "TCOD_light_gray", dynlib: LIB_NAME.}: Color
 
-var lighterGray* {.importc: "TCOD_lighter_gray", dynlib: LIB_NAME.}: Color
+var LIGHTER_GRAY* {.importc: "TCOD_lighter_gray", dynlib: LIB_NAME.}: Color
 
-var lightestGray* {.importc: "TCOD_lightest_gray", dynlib: LIB_NAME.}: Color
+var LIGHTEST_GRAY* {.importc: "TCOD_lightest_gray", dynlib: LIB_NAME.}: Color
 
-var white* {.importc: "TCOD_white", dynlib: LIB_NAME.}: Color
+var WHITE* {.importc: "TCOD_white", dynlib: LIB_NAME.}: Color
 
 ##  sepia
 
-var darkestSepia* {.importc: "TCOD_darkest_sepia", dynlib: LIB_NAME.}: Color
+var DARKEST_SEPIA* {.importc: "TCOD_darkest_sepia", dynlib: LIB_NAME.}: Color
 
-var darkerSepia* {.importc: "TCOD_darker_sepia", dynlib: LIB_NAME.}: Color
+var DARKER_SEPIA* {.importc: "TCOD_darker_sepia", dynlib: LIB_NAME.}: Color
 
-var darkSepia* {.importc: "TCOD_dark_sepia", dynlib: LIB_NAME.}: Color
+var DARK_SEPIA* {.importc: "TCOD_dark_sepia", dynlib: LIB_NAME.}: Color
 
-var sepia* {.importc: "TCOD_sepia", dynlib: LIB_NAME.}: Color
+var SEPIA* {.importc: "TCOD_sepia", dynlib: LIB_NAME.}: Color
 
-var lightSepia* {.importc: "TCOD_light_sepia", dynlib: LIB_NAME.}: Color
+var LIGHT_SEPIA* {.importc: "TCOD_light_sepia", dynlib: LIB_NAME.}: Color
 
-var lighterSepia* {.importc: "TCOD_lighter_sepia", dynlib: LIB_NAME.}: Color
+var LIGHTER_SEPIA* {.importc: "TCOD_lighter_sepia", dynlib: LIB_NAME.}: Color
 
-var lightestSepia* {.importc: "TCOD_lightest_sepia", dynlib: LIB_NAME.}: Color
+var LIGHTEST_SEPIA* {.importc: "TCOD_lightest_sepia", dynlib: LIB_NAME.}: Color
 
 ##  standard colors
 
-var red* {.importc: "TCOD_red", dynlib: LIB_NAME.}: Color
+var RED* {.importc: "TCOD_red", dynlib: LIB_NAME.}: Color
 
-var flame* {.importc: "TCOD_flame", dynlib: LIB_NAME.}: Color
+var FLAME* {.importc: "TCOD_flame", dynlib: LIB_NAME.}: Color
 
-var orange* {.importc: "TCOD_orange", dynlib: LIB_NAME.}: Color
+var ORANGE* {.importc: "TCOD_orange", dynlib: LIB_NAME.}: Color
 
-var amber* {.importc: "TCOD_amber", dynlib: LIB_NAME.}: Color
+var AMBER* {.importc: "TCOD_amber", dynlib: LIB_NAME.}: Color
 
-var yellow* {.importc: "TCOD_yellow", dynlib: LIB_NAME.}: Color
+var YELLOW* {.importc: "TCOD_yellow", dynlib: LIB_NAME.}: Color
 
-var lime* {.importc: "TCOD_lime", dynlib: LIB_NAME.}: Color
+var LIME* {.importc: "TCOD_lime", dynlib: LIB_NAME.}: Color
 
-var chartreuse* {.importc: "TCOD_chartreuse", dynlib: LIB_NAME.}: Color
+var CHARTREUSE* {.importc: "TCOD_chartreuse", dynlib: LIB_NAME.}: Color
 
-var green* {.importc: "TCOD_green", dynlib: LIB_NAME.}: Color
+var GREEN* {.importc: "TCOD_green", dynlib: LIB_NAME.}: Color
 
-var sea* {.importc: "TCOD_sea", dynlib: LIB_NAME.}: Color
+var SEA* {.importc: "TCOD_sea", dynlib: LIB_NAME.}: Color
 
-var turquoise* {.importc: "TCOD_turquoise", dynlib: LIB_NAME.}: Color
+var TURQUOISE* {.importc: "TCOD_turquoise", dynlib: LIB_NAME.}: Color
 
-var cyan* {.importc: "TCOD_cyan", dynlib: LIB_NAME.}: Color
+var CYAN* {.importc: "TCOD_cyan", dynlib: LIB_NAME.}: Color
 
-var sky* {.importc: "TCOD_sky", dynlib: LIB_NAME.}: Color
+var SKY* {.importc: "TCOD_sky", dynlib: LIB_NAME.}: Color
 
-var azure* {.importc: "TCOD_azure", dynlib: LIB_NAME.}: Color
+var AZURE* {.importc: "TCOD_azure", dynlib: LIB_NAME.}: Color
 
-var blue* {.importc: "TCOD_blue", dynlib: LIB_NAME.}: Color
+var BLUE* {.importc: "TCOD_blue", dynlib: LIB_NAME.}: Color
 
-var han* {.importc: "TCOD_han", dynlib: LIB_NAME.}: Color
+var HAN* {.importc: "TCOD_han", dynlib: LIB_NAME.}: Color
 
-var violet* {.importc: "TCOD_violet", dynlib: LIB_NAME.}: Color
+var VIOLET* {.importc: "TCOD_violet", dynlib: LIB_NAME.}: Color
 
-var purple* {.importc: "TCOD_purple", dynlib: LIB_NAME.}: Color
+var PURPLE* {.importc: "TCOD_purple", dynlib: LIB_NAME.}: Color
 
-var fuchsia* {.importc: "TCOD_fuchsia", dynlib: LIB_NAME.}: Color
+var FUCHSIA* {.importc: "TCOD_fuchsia", dynlib: LIB_NAME.}: Color
 
-var magenta* {.importc: "TCOD_magenta", dynlib: LIB_NAME.}: Color
+var MAGENTA* {.importc: "TCOD_magenta", dynlib: LIB_NAME.}: Color
 
-var pink* {.importc: "TCOD_pink", dynlib: LIB_NAME.}: Color
+var PINK* {.importc: "TCOD_pink", dynlib: LIB_NAME.}: Color
 
-var crimson* {.importc: "TCOD_crimson", dynlib: LIB_NAME.}: Color
+var CRIMSON* {.importc: "TCOD_crimson", dynlib: LIB_NAME.}: Color
 
 ##  dark colors
 
-var darkRed* {.importc: "TCOD_dark_red", dynlib: LIB_NAME.}: Color
+var DARK_RED* {.importc: "TCOD_dark_red", dynlib: LIB_NAME.}: Color
 
-var darkFlame* {.importc: "TCOD_dark_flame", dynlib: LIB_NAME.}: Color
+var DARK_FLAME* {.importc: "TCOD_dark_flame", dynlib: LIB_NAME.}: Color
 
-var darkOrange* {.importc: "TCOD_dark_orange", dynlib: LIB_NAME.}: Color
+var DARK_ORANGE* {.importc: "TCOD_dark_orange", dynlib: LIB_NAME.}: Color
 
-var darkAmber* {.importc: "TCOD_dark_amber", dynlib: LIB_NAME.}: Color
+var DARK_AMBER* {.importc: "TCOD_dark_amber", dynlib: LIB_NAME.}: Color
 
-var darkYellow* {.importc: "TCOD_dark_yellow", dynlib: LIB_NAME.}: Color
+var DARK_YELLOW* {.importc: "TCOD_dark_yellow", dynlib: LIB_NAME.}: Color
 
-var darkLime* {.importc: "TCOD_dark_lime", dynlib: LIB_NAME.}: Color
+var DARK_LIME* {.importc: "TCOD_dark_lime", dynlib: LIB_NAME.}: Color
 
-var darkChartreuse* {.importc: "TCOD_dark_chartreuse", dynlib: LIB_NAME.}: Color
+var DARK_CHARTREUSE* {.importc: "TCOD_dark_chartreuse", dynlib: LIB_NAME.}: Color
 
-var darkGreen* {.importc: "TCOD_dark_green", dynlib: LIB_NAME.}: Color
+var DARK_GREEN* {.importc: "TCOD_dark_green", dynlib: LIB_NAME.}: Color
 
-var darkSea* {.importc: "TCOD_dark_sea", dynlib: LIB_NAME.}: Color
+var DARK_SEA* {.importc: "TCOD_dark_sea", dynlib: LIB_NAME.}: Color
 
-var darkTurquoise* {.importc: "TCOD_dark_turquoise", dynlib: LIB_NAME.}: Color
+var DARK_TURQUOISE* {.importc: "TCOD_dark_turquoise", dynlib: LIB_NAME.}: Color
 
-var darkCyan* {.importc: "TCOD_dark_cyan", dynlib: LIB_NAME.}: Color
+var DARK_CYAN* {.importc: "TCOD_dark_cyan", dynlib: LIB_NAME.}: Color
 
-var darkSky* {.importc: "TCOD_dark_sky", dynlib: LIB_NAME.}: Color
+var DARK_SKY* {.importc: "TCOD_dark_sky", dynlib: LIB_NAME.}: Color
 
-var darkAzure* {.importc: "TCOD_dark_azure", dynlib: LIB_NAME.}: Color
+var DARK_AZURE* {.importc: "TCOD_dark_azure", dynlib: LIB_NAME.}: Color
 
-var darkBlue* {.importc: "TCOD_dark_blue", dynlib: LIB_NAME.}: Color
+var DARK_BLUE* {.importc: "TCOD_dark_blue", dynlib: LIB_NAME.}: Color
 
-var darkHan* {.importc: "TCOD_dark_han", dynlib: LIB_NAME.}: Color
+var DARK_HAN* {.importc: "TCOD_dark_han", dynlib: LIB_NAME.}: Color
 
-var darkViolet* {.importc: "TCOD_dark_violet", dynlib: LIB_NAME.}: Color
+var DARK_VIOLET* {.importc: "TCOD_dark_violet", dynlib: LIB_NAME.}: Color
 
-var darkPurple* {.importc: "TCOD_dark_purple", dynlib: LIB_NAME.}: Color
+var DARK_PURPLE* {.importc: "TCOD_dark_purple", dynlib: LIB_NAME.}: Color
 
-var darkFuchsia* {.importc: "TCOD_dark_fuchsia", dynlib: LIB_NAME.}: Color
+var DARK_FUCHSIA* {.importc: "TCOD_dark_fuchsia", dynlib: LIB_NAME.}: Color
 
-var darkMagenta* {.importc: "TCOD_dark_magenta", dynlib: LIB_NAME.}: Color
+var DARK_MAGENTA* {.importc: "TCOD_dark_magenta", dynlib: LIB_NAME.}: Color
 
-var darkPink* {.importc: "TCOD_dark_pink", dynlib: LIB_NAME.}: Color
+var DARK_PINK* {.importc: "TCOD_dark_pink", dynlib: LIB_NAME.}: Color
 
-var darkCrimson* {.importc: "TCOD_dark_crimson", dynlib: LIB_NAME.}: Color
+var DARK_CRIMSON* {.importc: "TCOD_dark_crimson", dynlib: LIB_NAME.}: Color
 
 ##  darker colors
 
-var darkerRed* {.importc: "TCOD_darker_red", dynlib: LIB_NAME.}: Color
+var DARKER_RED* {.importc: "TCOD_darker_red", dynlib: LIB_NAME.}: Color
 
-var darkerFlame* {.importc: "TCOD_darker_flame", dynlib: LIB_NAME.}: Color
+var DARKER_FLAME* {.importc: "TCOD_darker_flame", dynlib: LIB_NAME.}: Color
 
-var darkerOrange* {.importc: "TCOD_darker_orange", dynlib: LIB_NAME.}: Color
+var DARKER_ORANGE* {.importc: "TCOD_darker_orange", dynlib: LIB_NAME.}: Color
 
-var darkerAmber* {.importc: "TCOD_darker_amber", dynlib: LIB_NAME.}: Color
+var DARKER_AMBER* {.importc: "TCOD_darker_amber", dynlib: LIB_NAME.}: Color
 
-var darkerYellow* {.importc: "TCOD_darker_yellow", dynlib: LIB_NAME.}: Color
+var DARKER_YELLOW* {.importc: "TCOD_darker_yellow", dynlib: LIB_NAME.}: Color
 
-var darkerLime* {.importc: "TCOD_darker_lime", dynlib: LIB_NAME.}: Color
+var DARKER_LIME* {.importc: "TCOD_darker_lime", dynlib: LIB_NAME.}: Color
 
-var darkerChartreuse* {.importc: "TCOD_darker_chartreuse", dynlib: LIB_NAME.}: Color
+var DARKER_CHARTREUSE* {.importc: "TCOD_darker_chartreuse", dynlib: LIB_NAME.}: Color
 
-var darkerGreen* {.importc: "TCOD_darker_green", dynlib: LIB_NAME.}: Color
+var DARKER_GREEN* {.importc: "TCOD_darker_green", dynlib: LIB_NAME.}: Color
 
-var darkerSea* {.importc: "TCOD_darker_sea", dynlib: LIB_NAME.}: Color
+var DARKER_SEA* {.importc: "TCOD_darker_sea", dynlib: LIB_NAME.}: Color
 
-var darkerTurquoise* {.importc: "TCOD_darker_turquoise", dynlib: LIB_NAME.}: Color
+var DARKER_TURQUOISE* {.importc: "TCOD_darker_turquoise", dynlib: LIB_NAME.}: Color
 
-var darkerCyan* {.importc: "TCOD_darker_cyan", dynlib: LIB_NAME.}: Color
+var DARKER_CYAN* {.importc: "TCOD_darker_cyan", dynlib: LIB_NAME.}: Color
 
-var darkerSky* {.importc: "TCOD_darker_sky", dynlib: LIB_NAME.}: Color
+var DARKER_SKY* {.importc: "TCOD_darker_sky", dynlib: LIB_NAME.}: Color
 
-var darkerAzure* {.importc: "TCOD_darker_azure", dynlib: LIB_NAME.}: Color
+var DARKER_AZURE* {.importc: "TCOD_darker_azure", dynlib: LIB_NAME.}: Color
 
-var darkerBlue* {.importc: "TCOD_darker_blue", dynlib: LIB_NAME.}: Color
+var DARKER_BLUE* {.importc: "TCOD_darker_blue", dynlib: LIB_NAME.}: Color
 
-var darkerHan* {.importc: "TCOD_darker_han", dynlib: LIB_NAME.}: Color
+var DARKER_HAN* {.importc: "TCOD_darker_han", dynlib: LIB_NAME.}: Color
 
-var darkerViolet* {.importc: "TCOD_darker_violet", dynlib: LIB_NAME.}: Color
+var DARKER_VIOLET* {.importc: "TCOD_darker_violet", dynlib: LIB_NAME.}: Color
 
-var darkerPurple* {.importc: "TCOD_darker_purple", dynlib: LIB_NAME.}: Color
+var DARKER_PURPLE* {.importc: "TCOD_darker_purple", dynlib: LIB_NAME.}: Color
 
-var darkerFuchsia* {.importc: "TCOD_darker_fuchsia", dynlib: LIB_NAME.}: Color
+var DARKER_FUCHSIA* {.importc: "TCOD_darker_fuchsia", dynlib: LIB_NAME.}: Color
 
-var darkerMagenta* {.importc: "TCOD_darker_magenta", dynlib: LIB_NAME.}: Color
+var DARKER_MAGENTA* {.importc: "TCOD_darker_magenta", dynlib: LIB_NAME.}: Color
 
-var darkerPink* {.importc: "TCOD_darker_pink", dynlib: LIB_NAME.}: Color
+var DARKER_PINK* {.importc: "TCOD_darker_pink", dynlib: LIB_NAME.}: Color
 
-var darkerCrimson* {.importc: "TCOD_darker_crimson", dynlib: LIB_NAME.}: Color
+var DARKER_CRIMSON* {.importc: "TCOD_darker_crimson", dynlib: LIB_NAME.}: Color
 
 ##  darkest colors
 
-var darkestRed* {.importc: "TCOD_darkest_red", dynlib: LIB_NAME.}: Color
+var DARKEST_RED* {.importc: "TCOD_darkest_red", dynlib: LIB_NAME.}: Color
 
-var darkestFlame* {.importc: "TCOD_darkest_flame", dynlib: LIB_NAME.}: Color
+var DARKEST_FLAME* {.importc: "TCOD_darkest_flame", dynlib: LIB_NAME.}: Color
 
-var darkestOrange* {.importc: "TCOD_darkest_orange", dynlib: LIB_NAME.}: Color
+var DARKEST_ORANGE* {.importc: "TCOD_darkest_orange", dynlib: LIB_NAME.}: Color
 
-var darkestAmber* {.importc: "TCOD_darkest_amber", dynlib: LIB_NAME.}: Color
+var DARKEST_AMBER* {.importc: "TCOD_darkest_amber", dynlib: LIB_NAME.}: Color
 
-var darkestYellow* {.importc: "TCOD_darkest_yellow", dynlib: LIB_NAME.}: Color
+var DARKEST_YELLOW* {.importc: "TCOD_darkest_yellow", dynlib: LIB_NAME.}: Color
 
-var darkestLime* {.importc: "TCOD_darkest_lime", dynlib: LIB_NAME.}: Color
+var DARKEST_LIME* {.importc: "TCOD_darkest_lime", dynlib: LIB_NAME.}: Color
 
-var darkestChartreuse* {.importc: "TCOD_darkest_chartreuse", dynlib: LIB_NAME.}: Color
+var DARKEST_CHARTREUSE* {.importc: "TCOD_darkest_chartreuse", dynlib: LIB_NAME.}: Color
 
-var darkestGreen* {.importc: "TCOD_darkest_green", dynlib: LIB_NAME.}: Color
+var DARKEST_GREEN* {.importc: "TCOD_darkest_green", dynlib: LIB_NAME.}: Color
 
-var darkestSea* {.importc: "TCOD_darkest_sea", dynlib: LIB_NAME.}: Color
+var DARKEST_SEA* {.importc: "TCOD_darkest_sea", dynlib: LIB_NAME.}: Color
 
-var darkestTurquoise* {.importc: "TCOD_darkest_turquoise", dynlib: LIB_NAME.}: Color
+var DARKEST_TURQUOISE* {.importc: "TCOD_darkest_turquoise", dynlib: LIB_NAME.}: Color
 
-var darkestCyan* {.importc: "TCOD_darkest_cyan", dynlib: LIB_NAME.}: Color
+var DARKEST_CYAN* {.importc: "TCOD_darkest_cyan", dynlib: LIB_NAME.}: Color
 
-var darkestSky* {.importc: "TCOD_darkest_sky", dynlib: LIB_NAME.}: Color
+var DARKEST_SKY* {.importc: "TCOD_darkest_sky", dynlib: LIB_NAME.}: Color
 
-var darkestAzure* {.importc: "TCOD_darkest_azure", dynlib: LIB_NAME.}: Color
+var DARKEST_AZURE* {.importc: "TCOD_darkest_azure", dynlib: LIB_NAME.}: Color
 
-var darkestBlue* {.importc: "TCOD_darkest_blue", dynlib: LIB_NAME.}: Color
+var DARKEST_BLUE* {.importc: "TCOD_darkest_blue", dynlib: LIB_NAME.}: Color
 
-var darkestHan* {.importc: "TCOD_darkest_han", dynlib: LIB_NAME.}: Color
+var DARKEST_HAN* {.importc: "TCOD_darkest_han", dynlib: LIB_NAME.}: Color
 
-var darkestViolet* {.importc: "TCOD_darkest_violet", dynlib: LIB_NAME.}: Color
+var DARKEST_VIOLET* {.importc: "TCOD_darkest_violet", dynlib: LIB_NAME.}: Color
 
-var darkestPurple* {.importc: "TCOD_darkest_purple", dynlib: LIB_NAME.}: Color
+var DARKEST_PURPLE* {.importc: "TCOD_darkest_purple", dynlib: LIB_NAME.}: Color
 
-var darkestFuchsia* {.importc: "TCOD_darkest_fuchsia", dynlib: LIB_NAME.}: Color
+var DARKEST_FUCHSIA* {.importc: "TCOD_darkest_fuchsia", dynlib: LIB_NAME.}: Color
 
-var darkestMagenta* {.importc: "TCOD_darkest_magenta", dynlib: LIB_NAME.}: Color
+var DARKEST_MAGENTA* {.importc: "TCOD_darkest_magenta", dynlib: LIB_NAME.}: Color
 
-var darkestPink* {.importc: "TCOD_darkest_pink", dynlib: LIB_NAME.}: Color
+var DARKEST_PINK* {.importc: "TCOD_darkest_pink", dynlib: LIB_NAME.}: Color
 
-var darkestCrimson* {.importc: "TCOD_darkest_crimson", dynlib: LIB_NAME.}: Color
+var DARKEST_CRIMSON* {.importc: "TCOD_darkest_crimson", dynlib: LIB_NAME.}: Color
 
 ##  light colors
 
-var lightRed* {.importc: "TCOD_light_red", dynlib: LIB_NAME.}: Color
+var LIGHT_RED* {.importc: "TCOD_light_red", dynlib: LIB_NAME.}: Color
 
-var lightFlame* {.importc: "TCOD_light_flame", dynlib: LIB_NAME.}: Color
+var LIGHT_FLAME* {.importc: "TCOD_light_flame", dynlib: LIB_NAME.}: Color
 
-var lightOrange* {.importc: "TCOD_light_orange", dynlib: LIB_NAME.}: Color
+var LIGHT_ORANGE* {.importc: "TCOD_light_orange", dynlib: LIB_NAME.}: Color
 
-var lightAmber* {.importc: "TCOD_light_amber", dynlib: LIB_NAME.}: Color
+var LIGHT_AMBER* {.importc: "TCOD_light_amber", dynlib: LIB_NAME.}: Color
 
-var lightYellow* {.importc: "TCOD_light_yellow", dynlib: LIB_NAME.}: Color
+var LIGHT_YELLOW* {.importc: "TCOD_light_yellow", dynlib: LIB_NAME.}: Color
 
-var lightLime* {.importc: "TCOD_light_lime", dynlib: LIB_NAME.}: Color
+var LIGHT_LIME* {.importc: "TCOD_light_lime", dynlib: LIB_NAME.}: Color
 
-var lightChartreuse* {.importc: "TCOD_light_chartreuse", dynlib: LIB_NAME.}: Color
+var LIGHT_CHARTREUSE* {.importc: "TCOD_light_chartreuse", dynlib: LIB_NAME.}: Color
 
-var lightGreen* {.importc: "TCOD_light_green", dynlib: LIB_NAME.}: Color
+var LIGHT_GREEN* {.importc: "TCOD_light_green", dynlib: LIB_NAME.}: Color
 
-var lightSea* {.importc: "TCOD_light_sea", dynlib: LIB_NAME.}: Color
+var LIGHT_SEA* {.importc: "TCOD_light_sea", dynlib: LIB_NAME.}: Color
 
-var lightTurquoise* {.importc: "TCOD_light_turquoise", dynlib: LIB_NAME.}: Color
+var LIGHT_TURQUOISE* {.importc: "TCOD_light_turquoise", dynlib: LIB_NAME.}: Color
 
-var lightCyan* {.importc: "TCOD_light_cyan", dynlib: LIB_NAME.}: Color
+var LIGHT_CYAN* {.importc: "TCOD_light_cyan", dynlib: LIB_NAME.}: Color
 
-var lightSky* {.importc: "TCOD_light_sky", dynlib: LIB_NAME.}: Color
+var LIGHT_SKY* {.importc: "TCOD_light_sky", dynlib: LIB_NAME.}: Color
 
-var lightAzure* {.importc: "TCOD_light_azure", dynlib: LIB_NAME.}: Color
+var LIGHT_AZURE* {.importc: "TCOD_light_azure", dynlib: LIB_NAME.}: Color
 
-var lightBlue* {.importc: "TCOD_light_blue", dynlib: LIB_NAME.}: Color
+var LIGHT_BLUE* {.importc: "TCOD_light_blue", dynlib: LIB_NAME.}: Color
 
-var lightHan* {.importc: "TCOD_light_han", dynlib: LIB_NAME.}: Color
+var LIGHT_HAN* {.importc: "TCOD_light_han", dynlib: LIB_NAME.}: Color
 
-var lightViolet* {.importc: "TCOD_light_violet", dynlib: LIB_NAME.}: Color
+var LIGHT_VIOLET* {.importc: "TCOD_light_violet", dynlib: LIB_NAME.}: Color
 
-var lightPurple* {.importc: "TCOD_light_purple", dynlib: LIB_NAME.}: Color
+var LIGHT_PURPLE* {.importc: "TCOD_light_purple", dynlib: LIB_NAME.}: Color
 
-var lightFuchsia* {.importc: "TCOD_light_fuchsia", dynlib: LIB_NAME.}: Color
+var LIGHT_FUCHSIA* {.importc: "TCOD_light_fuchsia", dynlib: LIB_NAME.}: Color
 
-var lightMagenta* {.importc: "TCOD_light_magenta", dynlib: LIB_NAME.}: Color
+var LIGHT_MAGENTA* {.importc: "TCOD_light_magenta", dynlib: LIB_NAME.}: Color
 
-var lightPink* {.importc: "TCOD_light_pink", dynlib: LIB_NAME.}: Color
+var LIGHT_PINK* {.importc: "TCOD_light_pink", dynlib: LIB_NAME.}: Color
 
-var lightCrimson* {.importc: "TCOD_light_crimson", dynlib: LIB_NAME.}: Color
+var LIGHT_CRIMSON* {.importc: "TCOD_light_crimson", dynlib: LIB_NAME.}: Color
 
 ##  lighter colors
 
-var lighterRed* {.importc: "TCOD_lighter_red", dynlib: LIB_NAME.}: Color
+var LIGHTER_RED* {.importc: "TCOD_lighter_red", dynlib: LIB_NAME.}: Color
 
-var lighterFlame* {.importc: "TCOD_lighter_flame", dynlib: LIB_NAME.}: Color
+var LIGHTER_FLAME* {.importc: "TCOD_lighter_flame", dynlib: LIB_NAME.}: Color
 
-var lighterOrange* {.importc: "TCOD_lighter_orange", dynlib: LIB_NAME.}: Color
+var LIGHTER_ORANGE* {.importc: "TCOD_lighter_orange", dynlib: LIB_NAME.}: Color
 
-var lighterAmber* {.importc: "TCOD_lighter_amber", dynlib: LIB_NAME.}: Color
+var LIGHTER_AMBER* {.importc: "TCOD_lighter_amber", dynlib: LIB_NAME.}: Color
 
-var lighterYellow* {.importc: "TCOD_lighter_yellow", dynlib: LIB_NAME.}: Color
+var LIGHTER_YELLOW* {.importc: "TCOD_lighter_yellow", dynlib: LIB_NAME.}: Color
 
-var lighterLime* {.importc: "TCOD_lighter_lime", dynlib: LIB_NAME.}: Color
+var LIGHTER_LIME* {.importc: "TCOD_lighter_lime", dynlib: LIB_NAME.}: Color
 
-var lighterChartreuse* {.importc: "TCOD_lighter_chartreuse", dynlib: LIB_NAME.}: Color
+var LIGHTER_CHARTREUSE* {.importc: "TCOD_lighter_chartreuse", dynlib: LIB_NAME.}: Color
 
-var lighterGreen* {.importc: "TCOD_lighter_green", dynlib: LIB_NAME.}: Color
+var LIGHTER_GREEN* {.importc: "TCOD_lighter_green", dynlib: LIB_NAME.}: Color
 
-var lighterSea* {.importc: "TCOD_lighter_sea", dynlib: LIB_NAME.}: Color
+var LIGHTER_SEA* {.importc: "TCOD_lighter_sea", dynlib: LIB_NAME.}: Color
 
-var lighterTurquoise* {.importc: "TCOD_lighter_turquoise", dynlib: LIB_NAME.}: Color
+var LIGHTER_TURQUOISE* {.importc: "TCOD_lighter_turquoise", dynlib: LIB_NAME.}: Color
 
-var lighterCyan* {.importc: "TCOD_lighter_cyan", dynlib: LIB_NAME.}: Color
+var LIGHTER_CYAN* {.importc: "TCOD_lighter_cyan", dynlib: LIB_NAME.}: Color
 
-var lighterSky* {.importc: "TCOD_lighter_sky", dynlib: LIB_NAME.}: Color
+var LIGHTER_SKY* {.importc: "TCOD_lighter_sky", dynlib: LIB_NAME.}: Color
 
-var lighterAzure* {.importc: "TCOD_lighter_azure", dynlib: LIB_NAME.}: Color
+var LIGHTER_AZURE* {.importc: "TCOD_lighter_azure", dynlib: LIB_NAME.}: Color
 
-var lighterBlue* {.importc: "TCOD_lighter_blue", dynlib: LIB_NAME.}: Color
+var LIGHTER_BLUE* {.importc: "TCOD_lighter_blue", dynlib: LIB_NAME.}: Color
 
-var lighterHan* {.importc: "TCOD_lighter_han", dynlib: LIB_NAME.}: Color
+var LIGHTER_HAN* {.importc: "TCOD_lighter_han", dynlib: LIB_NAME.}: Color
 
-var lighterViolet* {.importc: "TCOD_lighter_violet", dynlib: LIB_NAME.}: Color
+var LIGHTER_VIOLET* {.importc: "TCOD_lighter_violet", dynlib: LIB_NAME.}: Color
 
-var lighterPurple* {.importc: "TCOD_lighter_purple", dynlib: LIB_NAME.}: Color
+var LIGHTER_PURPLE* {.importc: "TCOD_lighter_purple", dynlib: LIB_NAME.}: Color
 
-var lighterFuchsia* {.importc: "TCOD_lighter_fuchsia", dynlib: LIB_NAME.}: Color
+var LIGHTER_FUCHSIA* {.importc: "TCOD_lighter_fuchsia", dynlib: LIB_NAME.}: Color
 
-var lighterMagenta* {.importc: "TCOD_lighter_magenta", dynlib: LIB_NAME.}: Color
+var LIGHTER_MAGENTA* {.importc: "TCOD_lighter_magenta", dynlib: LIB_NAME.}: Color
 
-var lighterPink* {.importc: "TCOD_lighter_pink", dynlib: LIB_NAME.}: Color
+var LIGHTER_PINK* {.importc: "TCOD_lighter_pink", dynlib: LIB_NAME.}: Color
 
-var lighterCrimson* {.importc: "TCOD_lighter_crimson", dynlib: LIB_NAME.}: Color
+var LIGHTER_CRIMSON* {.importc: "TCOD_lighter_crimson", dynlib: LIB_NAME.}: Color
 
 ##  lightest colors
 
-var lightestRed* {.importc: "TCOD_lightest_red", dynlib: LIB_NAME.}: Color
+var LIGHTEST_RED* {.importc: "TCOD_lightest_red", dynlib: LIB_NAME.}: Color
 
-var lightestFlame* {.importc: "TCOD_lightest_flame", dynlib: LIB_NAME.}: Color
+var LIGHTEST_FLAME* {.importc: "TCOD_lightest_flame", dynlib: LIB_NAME.}: Color
 
-var lightestOrange* {.importc: "TCOD_lightest_orange", dynlib: LIB_NAME.}: Color
+var LIGHTEST_ORANGE* {.importc: "TCOD_lightest_orange", dynlib: LIB_NAME.}: Color
 
-var lightestAmber* {.importc: "TCOD_lightest_amber", dynlib: LIB_NAME.}: Color
+var LIGHTEST_AMBER* {.importc: "TCOD_lightest_amber", dynlib: LIB_NAME.}: Color
 
-var lightestYellow* {.importc: "TCOD_lightest_yellow", dynlib: LIB_NAME.}: Color
+var LIGHTEST_YELLOW* {.importc: "TCOD_lightest_yellow", dynlib: LIB_NAME.}: Color
 
-var lightestLime* {.importc: "TCOD_lightest_lime", dynlib: LIB_NAME.}: Color
+var LIGHTEST_LIME* {.importc: "TCOD_lightest_lime", dynlib: LIB_NAME.}: Color
 
-var lightestChartreuse* {.importc: "TCOD_lightest_chartreuse", dynlib: LIB_NAME.}: Color
+var LIGHTEST_CHARTREUSE* {.importc: "TCOD_lightest_chartreuse", dynlib: LIB_NAME.}: Color
 
-var lightestGreen* {.importc: "TCOD_lightest_green", dynlib: LIB_NAME.}: Color
+var LIGHTEST_GREEN* {.importc: "TCOD_lightest_green", dynlib: LIB_NAME.}: Color
 
-var lightestSea* {.importc: "TCOD_lightest_sea", dynlib: LIB_NAME.}: Color
+var LIGHTEST_SEA* {.importc: "TCOD_lightest_sea", dynlib: LIB_NAME.}: Color
 
-var lightestTurquoise* {.importc: "TCOD_lightest_turquoise", dynlib: LIB_NAME.}: Color
+var LIGHTEST_TURQUOISE* {.importc: "TCOD_lightest_turquoise", dynlib: LIB_NAME.}: Color
 
-var lightestCyan* {.importc: "TCOD_lightest_cyan", dynlib: LIB_NAME.}: Color
+var LIGHTEST_CYAN* {.importc: "TCOD_lightest_cyan", dynlib: LIB_NAME.}: Color
 
-var lightestSky* {.importc: "TCOD_lightest_sky", dynlib: LIB_NAME.}: Color
+var LIGHTEST_SKY* {.importc: "TCOD_lightest_sky", dynlib: LIB_NAME.}: Color
 
-var lightestAzure* {.importc: "TCOD_lightest_azure", dynlib: LIB_NAME.}: Color
+var LIGHTEST_AZURE* {.importc: "TCOD_lightest_azure", dynlib: LIB_NAME.}: Color
 
-var lightestBlue* {.importc: "TCOD_lightest_blue", dynlib: LIB_NAME.}: Color
+var LIGHTEST_BLUE* {.importc: "TCOD_lightest_blue", dynlib: LIB_NAME.}: Color
 
-var lightestHan* {.importc: "TCOD_lightest_han", dynlib: LIB_NAME.}: Color
+var LIGHTEST_HAN* {.importc: "TCOD_lightest_han", dynlib: LIB_NAME.}: Color
 
-var lightestViolet* {.importc: "TCOD_lightest_violet", dynlib: LIB_NAME.}: Color
+var LIGHTEST_VIOLET* {.importc: "TCOD_lightest_violet", dynlib: LIB_NAME.}: Color
 
-var lightestPurple* {.importc: "TCOD_lightest_purple", dynlib: LIB_NAME.}: Color
+var LIGHTEST_PURPLE* {.importc: "TCOD_lightest_purple", dynlib: LIB_NAME.}: Color
 
-var lightestFuchsia* {.importc: "TCOD_lightest_fuchsia", dynlib: LIB_NAME.}: Color
+var LIGHTEST_FUCHSIA* {.importc: "TCOD_lightest_fuchsia", dynlib: LIB_NAME.}: Color
 
-var lightestMagenta* {.importc: "TCOD_lightest_magenta", dynlib: LIB_NAME.}: Color
+var LIGHTEST_MAGENTA* {.importc: "TCOD_lightest_magenta", dynlib: LIB_NAME.}: Color
 
-var lightestPink* {.importc: "TCOD_lightest_pink", dynlib: LIB_NAME.}: Color
+var LIGHTEST_PINK* {.importc: "TCOD_lightest_pink", dynlib: LIB_NAME.}: Color
 
-var lightestCrimson* {.importc: "TCOD_lightest_crimson", dynlib: LIB_NAME.}: Color
+var LIGHTEST_CRIMSON* {.importc: "TCOD_lightest_crimson", dynlib: LIB_NAME.}: Color
 
 ##  desaturated
 
-var desaturatedRed* {.importc: "TCOD_desaturated_red", dynlib: LIB_NAME.}: Color
+var DESATURATED_RED* {.importc: "TCOD_desaturated_red", dynlib: LIB_NAME.}: Color
 
-var desaturatedFlame* {.importc: "TCOD_desaturated_flame", dynlib: LIB_NAME.}: Color
+var DESATURATED_FLAME* {.importc: "TCOD_desaturated_flame", dynlib: LIB_NAME.}: Color
 
-var desaturatedOrange* {.importc: "TCOD_desaturated_orange", dynlib: LIB_NAME.}: Color
+var DESATURATED_ORANGE* {.importc: "TCOD_desaturated_orange", dynlib: LIB_NAME.}: Color
 
-var desaturatedAmber* {.importc: "TCOD_desaturated_amber", dynlib: LIB_NAME.}: Color
+var DESATURATED_AMBER* {.importc: "TCOD_desaturated_amber", dynlib: LIB_NAME.}: Color
 
-var desaturatedYellow* {.importc: "TCOD_desaturated_yellow", dynlib: LIB_NAME.}: Color
+var DESATURATED_YELLOW* {.importc: "TCOD_desaturated_yellow", dynlib: LIB_NAME.}: Color
 
-var desaturatedLime* {.importc: "TCOD_desaturated_lime", dynlib: LIB_NAME.}: Color
+var DESATURATED_LIME* {.importc: "TCOD_desaturated_lime", dynlib: LIB_NAME.}: Color
 
-var desaturatedChartreuse* {.importc: "TCOD_desaturated_chartreuse", dynlib: LIB_NAME.}: Color
+var DESATURATED_CHARTREUSE* {.importc: "TCOD_desaturated_chartreuse", dynlib: LIB_NAME.}: Color
 
-var desaturatedGreen* {.importc: "TCOD_desaturated_green", dynlib: LIB_NAME.}: Color
+var DESATURATED_GREEN* {.importc: "TCOD_desaturated_green", dynlib: LIB_NAME.}: Color
 
-var desaturatedSea* {.importc: "TCOD_desaturated_sea", dynlib: LIB_NAME.}: Color
+var DESATURATED_SEA* {.importc: "TCOD_desaturated_sea", dynlib: LIB_NAME.}: Color
 
-var desaturatedTurquoise* {.importc: "TCOD_desaturated_turquoise", dynlib: LIB_NAME.}: Color
+var DESATURATED_TURQUOISE* {.importc: "TCOD_desaturated_turquoise", dynlib: LIB_NAME.}: Color
 
-var desaturatedCyan* {.importc: "TCOD_desaturated_cyan", dynlib: LIB_NAME.}: Color
+var DESATURATED_CYAN* {.importc: "TCOD_desaturated_cyan", dynlib: LIB_NAME.}: Color
 
-var desaturatedSky* {.importc: "TCOD_desaturated_sky", dynlib: LIB_NAME.}: Color
+var DESATURATED_SKY* {.importc: "TCOD_desaturated_sky", dynlib: LIB_NAME.}: Color
 
-var desaturatedAzure* {.importc: "TCOD_desaturated_azure", dynlib: LIB_NAME.}: Color
+var DESATURATED_AZURE* {.importc: "TCOD_desaturated_azure", dynlib: LIB_NAME.}: Color
 
-var desaturatedBlue* {.importc: "TCOD_desaturated_blue", dynlib: LIB_NAME.}: Color
+var DESATURATED_BLUE* {.importc: "TCOD_desaturated_blue", dynlib: LIB_NAME.}: Color
 
-var desaturatedHan* {.importc: "TCOD_desaturated_han", dynlib: LIB_NAME.}: Color
+var DESATURATED_HAN* {.importc: "TCOD_desaturated_han", dynlib: LIB_NAME.}: Color
 
-var desaturatedViolet* {.importc: "TCOD_desaturated_violet", dynlib: LIB_NAME.}: Color
+var DESATURATED_VIOLET* {.importc: "TCOD_desaturated_violet", dynlib: LIB_NAME.}: Color
 
-var desaturatedPurple* {.importc: "TCOD_desaturated_purple", dynlib: LIB_NAME.}: Color
+var DESATURATED_PURPLE* {.importc: "TCOD_desaturated_purple", dynlib: LIB_NAME.}: Color
 
-var desaturatedFuchsia* {.importc: "TCOD_desaturated_fuchsia", dynlib: LIB_NAME.}: Color
+var DESATURATED_FUCHSIA* {.importc: "TCOD_desaturated_fuchsia", dynlib: LIB_NAME.}: Color
 
-var desaturatedMagenta* {.importc: "TCOD_desaturated_magenta", dynlib: LIB_NAME.}: Color
+var DESATURATED_MAGENTA* {.importc: "TCOD_desaturated_magenta", dynlib: LIB_NAME.}: Color
 
-var desaturatedPink* {.importc: "TCOD_desaturated_pink", dynlib: LIB_NAME.}: Color
+var DESATURATED_PINK* {.importc: "TCOD_desaturated_pink", dynlib: LIB_NAME.}: Color
 
-var desaturatedCrimson* {.importc: "TCOD_desaturated_crimson", dynlib: LIB_NAME.}: Color
+var DESATURATED_CRIMSON* {.importc: "TCOD_desaturated_crimson", dynlib: LIB_NAME.}: Color
 
 ##  metallic
 
-var brass* {.importc: "TCOD_brass", dynlib: LIB_NAME.}: Color
+var BRASS* {.importc: "TCOD_brass", dynlib: LIB_NAME.}: Color
 
-var copper* {.importc: "TCOD_copper", dynlib: LIB_NAME.}: Color
+var COPPER* {.importc: "TCOD_copper", dynlib: LIB_NAME.}: Color
 
-var gold* {.importc: "TCOD_gold", dynlib: LIB_NAME.}: Color
+var GOLD* {.importc: "TCOD_gold", dynlib: LIB_NAME.}: Color
 
-var silver* {.importc: "TCOD_silver", dynlib: LIB_NAME.}: Color
+var SILVER* {.importc: "TCOD_silver", dynlib: LIB_NAME.}: Color
 
 ##  miscellaneous
 
-var celadon* {.importc: "TCOD_celadon", dynlib: LIB_NAME.}: Color
+var CELADON* {.importc: "TCOD_celadon", dynlib: LIB_NAME.}: Color
 
-var peach* {.importc: "TCOD_peach", dynlib: LIB_NAME.}: Color
+var PEACH* {.importc: "TCOD_peach", dynlib: LIB_NAME.}: Color
 

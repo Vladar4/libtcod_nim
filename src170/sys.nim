@@ -26,8 +26,9 @@
 ##  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
 
-import
-  console_types, image, list, mouse_types
+# import console_types, image, list, mouse_types
+
+from os import walkFiles, joinPath
 
 
 proc sysStartup*() {.
@@ -140,9 +141,14 @@ proc sysIsDirectory*(
   path: cstring): bool {.
     cdecl, importc: "TCOD_sys_is_directory", dynlib: LIB_NAME.}
 
-proc sysGetDirectoryContent*(
+proc sysGetDirectoryContent_list*(
   path: cstring; pattern: cstring): List {.
     cdecl, importc: "TCOD_sys_get_directory_content", dynlib: LIB_NAME.}
+
+proc sysGetDirectoryContent*(path, pattern: string): seq[string] =
+  result = @[]
+  for f in walkFiles(joinPath(path, pattern)):
+    result.add(f)
 
 proc sysFileExists*(
   filename: cstring): bool {.
@@ -175,42 +181,75 @@ type
   Mutex* = pointer
   Cond* = pointer
 
-##  threads
 
-proc threadNew*(`func`: proc (a1: pointer): cint {.cdecl.}; data: pointer): ThreadT {.
+#  threads
+
+proc threadNew*(
+  procedure: proc (a1: pointer): cint {.cdecl.}; data: pointer): Thread {.
     cdecl, importc: "TCOD_thread_new", dynlib: LIB_NAME.}
 
-proc threadDelete*(th: ThreadT) {.cdecl, importc: "TCOD_thread_delete",
-                               dynlib: LIB_NAME.}
+proc threadDelete_internal(
+  th: Thread) {.
+    cdecl, importc: "TCOD_thread_delete", dynlib: LIB_NAME.}
 
-proc sysGetNumCores*(): cint {.cdecl, importc: "TCOD_sys_get_num_cores",
-                            dynlib: LIB_NAME.}
+proc threadDelete*(th: var Thread) =
+  if th != nil:
+    threadDelete_internal(th)
+    th = nil
 
-proc threadWait*(th: ThreadT) {.cdecl, importc: "TCOD_thread_wait", dynlib: LIB_NAME.}
-##  mutex
+proc sysGetNumCores*(): cint {.
+    cdecl, importc: "TCOD_sys_get_num_cores", dynlib: LIB_NAME.}
 
-proc mutexNew*(): MutexT {.cdecl, importc: "TCOD_mutex_new", dynlib: LIB_NAME.}
+proc threadWait*(
+  th: Thread) {.
+    cdecl, importc: "TCOD_thread_wait", dynlib: LIB_NAME.}
 
-proc mutexIn*(mut: MutexT) {.cdecl, importc: "TCOD_mutex_in", dynlib: LIB_NAME.}
 
-proc mutexOut*(mut: MutexT) {.cdecl, importc: "TCOD_mutex_out", dynlib: LIB_NAME.}
+#  mutex
 
-proc mutexDelete*(mut: MutexT) {.cdecl, importc: "TCOD_mutex_delete", dynlib: LIB_NAME.}
+proc mutexNew*(): Mutex {.
+    cdecl, importc: "TCOD_mutex_new", dynlib: LIB_NAME.}
+
+proc mutexIn*(
+  mut: Mutex) {.
+    cdecl, importc: "TCOD_mutex_in", dynlib: LIB_NAME.}
+
+proc mutexOut*(
+  mut: Mutex) {.
+    cdecl, importc: "TCOD_mutex_out", dynlib: LIB_NAME.}
+
+proc mutexDelete_internal(
+  mut: Mutex) {.
+    cdecl, importc: "TCOD_mutex_delete", dynlib: LIB_NAME.}
+
+proc mutexDelete*(mut: var Mutex) =
+  if mut != nil:
+    mutexDelete_internal(mut)
+    mut = nil
 
 
 #  semaphore
 
-proc semaphoreNew*(initVal: cint): SemaphoreT {.cdecl, importc: "TCOD_semaphore_new",
-    dynlib: LIB_NAME.}
+proc semaphoreNew*(
+  initVal: cint): Semaphore {.
+    cdecl, importc: "TCOD_semaphore_new", dynlib: LIB_NAME.}
 
-proc semaphoreLock*(sem: SemaphoreT) {.cdecl, importc: "TCOD_semaphore_lock",
-                                    dynlib: LIB_NAME.}
+proc semaphoreLock*(
+  sem: Semaphore) {.
+    cdecl, importc: "TCOD_semaphore_lock", dynlib: LIB_NAME.}
 
-proc semaphoreUnlock*(sem: SemaphoreT) {.cdecl, importc: "TCOD_semaphore_unlock",
-                                      dynlib: LIB_NAME.}
+proc semaphoreUnlock*(
+  sem: Semaphore) {.
+    cdecl, importc: "TCOD_semaphore_unlock", dynlib: LIB_NAME.}
 
-proc semaphoreDelete*(sem: SemaphoreT) {.cdecl, importc: "TCOD_semaphore_delete",
-                                      dynlib: LIB_NAME.}
+proc semaphoreDelete_internal(
+  sem: Semaphore) {.
+    cdecl, importc: "TCOD_semaphore_delete", dynlib: LIB_NAME.}
+
+proc semaphoreDelete*(sem: var Semaphore) =
+  if sem != nil:
+    semaphoreDelete_internal(sem)
+    sem = nil
 
 
 #  condition
@@ -230,9 +269,14 @@ proc conditionWait*(
   sem: Cond; mut: Mutex) {.
     cdecl, importc: "TCOD_condition_wait", dynlib: LIB_NAME.}
 
-proc conditionDelete*(
+proc conditionDelete_internal(
   sem: Cond) {.
     cdecl, importc: "TCOD_condition_delete", dynlib: LIB_NAME.}
+
+proc conditionDelete*(sem: var Cond) =
+  if sem != nil:
+    conditionDelete_internal(sem)
+    sem = nil
 
 
 type
@@ -242,13 +286,18 @@ proc loadLibrary*(
   path: cstring): Library {.
     cdecl, importc: "TCOD_load_library", dynlib: LIB_NAME.}
 
-proc getFunctionAddress*(
-  library: Library; functionName: cstring): pointer {.
+proc getProcedureAddress*(
+  library: Library; procedureName: cstring): pointer {.
     cdecl, importc: "TCOD_get_function_address", dynlib: LIB_NAME.}
 
-proc closeLibrary*(
+proc closeLibrary_internal(
   a1: Library) {.
     cdecl, importc: "TCOD_close_library", dynlib: LIB_NAME.}
+
+proc closeLibrary*(a1: var Library) =
+  if a1 != nil:
+    closeLibrary_internal(a1)
+    a1 = nil
 
 
 type

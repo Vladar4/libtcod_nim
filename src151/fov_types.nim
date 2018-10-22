@@ -25,12 +25,16 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-# FOV_BASIC : http://roguebasin.roguelikedevelopment.org/index.php?title=Ray_casting
-# FOV_DIAMOND : http://www.geocities.com/temerra/los_rays.html
-# FOV_SHADOW : http://roguebasin.roguelikedevelopment.org/index.php?title=FOV_using_recursive_shadowcasting
-# FOV_PERMISSIVE : http://roguebasin.roguelikedevelopment.org/index.php?title=Precise_Permissive_Field_of_View
-# FOV_RESTRICTIVE : Mingos' Restrictive Precise Angle Shadowcasting (contribution by Mingos)
-
+##  FOV_BASIC : http://roguebasin.roguelikedevelopment.org/index.php?title=Ray_casting
+##
+##  FOV_DIAMOND : http://www.geocities.com/temerra/los_rays.html
+##
+##  FOV_SHADOW : http://roguebasin.roguelikedevelopment.org/index.php?title=FOV_using_recursive_shadowcasting
+##
+##  FOV_PERMISSIVE : http://roguebasin.roguelikedevelopment.org/index.php?title=Precise_Permissive_Field_of_View
+##
+##  FOV_RESTRICTIVE : Mingos' Restrictive Precise Angle Shadowcasting (contribution by Mingos)
+##
 
 type
   TFOVAlgorithm* {.size: sizeof(cint).} = enum
@@ -48,6 +52,7 @@ type
     FOV_PERMISSIVE_8,
     FOV_RESTRICTIVE,
     NB_FOV_ALGORITHMS
+
 
 template FOV_Permissive*(x: untyped): typed =
   TFOVAlgorithm(FOV_PERMISSIVE_0 + (x))

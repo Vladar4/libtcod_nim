@@ -62,7 +62,7 @@ when defined(windows): # WINDOWS BUGFIX
  proc color_lerp*(c1, c2: TColor, coef: cfloat): TColor {.inline.} =
    result.r = uint8(cfloat(c1.r) + cfloat(int(c2.r) - int(c1.r)) * coef)
    result.g = uint8(cfloat(c1.g) + cfloat(int(c2.g) - int(c1.g)) * coef)
-   result.b = uint8(cfloat(c1.b) + cfloat(int(c2.b) - int(c1.b)) * coef) 
+   result.b = uint8(cfloat(c1.b) + cfloat(int(c2.b) - int(c1.b)) * coef)
 else:
   proc color_lerp*(c1, c2: TColor, coef: cfloat): TColor {.cdecl, importc: "TCOD_color_lerp", dynlib: LIB_NAME.}
 

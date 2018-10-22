@@ -26,8 +26,7 @@
 ##  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
 
-import
-  color, console_types
+# import color, console_types
 
 type
   Text* = pointer
@@ -69,7 +68,12 @@ proc textReset*(
   txt: Text) {.
     cdecl, importc: "TCOD_text_reset", dynlib: LIB_NAME.}
 
-proc textDelete*(
+proc textDelete_internal(
   txt: Text) {.
     cdecl, importc: "TCOD_text_delete", dynlib: LIB_NAME.}
+
+proc textDelete*(txt: var Text) =
+  if txt != nil:
+    textDelete_internal(txt)
+    txt = nil
 

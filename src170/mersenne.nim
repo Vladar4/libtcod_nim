@@ -26,8 +26,7 @@
 ##  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
 
-import
-  mersenne_types
+# import mersenne_types
 
 
 proc randomGetInstance*(): Random {.
@@ -49,9 +48,14 @@ proc randomNewFromSeed*(
   algo: RandomAlgo; seed: uint32): Random {.
     cdecl, importc: "TCOD_random_new_from_seed", dynlib: LIB_NAME.}
 
-proc randomDelete*(
-  mersenne: RandomT) {.
+proc randomDelete_internal(
+  mersenne: Random) {.
     cdecl, importc: "TCOD_random_delete", dynlib: LIB_NAME.}
+
+proc randomDelete*(mersenne: var Random) =
+  if mersenne != nil:
+    randomDelete_internal(mersenne)
+    mersenne = nil
 
 proc randomSetDistribution*(
   mersenne: Random; distribution: Distribution) {.
@@ -60,6 +64,9 @@ proc randomSetDistribution*(
 proc randomGetInt*(
   mersenne: Random; `min`, `max`: cint): cint {.
     cdecl, importc: "TCOD_random_get_int", dynlib: LIB_NAME.}
+
+template randomGetChar*(mersenne: Random; `min`, `max`: char): char =
+  (char(randomGetInt(mersenne, `min`.ord, `max`.ord)))
 
 proc randomGetFloat*(
   mersenne: Random; `min`, `max`: cfloat): cfloat {.
@@ -70,7 +77,7 @@ proc randomGetDouble*(
   cdecl, importc: "TCOD_random_get_double", dynlib: LIB_NAME.}
 
 proc randomGetIntMean*(
-  mersenne: RandomT; `min`, `max`, mean: cint): cint {.
+  mersenne: Random; `min`, `max`, mean: cint): cint {.
     cdecl, importc: "TCOD_random_get_int_mean", dynlib: LIB_NAME.}
 
 proc randomGetFloatMean*(

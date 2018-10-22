@@ -26,9 +26,7 @@
 ##  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
 
-import
-  mersenne_types
-
+# import mersenne_types
 
 type
   Noise* = pointer
@@ -36,8 +34,12 @@ type
     NOISE_DEFAULT = 0, NOISE_PERLIN = 1, NOISE_SIMPLEX = 2, NOISE_WAVELET = 4
 
 
+template floatArrayToPtr*(f: var openarray[cfloat]): ptr cfloat =
+  cast[ptr cfloat](addr(f))
+
+
 proc noiseNew*(
-  dimensions: cint; hurst, lacunarity: cfloat; random: Random): Noise {.
+  dimensions: cint; hurst, lacunarity: cfloat; random: Random = nil): Noise {.
     cdecl, importc: "TCOD_noise_new", dynlib: LIB_NAME.}
   ##  create a new noise object
 
@@ -71,8 +73,14 @@ proc noiseGetTurbulence*(
   noise: Noise; f: ptr cfloat; octaves: cfloat): cfloat {.
     cdecl, importc: "TCOD_noise_get_turbulence", dynlib: LIB_NAME.}
 
-proc noiseDelete*(
+proc noiseDelete_internal(
   noise: Noise) {.
     cdecl, importc: "TCOD_noise_delete", dynlib: LIB_NAME.}
+
+proc noiseDelete*(noise: var Noise) =
   ##  delete the noise object
+  ##
+  if noise != nil:
+    noiseDelete_internal(noise)
+    noise = nil
 

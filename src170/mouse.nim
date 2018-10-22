@@ -26,8 +26,7 @@
 ##  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
 
-import
-  mouse_types
+# import mouse_types
 
 
 proc mouseShowCursor*(

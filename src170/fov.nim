@@ -26,8 +26,7 @@
 ##  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
 
-import
-  fov_types
+# import fov_types
 
 ##  allocate a new map
 
@@ -50,10 +49,16 @@ proc mapSetProperties*(
     cdecl, importc: "TCOD_map_set_properties", dynlib: LIB_NAME.}
   ##  change a cell properties
 
-proc mapDelete*(
+proc mapDelete_internal(
   map: Map) {.
     cdecl, importc: "TCOD_map_delete", dynlib: LIB_NAME.}
+
+proc mapDelete*(map: var Map) =
   ##  destroy a map
+  ##
+  if map != nil:
+    mapDelete_internal(map)
+    map = nil
 
 proc mapComputeFov*(
   map: Map; playerX, playerY, maxRadius: cint;

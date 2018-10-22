@@ -55,3 +55,16 @@ type
     DISTRIBUTION_GAUSSIAN_INVERSE
     DISTRIBUTION_GAUSSIAN_RANGE_INVERSE
 
+
+import strutils
+
+proc repr*(dice: Dice): string =
+  result = ""
+  if dice.multiplier != 1.0:
+    result.add(formatFloat(dice.multiplier, ffDefault, 0) & "*")
+  result.add(repr(dice.nb_rolls) & "d" & repr(dice.nb_faces))
+  if dice.addsub != 0.0:
+    if dice.addsub > 0.0:
+      result.add("+")
+    result.add(formatFloat(dice.addsub, ffDefault, 0))
+

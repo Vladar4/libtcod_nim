@@ -26,8 +26,7 @@
 ##  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
 
-import
-  color, list, lex, mersenne_types
+# import color, list, lex, mersenne_types
 
 
 type
@@ -106,11 +105,11 @@ type
   ParserListener* = ptr ParserListenerObj
   ParserListenerObj* {.bycopy.} = object  ##  \
     ##  parser listener
-    newStruct*: proc (str: ParserStruct; name: cstring): bool {.cdecl.}
-    newFlag*: proc (name: cstring): bool {.cdecl.}
+    newStruct*:   proc (str: ParserStruct; name: cstring): bool {.cdecl.}
+    newFlag*:     proc (name: cstring): bool {.cdecl.}
     newProperty*: proc (propname: cstring; kind: ValueKind; value: Value): bool {.cdecl.}
-    endStruct*: proc (str: ParserStruct; name: cstring): bool {.cdecl.}
-    error*: proc (msg: cstring) {.cdecl.}
+    endStruct*:   proc (str: ParserStruct; name: cstring): bool {.cdecl.}
+    error*:       proc (msg: cstring) {.cdecl.}
 
 
 ##  a custom type parser
@@ -131,7 +130,7 @@ proc parserNewStruct*(
     cdecl, importc: "TCOD_parser_new_struct", dynlib: LIB_NAME.}
 
 proc parserNewCustomType*(
-  parser: Parser; customTypeParser: ParserCustom): ValueType {.
+  parser: Parser; customTypeParser: ParserCustom): ValueKind {.
     cdecl, importc: "TCOD_parser_new_custom_type", dynlib: LIB_NAME.}
 
 proc parserRun*(
