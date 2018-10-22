@@ -61,7 +61,10 @@ proc consoleIsActive*(): bool {.
     cdecl, importc: "TCOD_console_is_active", dynlib: LIB_NAME.}
 
 proc consoleSetCustomFont*(
-  fontFile: cstring; flags, nbCharHoriz, nbCharVertic: cint) {.
+  fontFile: cstring;
+  flags: cint = FONT_LAYOUT_ASCII_INCOL;
+  nbCharHoriz: cint = 0;
+  nbCharVertic: cint = 0) {.
     cdecl, importc: "TCOD_console_set_custom_font", dynlib: LIB_NAME.}
 
 proc consoleMapAsciiCodeToFont*(
@@ -93,7 +96,7 @@ proc consoleClear*(
     cdecl, importc: "TCOD_console_clear", dynlib: LIB_NAME.}
 
 proc consoleSetCharBackground*(
-  con: Console; x, y: cint; col: Color; flag: BkgndFlag) {.
+  con: Console; x, y: cint; col: Color; flag: BkgndFlag = BKGND_SET) {.
     cdecl, importc: "TCOD_console_set_char_background", dynlib: LIB_NAME.}
 
 proc consoleSetCharForeground*(
@@ -108,10 +111,11 @@ template consoleSetChar*(con: Console; x, y: cint; c: char) =
   consoleSetChar(con, x, y, c.cint)
 
 proc consolePutChar*(
-  con: Console; x, y, c: cint; flag: BkgndFlag) {.
+  con: Console; x, y, c: cint; flag: BkgndFlag = BKGND_DEFAULT) {.
     cdecl, importc: "TCOD_console_put_char", dynlib: LIB_NAME.}
 
-template consolePutChar*(con: Console; x, y: cint; c: char; flag: BkgndFlag) =
+template consolePutChar*(con: Console; x, y: cint; c: char;
+                         flag: BkgndFlag = BKGND_DEFAULT) =
   consolePutChar(con, x, y, c.cint, flag)
 
 proc consolePutCharEx*(
@@ -160,19 +164,23 @@ proc consoleGetHeightRect*(
     varargs, cdecl, importc: "TCOD_console_get_height_rect", dynlib: LIB_NAME.}
 
 proc consoleRect*(
-  con: Console; x, y, w, h: cint; clear: bool; flag: BkgndFlag) {.
+  con: Console; x, y, w, h: cint; clear: bool;
+  flag: BkgndFlag = BKGND_DEFAULT) {.
     cdecl, importc: "TCOD_console_rect", dynlib: LIB_NAME.}
 
 proc consoleHline*(
-  con: Console; x, y, l: cint; flag: BkgndFlag) {.
+  con: Console; x, y, l: cint;
+  flag: BkgndFlag = BKGND_DEFAULT) {.
     cdecl, importc: "TCOD_console_hline", dynlib: LIB_NAME.}
 
 proc consoleVline*(
-  con: Console; x, y, l: cint; flag: BkgndFlag) {.
+  con: Console; x, y, l: cint;
+  flag: BkgndFlag = BKGND_DEFAULT) {.
     cdecl, importc: "TCOD_console_vline", dynlib: LIB_NAME.}
 
 proc consolePrintFrame*(
-  con: Console; x, y, w, h: cint; empty: bool; flag: BkgndFlag; fmt: cstring) {.
+  con: Console; x, y, w, h: cint; empty: bool = true;
+  flag: BkgndFlag = BKGND_DEFAULT; fmt: cstring = nil) {.
     varargs, cdecl, importc: "TCOD_console_print_frame", dynlib: LIB_NAME.}
 
 when not defined(NO_UNICODE): ##  unicode support

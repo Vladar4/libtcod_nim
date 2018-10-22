@@ -66,7 +66,7 @@ proc heightmapGetSlope*(
     cdecl, importc: "TCOD_heightmap_get_slope", dynlib: LIB_NAME.}
 
 proc heightmapGetNormal*(
-  hm: Heightmap; x, y: cfloat; n: array[3, cfloat]; waterLevel: cfloat) {.
+  hm: Heightmap; x, y: cfloat; n: array[3, cfloat]; waterLevel: cfloat = 0.0) {.
     cdecl, importc: "TCOD_heightmap_get_normal", dynlib: LIB_NAME.}
 
 proc heightmapCountCells*(
@@ -98,7 +98,7 @@ proc heightmapClamp*(
     cdecl, importc: "TCOD_heightmap_clamp", dynlib: LIB_NAME.}
 
 proc heightmapNormalize*(
-  hm: Heightmap; `min`, `max`: cfloat) {.
+  hm: Heightmap; `min`: cfloat = 0.0; `max`: cfloat = 1.0) {.
     cdecl, importc: "TCOD_heightmap_normalize", dynlib: LIB_NAME.}
 
 proc heightmapClear*(
@@ -152,7 +152,7 @@ proc heightmapAddVoronoi*(
     cdecl, importc: "TCOD_heightmap_add_voronoi", dynlib: LIB_NAME.}
 
 proc heightmapMidPointDisplacement*(
-  hm: Heightmap; rnd: Random; roughness: cfloat) {.
+  hm: Heightmap; rnd: Random = nil; roughness: cfloat = 0.45) {.
     cdecl, importc: "TCOD_heightmap_mid_point_displacement", dynlib: LIB_NAME.}
 
 proc heightmapAddFbm*(

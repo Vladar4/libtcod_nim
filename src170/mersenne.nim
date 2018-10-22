@@ -33,7 +33,7 @@ proc randomGetInstance*(): Random {.
     cdecl, importc: "TCOD_random_get_instance", dynlib: LIB_NAME.}
 
 proc randomNew*(
-  algo: RandomAlgo): Random {.
+  algo: RandomAlgo = RNG_CMWC): Random {.
     cdecl, importc: "TCOD_random_new", dynlib: LIB_NAME.}
 
 proc randomSave*(
@@ -45,7 +45,7 @@ proc randomRestore*(
     cdecl, importc: "TCOD_random_restore", dynlib: LIB_NAME.}
 
 proc randomNewFromSeed*(
-  algo: RandomAlgo; seed: uint32): Random {.
+  algo: RandomAlgo = RNG_CMWC; seed: uint32 = 0): Random {.
     cdecl, importc: "TCOD_random_new_from_seed", dynlib: LIB_NAME.}
 
 proc randomDelete_internal(
@@ -77,15 +77,15 @@ proc randomGetDouble*(
   cdecl, importc: "TCOD_random_get_double", dynlib: LIB_NAME.}
 
 proc randomGetIntMean*(
-  mersenne: Random; `min`, `max`, mean: cint): cint {.
+  mersenne: Random; `min`, `max`, mean: cint = 0): cint {.
     cdecl, importc: "TCOD_random_get_int_mean", dynlib: LIB_NAME.}
 
 proc randomGetFloatMean*(
-  mersenne: Random; `min`, `max`, mean: cfloat): cfloat {.
+  mersenne: Random; `min`, `max`, mean: cfloat = 0.0): cfloat {.
     cdecl, importc: "TCOD_random_get_float_mean", dynlib: LIB_NAME.}
 
 proc randomGetDoubleMean*(
-  mersenne: Random; `min`, `max`, mean: cdouble): cdouble {.
+  mersenne: Random; `min`, `max`, mean: cdouble = 0.0): cdouble {.
     cdecl, importc: "TCOD_random_get_double_mean", dynlib: LIB_NAME.}
 
 proc randomDiceNew*(

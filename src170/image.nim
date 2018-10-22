@@ -62,7 +62,7 @@ proc imageHflip*(
     cdecl, importc: "TCOD_image_hflip", dynlib: LIB_NAME.}
 
 proc imageRotate90*(
-  image: Image; numRotations: cint) {.
+  image: Image; numRotations: cint = 1) {.
     cdecl, importc: "TCOD_image_rotate90", dynlib: LIB_NAME.}
 
 proc imageVflip*(
@@ -98,16 +98,26 @@ proc imagePutPixel*(
     cdecl, importc: "TCOD_image_put_pixel", dynlib: LIB_NAME.}
 
 proc imageBlit*(
-  image: Image; console: Console;
-  x, y: cfloat; bkgndFlag: BkgndFlag; scalex, scaley, angle: cfloat) {.
+  image: Image; console: Console; x, y: cfloat;
+  bkgndFlag: BkgndFlag = BKGND_SET;
+  scalex: cfloat = 1.0;
+  scaley: cfloat = 1.0;
+  angle: cfloat = 0.0) {.
     cdecl, importc: "TCOD_image_blit", dynlib: LIB_NAME.}
 
 proc imageBlitRect*(
-  image: Image; console: Console; x, y, w, h: cint; bkgndFlag: BkgndFlag) {.
+  image: Image; console: Console; x, y: cint;
+  w: cint = -1;
+  h: cint = -1;
+  bkgndFlag: BkgndFlag = BKGND_SET) {.
     cdecl, importc: "TCOD_image_blit_rect", dynlib: LIB_NAME.}
 
 proc imageBlit2x*(
-  image: Image; dest: Console; dx, dy, sx, sy, w, h: cint) {.
+  image: Image; dest: Console; dx, dy: cint;
+  sx: cint = 0;
+  sy: cint = 0;
+  w: cint = -1;
+  h: cint = -1) {.
     cdecl, importc: "TCOD_image_blit_2x", dynlib: LIB_NAME.}
 
 proc imageDelete_internal(

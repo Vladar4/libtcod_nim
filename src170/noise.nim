@@ -50,15 +50,18 @@ proc noiseSetKind*(
     cdecl, importc: "TCOD_noise_set_type", dynlib: LIB_NAME.}
 
 proc noiseGetEx*(
-  noise: Noise; f: ptr cfloat; kind: NoiseKind): cfloat {.
+  noise: Noise; f: ptr cfloat;
+  kind: NoiseKind = NOISE_DEFAULT): cfloat {.
     cdecl, importc: "TCOD_noise_get_ex", dynlib: LIB_NAME.}
 
 proc noiseGetFbmEx*(
-  noise: Noise; f: ptr cfloat; octaves: cfloat; Kind: NoiseKind): cfloat {.
+  noise: Noise; f: ptr cfloat; octaves: cfloat;
+  kind: NoiseKind = NOISE_DEFAULT): cfloat {.
     cdecl, importc: "TCOD_noise_get_fbm_ex", dynlib: LIB_NAME.}
 
 proc noiseGetTurbulenceEx*(
-  noise: Noise; f: ptr cfloat; octaves: cfloat; kind: NoiseKind): cfloat {.
+  noise: Noise; f: ptr cfloat; octaves: cfloat;
+  kind: NoiseKind = NOISE_DEFAULT): cfloat {.
     cdecl, importc: "TCOD_noise_get_turbulence_ex", dynlib: LIB_NAME.}
 
 proc noiseGet*(

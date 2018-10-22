@@ -35,7 +35,7 @@ proc mapNew*(
     cdecl, importc: "TCOD_map_new", dynlib: LIB_NAME.}
 
 proc mapClear*(
-  map: Map; transparent, walkable: bool) {.
+  map: Map; transparent: bool = false; walkable: bool = false) {.
     cdecl, importc: "TCOD_map_clear", dynlib: LIB_NAME.}
   ##  set all cells as solid rock (cannot see through nor walk)
 
@@ -61,8 +61,10 @@ proc mapDelete*(map: var Map) =
     map = nil
 
 proc mapComputeFov*(
-  map: Map; playerX, playerY, maxRadius: cint;
-  lightWalls: bool; algo: FovAlgorithm) {.
+  map: Map; playerX, playerY: cint;
+  maxRadius: cint = 0;
+  lightWalls: bool = true;
+  algo: FovAlgorithm = FOV_BASIC) {.
     cdecl, importc: "TCOD_map_compute_fov", dynlib: LIB_NAME.}
   ##  calculate the field of view
   ##  (potentially visible cells from ``player_x``,``player_y``)
