@@ -141,11 +141,11 @@ proc sysIsDirectory*(
   path: cstring): bool {.
     cdecl, importc: "TCOD_sys_is_directory", dynlib: LIB_NAME.}
 
-proc sysGetDirectoryContent_list*(
+proc sysGetDirectoryContent*(
   path: cstring; pattern: cstring): List {.
     cdecl, importc: "TCOD_sys_get_directory_content", dynlib: LIB_NAME.}
 
-proc sysGetDirectoryContent*(path, pattern: string): seq[string] =
+proc sysGetDirectoryContentSeq*(path, pattern: string): seq[string] =
   result = @[]
   for f in walkFiles(joinPath(path, pattern)):
     result.add(f)
