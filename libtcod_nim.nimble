@@ -12,5 +12,4 @@ installFiles  = @["libtcod.nim"]
 # Dependencies
 
 requires "nim >= 0.18.1"
-requires "sdl1"
 

@@ -1,5 +1,5 @@
-libtcod_nim 1.5.1 v0.98.1
-=========================
+libtcod_nim 1.5.1/1.7.0 v0.99
+=============================
 
 libtcod_nim is a wrapper of the libtcod library for the Nim language.
 
@@ -9,8 +9,12 @@ libtcod_nim is a wrapper of the libtcod library for the Nim language.
 Libtcod, a.k.a. “The Doryen Library”, is a free, fast, portable and uncomplicated API for roguelike developers providing an advanced true color console, input, and lots of other utilities frequently used in roguelikes.
 
 You need to have dynamic library of libtcod installed:
-* libtcod.so or libtcod-debug.so on Linux;
-* libtcod-mingw.dll or libtcod-mingw-debug.dll on Windows.
+* libtcod 1.5.1:
+  * libtcod.so.1.5.1 on Linux
+  * libtcod-mingw.dll or libtcod-mingw-debug.dll on Windows.
+* libtcod 1.7.0:
+  * libtcod.so or libtcod.so.0.0.0 on Linux;
+  * libtcod.dll on Windows.
 
 Also you may need SDL, OpenGL or GLSL dynamic libraries installed, depending on used renderer.
 
@@ -20,6 +24,10 @@ Also you may need SDL, OpenGL or GLSL dynamic libraries installed, depending on 
 
 CHANGELOG:
 ==========
+**v0.99 (WIP)**
+* added libtcod 1.7.0 wrapper
+* bugfixes for both 1.5.1 and 1.7.0 wrappers
+
 **v0.98.1**
 * adaptation for Nim v0.18.1 and newer (strings can't be nil anymore)
 
