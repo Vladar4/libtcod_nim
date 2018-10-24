@@ -98,7 +98,7 @@ type
   # key data : special code or character
   TKey*{.bycopy.} = object
     vk*: TKeycode
-    empty1, empty2, empty3: uint8
+    #empty1, empty2, empty3: uint8
     c*: char
     pressed*: bool
     lalt*: bool

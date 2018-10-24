@@ -32,10 +32,7 @@ const
   NO_OPENGL* = false   ## disable opengl support
 
 when defined(linux):
-  when defined(debug):
-    const LIB_NAME* = "libtcod_debug.so"
-  else:
-    const LIB_NAME* = "libtcod.so(|.1.5.1)"
+  const LIB_NAME* = "libtcod.so.1.5.1"
 elif defined(MacOSX):
   when defined(debug):
     const LIB_NAME* = "libtcod_debug.dylib"
