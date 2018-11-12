@@ -20,6 +20,15 @@ Also you may need SDL, OpenGL or GLSL dynamic libraries installed, depending on 
 
 **NOTE**: project in beta-phase and requires heavy testing.
 
+
+Compilation
+-----------
+
+The default complilation option is libtcod 1.7.0 (src170 directory).
+
+To use legacy libtcod 1.5.1 (src151 directory), use `--define:tcod151` key in your compile command.
+
+
 ----------------------------------------
 
 CHANGELOG:
