@@ -5,6 +5,7 @@ libtcod_nim is a wrapper of the libtcod library for the Nim language.
 
 * libtcod homepage: http://roguecentral.org/doryen/libtcod/
 * Nim homepage: http://nim-lang.org/
+* libtcod_nim docs: https://vladar4.github.io/libtcod_nim/
 
 Libtcod, a.k.a. “The Doryen Library”, is a free, fast, portable and uncomplicated API for roguelike developers providing an advanced true color console, input, and lots of other utilities frequently used in roguelikes.
 
