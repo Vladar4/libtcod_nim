@@ -31,8 +31,7 @@ type
 
 
 type
-  Dice* = ptr DiceObj
-  DiceObj* {.bycopy.} = object ##  \
+  Dice* {.bycopy.} = object ##  \
     ##  Dice roll
     ##
     nbRolls*: cint

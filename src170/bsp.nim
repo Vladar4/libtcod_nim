@@ -31,7 +31,7 @@
 type
   Bsp* = ptr BspObj
   BspObj* {.bycopy.} = object
-    tree*: Tree           ##  pseudo oop : bsp inherit tree
+    tree*: TreeObj        ##  pseudo oop : bsp inherit tree
     x*, y*, w*, h*: cint  ##  node position & size
     position*: cint       ##  position of splitting
     level*: uint8         ##  level in the tree
