@@ -1,30 +1,30 @@
-##
-##  libtcod
-##  Copyright (c) 2008-2018 Jice & Mingos & rmtew
-##  All rights reserved.
-##
-##  Redistribution and use in source and binary forms, with or without
-##  modification, are permitted provided that the following conditions are met:
-##      * Redistributions of source code must retain the above copyright
-##        notice, this list of conditions and the following disclaimer.
-##      * Redistributions in binary form must reproduce the above copyright
-##        notice, this list of conditions and the following disclaimer in the
-##        documentation and/or other materials provided with the distribution.
-##      * The name of Jice or Mingos may not be used to endorse or promote
-##        products derived from this software without specific prior written
-##        permission.
-##
-##  THIS SOFTWARE IS PROVIDED BY JICE, MINGOS AND RMTEW ``AS IS'' AND ANY
-##  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-##  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-##  DISCLAIMED. IN NO EVENT SHALL JICE, MINGOS OR RMTEW BE LIABLE FOR ANY
-##  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-##  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-##  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-##  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-##  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-##  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-##
+#
+# libtcod
+# Copyright (c) 2008-2018 Jice & Mingos & rmtew
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above copyright
+#       notice, this list of conditions and the following disclaimer in the
+#       documentation and/or other materials provided with the distribution.
+#     * The name of Jice or Mingos may not be used to endorse or promote
+#       products derived from this software without specific prior written
+#       permission.
+#
+# THIS SOFTWARE IS PROVIDED BY JICE, MINGOS AND RMTEW ``AS IS'' AND ANY
+# EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL JICE, MINGOS OR RMTEW BE LIABLE FOR ANY
+# DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+# ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
 
 type
   Color* {.bycopy.} = tuple [r, g, b: uint8] ## An RGB color tuple.
@@ -123,7 +123,7 @@ proc colorScaleHSV*(
 proc colorGenMap*(
   map: ptr Color; nbKey: cint; keyColor: ptr Color; keyIndex: ptr cint) {.
     cdecl, importc: "TCOD_color_gen_map", dynlib: LIB_NAME.}
-  ##  Color map
+  ##  Color map.
 
 
 #  color names
@@ -167,7 +167,7 @@ const
 
 
 var COLORS* {.importc: "TCOD_colors", dynlib: LIB_NAME.}:
-    array[COLOR_NB, array[COLOR_LEVELS, Color]] ##  color array
+    array[COLOR_NB, array[COLOR_LEVELS, Color]] ##  Color array
 
 #  grey levels
 
@@ -203,7 +203,7 @@ var LIGHTEST_GRAY* {.importc: "TCOD_lightest_gray", dynlib: LIB_NAME.}: Color
 
 var WHITE* {.importc: "TCOD_white", dynlib: LIB_NAME.}: Color
 
-##  sepia
+#  sepia
 
 var DARKEST_SEPIA* {.importc: "TCOD_darkest_sepia", dynlib: LIB_NAME.}: Color
 
@@ -219,7 +219,7 @@ var LIGHTER_SEPIA* {.importc: "TCOD_lighter_sepia", dynlib: LIB_NAME.}: Color
 
 var LIGHTEST_SEPIA* {.importc: "TCOD_lightest_sepia", dynlib: LIB_NAME.}: Color
 
-##  standard colors
+#  standard colors
 
 var RED* {.importc: "TCOD_red", dynlib: LIB_NAME.}: Color
 
@@ -263,7 +263,7 @@ var PINK* {.importc: "TCOD_pink", dynlib: LIB_NAME.}: Color
 
 var CRIMSON* {.importc: "TCOD_crimson", dynlib: LIB_NAME.}: Color
 
-##  dark colors
+#  dark colors
 
 var DARK_RED* {.importc: "TCOD_dark_red", dynlib: LIB_NAME.}: Color
 
@@ -307,7 +307,7 @@ var DARK_PINK* {.importc: "TCOD_dark_pink", dynlib: LIB_NAME.}: Color
 
 var DARK_CRIMSON* {.importc: "TCOD_dark_crimson", dynlib: LIB_NAME.}: Color
 
-##  darker colors
+#  darker colors
 
 var DARKER_RED* {.importc: "TCOD_darker_red", dynlib: LIB_NAME.}: Color
 
@@ -351,7 +351,7 @@ var DARKER_PINK* {.importc: "TCOD_darker_pink", dynlib: LIB_NAME.}: Color
 
 var DARKER_CRIMSON* {.importc: "TCOD_darker_crimson", dynlib: LIB_NAME.}: Color
 
-##  darkest colors
+#  darkest colors
 
 var DARKEST_RED* {.importc: "TCOD_darkest_red", dynlib: LIB_NAME.}: Color
 
@@ -395,7 +395,7 @@ var DARKEST_PINK* {.importc: "TCOD_darkest_pink", dynlib: LIB_NAME.}: Color
 
 var DARKEST_CRIMSON* {.importc: "TCOD_darkest_crimson", dynlib: LIB_NAME.}: Color
 
-##  light colors
+#  light colors
 
 var LIGHT_RED* {.importc: "TCOD_light_red", dynlib: LIB_NAME.}: Color
 
@@ -439,7 +439,7 @@ var LIGHT_PINK* {.importc: "TCOD_light_pink", dynlib: LIB_NAME.}: Color
 
 var LIGHT_CRIMSON* {.importc: "TCOD_light_crimson", dynlib: LIB_NAME.}: Color
 
-##  lighter colors
+#  lighter colors
 
 var LIGHTER_RED* {.importc: "TCOD_lighter_red", dynlib: LIB_NAME.}: Color
 
@@ -483,7 +483,7 @@ var LIGHTER_PINK* {.importc: "TCOD_lighter_pink", dynlib: LIB_NAME.}: Color
 
 var LIGHTER_CRIMSON* {.importc: "TCOD_lighter_crimson", dynlib: LIB_NAME.}: Color
 
-##  lightest colors
+#  lightest colors
 
 var LIGHTEST_RED* {.importc: "TCOD_lightest_red", dynlib: LIB_NAME.}: Color
 
@@ -527,7 +527,7 @@ var LIGHTEST_PINK* {.importc: "TCOD_lightest_pink", dynlib: LIB_NAME.}: Color
 
 var LIGHTEST_CRIMSON* {.importc: "TCOD_lightest_crimson", dynlib: LIB_NAME.}: Color
 
-##  desaturated
+#  desaturated
 
 var DESATURATED_RED* {.importc: "TCOD_desaturated_red", dynlib: LIB_NAME.}: Color
 
@@ -571,7 +571,7 @@ var DESATURATED_PINK* {.importc: "TCOD_desaturated_pink", dynlib: LIB_NAME.}: Co
 
 var DESATURATED_CRIMSON* {.importc: "TCOD_desaturated_crimson", dynlib: LIB_NAME.}: Color
 
-##  metallic
+#  metallic
 
 var BRASS* {.importc: "TCOD_brass", dynlib: LIB_NAME.}: Color
 
@@ -581,7 +581,7 @@ var GOLD* {.importc: "TCOD_gold", dynlib: LIB_NAME.}: Color
 
 var SILVER* {.importc: "TCOD_silver", dynlib: LIB_NAME.}: Color
 
-##  miscellaneous
+#  miscellaneous
 
 var CELADON* {.importc: "TCOD_celadon", dynlib: LIB_NAME.}: Color
 

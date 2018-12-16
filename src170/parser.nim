@@ -1,37 +1,36 @@
-##
-##  libtcod
-##  Copyright (c) 2008-2018 Jice & Mingos & rmtew
-##  All rights reserved.
-##
-##  Redistribution and use in source and binary forms, with or without
-##  modification, are permitted provided that the following conditions are met:
-##      * Redistributions of source code must retain the above copyright
-##        notice, this list of conditions and the following disclaimer.
-##      * Redistributions in binary form must reproduce the above copyright
-##        notice, this list of conditions and the following disclaimer in the
-##        documentation and/or other materials provided with the distribution.
-##      * The name of Jice or Mingos may not be used to endorse or promote
-##        products derived from this software without specific prior written
-##        permission.
-##
-##  THIS SOFTWARE IS PROVIDED BY JICE, MINGOS AND RMTEW ``AS IS'' AND ANY
-##  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-##  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-##  DISCLAIMED. IN NO EVENT SHALL JICE, MINGOS OR RMTEW BE LIABLE FOR ANY
-##  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-##  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-##  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-##  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-##  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-##  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-##
+#
+# libtcod
+# Copyright (c) 2008-2018 Jice & Mingos & rmtew
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above copyright
+#       notice, this list of conditions and the following disclaimer in the
+#       documentation and/or other materials provided with the distribution.
+#     * The name of Jice or Mingos may not be used to endorse or promote
+#       products derived from this software without specific prior written
+#       permission.
+#
+# THIS SOFTWARE IS PROVIDED BY JICE, MINGOS AND RMTEW ``AS IS'' AND ANY
+# EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL JICE, MINGOS OR RMTEW BE LIABLE FOR ANY
+# DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+# ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
 
 # import color, list, lex, mersenne_types
 
-
 type
   ValueKind* {.size: sizeof(cint).} = enum ##  \
-    ##  generic kind
+    ##  Generic kind.
     KIND_NONE, KIND_BOOL, KIND_CHAR, KIND_INT, KIND_FLOAT, KIND_STRING,
     KIND_COLOR, KIND_DICE,
     KIND_VALUELIST00, KIND_VALUELIST01, KIND_VALUELIST02, KIND_VALUELIST03,
@@ -44,10 +43,10 @@ type
     KIND_CUSTOM15, KIND_LIST = 1024
 
 
-##  generic value
 
 type
   Value* {.bycopy.} = object {.union.}
+    ##  Generic value.
     b*: bool
     c*: char
     i*: int32
@@ -60,7 +59,7 @@ type
 
 
 type
-  ParserStruct* = pointer ##  parser structures
+  ParserStruct* = pointer ##  Parser structures.
 
 
 proc structGetName*(
@@ -112,10 +111,10 @@ type
     error*:       proc (msg: cstring) {.cdecl.}
 
 
-##  a custom type parser
 
 type
   ParserCustom* = proc (
+    ##  a custom type parser
     lex: ptr Lex; listener: ParserListener;
     str: ParserStruct; propname: cstring): Value {.cdecl.}
 

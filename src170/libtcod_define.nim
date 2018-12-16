@@ -1,6 +1,6 @@
 #
-# libtcod 1.5.1
-# Copyright (c) 2008,2009,2010,2012 Jice & Mingos
+# libtcod
+# Copyright (c) 2008-2018 Jice & Mingos & rmtew
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -28,8 +28,8 @@
 {.deadCodeElim: on.}
 
 const
-  NO_UNICODE* = false  ## disable unicode support
-  NO_OPENGL* = false   ## disable opengl support
+  NO_UNICODE* = false  ## Disable Unicode support
+  NO_OPENGL* = false   ## Disable OpenGL support
 
 when defined(linux):
   const LIB_NAME* = "libtcod.so(|.0.0.0)"

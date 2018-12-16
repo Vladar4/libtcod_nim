@@ -1,30 +1,30 @@
-##
-##  libtcod
-##  Copyright (c) 2008-2018 Jice & Mingos & rmtew
-##  All rights reserved.
-##
-##  Redistribution and use in source and binary forms, with or without
-##  modification, are permitted provided that the following conditions are met:
-##      * Redistributions of source code must retain the above copyright
-##        notice, this list of conditions and the following disclaimer.
-##      * Redistributions in binary form must reproduce the above copyright
-##        notice, this list of conditions and the following disclaimer in the
-##        documentation and/or other materials provided with the distribution.
-##      * The name of Jice or Mingos may not be used to endorse or promote
-##        products derived from this software without specific prior written
-##        permission.
-##
-##  THIS SOFTWARE IS PROVIDED BY JICE, MINGOS AND RMTEW ``AS IS'' AND ANY
-##  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-##  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-##  DISCLAIMED. IN NO EVENT SHALL JICE, MINGOS OR RMTEW BE LIABLE FOR ANY
-##  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-##  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-##  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-##  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-##  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-##  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-##
+#
+# libtcod
+# Copyright (c) 2008-2018 Jice & Mingos & rmtew
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above copyright
+#       notice, this list of conditions and the following disclaimer in the
+#       documentation and/or other materials provided with the distribution.
+#     * The name of Jice or Mingos may not be used to endorse or promote
+#       products derived from this software without specific prior written
+#       permission.
+#
+# THIS SOFTWARE IS PROVIDED BY JICE, MINGOS AND RMTEW ``AS IS'' AND ANY
+# EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL JICE, MINGOS OR RMTEW BE LIABLE FOR ANY
+# DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+# ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
 
 type
   Console* = pointer
@@ -44,7 +44,7 @@ const
 
 type
   Key* {.bycopy.} = object  ##  \
-    ##  key data : special code or character or text
+    ##  Key data : special code or character or text.
     vk*: Keycode  ##   key code
     c*: char      ##  character if vk == K_CHAR else 0
     text*: array[KEY_TEXT_SIZE, char] ##  \
@@ -191,15 +191,15 @@ const
     ##    3 4 5
     ##    6 7 8
     ##
-  FONT_TYPE_GREYSCALE* = 4  ##  Converts all tiles into a monochrome gradient
+  FONT_TYPE_GREYSCALE* = 4  ##  Converts all tiles into a monochrome gradient.
   FONT_TYPE_GRAYSCALE* = FONT_TYPE_GREYSCALE
-  FONT_LAYOUT_TCOD* = 8     ##  A unique layout used by some of libtcod's fonts
+  FONT_LAYOUT_TCOD* = 8     ##  A unique layout used by some of libtcod's fonts.
 
 
 
 type
   Renderer* {.size: sizeof(cint).} = enum ##  \
-    ##   The available renderers
+    ##   The available renderers.
     RENDERER_GLSL   ##  An OpenGL implementation using a shader.
     RENDERER_OPENGL ##  \
       ##  An OpenGL implementation without a shader.
