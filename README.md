@@ -34,7 +34,7 @@ To use legacy libtcod 1.5.1 (src151 directory), use `--define:tcod151` key in yo
 
 CHANGELOG:
 ==========
-**v0.99 (WIP)**
+**v0.99**
 * added libtcod 1.7.0 wrapper
 * bugfixes for both 1.5.1 and 1.7.0 wrappers
 
