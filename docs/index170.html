@@ -1423,6 +1423,61 @@ function main() {
   custom*: pointer"><wbr />Value<span class="attachedType" style="visibility:hidden"></span></a></li>
   <li><a class="reference" href="#ParserStruct"
     title="ParserStruct = pointer"><wbr />Parser<wbr />Struct<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#ParserListener"
+    title="ParserListener = ptr ParserListenerObj"><wbr />Parser<wbr />Listener<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#ParserListenerObj"
+    title="ParserListenerObj {.bycopy.} = object
+  newStruct*: proc (str: ParserStruct; name: cstring): bool {.cdecl.}
+  newFlag*: proc (name: cstring): bool {.cdecl.}
+  newProperty*: proc (propname: cstring; kind: ValueKind; value: Value): bool {.cdecl.}
+  endStruct*: proc (str: ParserStruct; name: cstring): bool {.cdecl.}
+  error*: proc (msg: cstring) {.cdecl.}"><wbr />Parser<wbr />Listener<wbr />Obj<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#ParserCustom"
+    title="ParserCustom = proc (lex: ptr Lex; listener: ParserListener; str: ParserStruct;
+                  propname: cstring): Value {.cdecl.}"><wbr />Parser<wbr />Custom<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#Parser"
+    title="Parser = pointer"><wbr />Parser<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#StructInt"
+    title="StructInt {.bycopy.} = object
+  name*: cstring               ## entity type name
+  flags*: List                 ## list of flags
+  props*: List                 ## list of properties (name, type, mandatory)
+  lists*: List                 ## list of value lists
+  structs*: List               ## list of sub-structures"><wbr />Struct<wbr />Int<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#ParserInt"
+    title="ParserInt {.bycopy.} = object
+  structs*: List               ## list of structures
+  customs*: array[16, ParserCustom] ## list of custom type parsers
+  fatal*: bool                 ## fatal error occurred
+  props*: List                 ## list of properties if default listener is used"><wbr />Parser<wbr />Int<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#PathProc"
+    title="PathProc = proc (xFrom, yFrom, xTo, yTo: cint; userData: pointer): cfloat {.cdecl.}"><wbr />Path<wbr />Proc<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#Path"
+    title="Path = pointer"><wbr />Path<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#Dijkstra"
+    title="Dijkstra = pointer"><wbr />Dijkstra<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#Event"
+    title="Event {.size: 4.} = enum
+  EVENT_NONE = 0, EVENT_KEY_PRESS = 1, EVENT_KEY_RELEASE = 2, EVENT_KEY = 1 or 2,
+  EVENT_MOUSE_MOVE = 4, EVENT_MOUSE_PRESS = 8, EVENT_MOUSE_RELEASE = 16,
+  EVENT_MOUSE = 12 or 16, EVENT_FINGER_MOVE = 32, EVENT_FINGER_PRESS = 64,
+  EVENT_FINGER_RELEASE = 128, EVENT_FINGER = 96 or 128, EVENT_ANY = 31 or 224"><wbr />Event<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#Thread"
+    title="Thread = pointer"><wbr />Thread<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#Semaphore"
+    title="Semaphore = pointer"><wbr />Semaphore<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#Mutex"
+    title="Mutex = pointer"><wbr />Mutex<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#Cond"
+    title="Cond = pointer"><wbr />Cond<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#Library"
+    title="Library = pointer"><wbr />Library<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#SDL_Renderer"
+    title="SDL_Renderer = proc (sdlRenderer: pointer) {.cdecl.}"><wbr />SDL_<wbr />Renderer<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#Text"
+    title="Text = pointer"><wbr />Text<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#Zip"
+    title="Zip = pointer"><wbr />Zip<span class="attachedType" style="visibility:hidden"></span></a></li>
 
   </ul>
 </li>
@@ -2129,6 +2184,8 @@ function main() {
     title="NOISE_DEFAULT_HURST = 0.5"><wbr />NOISE_<wbr />DEFAULT_<wbr />HURST<span class="attachedType" style="visibility:hidden"></span></a></li>
   <li><a class="reference" href="#NOISE_DEFAULT_LACUNARITY"
     title="NOISE_DEFAULT_LACUNARITY = 2.0"><wbr />NOISE_<wbr />DEFAULT_<wbr />LACUNARITY<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#DEFAULT_DIAGONAL_COST"
+    title="DEFAULT_DIAGONAL_COST: cfloat = 1.41"><wbr />DEFAULT_<wbr />DIAGONAL_<wbr />COST<span class="attachedType" style="visibility:hidden"></span></a></li>
 
   </ul>
 </li>
@@ -2714,6 +2771,278 @@ function main() {
     title="structIsMandatory(def: ParserStruct; propname: cstring): bool"><wbr />struct<wbr />Is<wbr />Mandatory<span class="attachedType" style="visibility:hidden">ParserStruct</span></a></li>
   <li><a class="reference" href="#structGetKind,ParserStruct,cstring"
     title="structGetKind(def: ParserStruct; propname: cstring): ValueKind"><wbr />struct<wbr />Get<wbr />Kind<span class="attachedType" style="visibility:hidden">ParserStruct</span></a></li>
+  <li><a class="reference" href="#parserNew,"
+    title="parserNew(): Parser"><wbr />parser<wbr />New<span class="attachedType" style="visibility:hidden">Parser</span></a></li>
+  <li><a class="reference" href="#parserNewStruct,Parser,cstring"
+    title="parserNewStruct(parser: Parser; name: cstring): ParserStruct"><wbr />parser<wbr />New<wbr />Struct<span class="attachedType" style="visibility:hidden">Parser</span></a></li>
+  <li><a class="reference" href="#parserNewCustomType,Parser,ParserCustom"
+    title="parserNewCustomType(parser: Parser; customTypeParser: ParserCustom): ValueKind"><wbr />parser<wbr />New<wbr />Custom<wbr />Type<span class="attachedType" style="visibility:hidden">Parser</span></a></li>
+  <li><a class="reference" href="#parserRun,Parser,cstring,ParserListener"
+    title="parserRun(parser: Parser; filename: cstring; listener: ParserListener)"><wbr />parser<wbr />Run<span class="attachedType" style="visibility:hidden">Parser</span></a></li>
+  <li><a class="reference" href="#parserDelete,Parser"
+    title="parserDelete(parser: Parser)"><wbr />parser<wbr />Delete<span class="attachedType" style="visibility:hidden">Parser</span></a></li>
+  <li><a class="reference" href="#parserError,cstring"
+    title="parserError(msg: cstring)"><wbr />parser<wbr />Error<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#parserHasProperty,Parser,cstring"
+    title="parserHasProperty(parser: Parser; name: cstring): bool"><wbr />parser<wbr />Has<wbr />Property<span class="attachedType" style="visibility:hidden">Parser</span></a></li>
+  <li><a class="reference" href="#parserGetBoolProperty,Parser,cstring"
+    title="parserGetBoolProperty(parser: Parser; name: cstring): bool"><wbr />parser<wbr />Get<wbr />Bool<wbr />Property<span class="attachedType" style="visibility:hidden">Parser</span></a></li>
+  <li><a class="reference" href="#parserGetCharProperty,Parser,cstring"
+    title="parserGetCharProperty(parser: Parser; name: cstring): cint"><wbr />parser<wbr />Get<wbr />Char<wbr />Property<span class="attachedType" style="visibility:hidden">Parser</span></a></li>
+  <li><a class="reference" href="#parserGetIntProperty,Parser,cstring"
+    title="parserGetIntProperty(parser: Parser; name: cstring): cint"><wbr />parser<wbr />Get<wbr />Int<wbr />Property<span class="attachedType" style="visibility:hidden">Parser</span></a></li>
+  <li><a class="reference" href="#parserGetFloatProperty,Parser,cstring"
+    title="parserGetFloatProperty(parser: Parser; name: cstring): cfloat"><wbr />parser<wbr />Get<wbr />Float<wbr />Property<span class="attachedType" style="visibility:hidden">Parser</span></a></li>
+  <li><a class="reference" href="#parserGetStringProperty,Parser,cstring"
+    title="parserGetStringProperty(parser: Parser; name: cstring): cstring"><wbr />parser<wbr />Get<wbr />String<wbr />Property<span class="attachedType" style="visibility:hidden">Parser</span></a></li>
+  <li><a class="reference" href="#parserGetColorProperty,Parser,cstring"
+    title="parserGetColorProperty(parser: Parser; name: cstring): Color"><wbr />parser<wbr />Get<wbr />Color<wbr />Property<span class="attachedType" style="visibility:hidden">Parser</span></a></li>
+  <li><a class="reference" href="#parserGetDiceProperty,Parser,cstring"
+    title="parserGetDiceProperty(parser: Parser; name: cstring): Dice"><wbr />parser<wbr />Get<wbr />Dice<wbr />Property<span class="attachedType" style="visibility:hidden">Parser</span></a></li>
+  <li><a class="reference" href="#parserGetDicePropertyPy,Parser,cstring,ptr.Dice"
+    title="parserGetDicePropertyPy(parser: Parser; name: cstring; dice: ptr Dice)"><wbr />parser<wbr />Get<wbr />Dice<wbr />Property<wbr />Py<span class="attachedType" style="visibility:hidden">Parser</span></a></li>
+  <li><a class="reference" href="#parserGetCustomProperty,Parser,cstring"
+    title="parserGetCustomProperty(parser: Parser; name: cstring): pointer"><wbr />parser<wbr />Get<wbr />Custom<wbr />Property<span class="attachedType" style="visibility:hidden">Parser</span></a></li>
+  <li><a class="reference" href="#parserGetListProperty,Parser,cstring,ValueKind"
+    title="parserGetListProperty(parser: Parser; name: cstring; kind: ValueKind): List"><wbr />parser<wbr />Get<wbr />List<wbr />Property<span class="attachedType" style="visibility:hidden">Parser</span></a></li>
+  <li><a class="reference" href="#parseBoolValue,"
+    title="parseBoolValue(): Value"><wbr />parse<wbr />Bool<wbr />Value<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#parseCharValue,"
+    title="parseCharValue(): Value"><wbr />parse<wbr />Char<wbr />Value<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#parseIntegerValue,"
+    title="parseIntegerValue(): Value"><wbr />parse<wbr />Integer<wbr />Value<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#parseFloatValue,"
+    title="parseFloatValue(): Value"><wbr />parse<wbr />Float<wbr />Value<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#parseStringValue,"
+    title="parseStringValue(): Value"><wbr />parse<wbr />String<wbr />Value<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#parseColorValue,"
+    title="parseColorValue(): Value"><wbr />parse<wbr />Color<wbr />Value<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#parseDiceValue,"
+    title="parseDiceValue(): Value"><wbr />parse<wbr />Dice<wbr />Value<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#parseValueListValue,ptr.StructInt,cint"
+    title="parseValueListValue(def: ptr StructInt; listnum: cint): Value"><wbr />parse<wbr />Value<wbr />List<wbr />Value<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#parsePropertyValue,ptr.ParserInt,ParserStruct,cstring,bool"
+    title="parsePropertyValue(parser: ptr ParserInt; def: ParserStruct; propname: cstring;
+                   list: bool): Value"><wbr />parse<wbr />Property<wbr />Value<span class="attachedType" style="visibility:hidden">ParserStruct</span></a></li>
+  <li><a class="reference" href="#pathNewUsingMap,Map,cfloat"
+    title="pathNewUsingMap(map: Map; diagonalCost: cfloat = DEFAULT_DIAGONAL_COST): Path"><wbr />path<wbr />New<wbr />Using<wbr />Map<span class="attachedType" style="visibility:hidden">Map</span></a></li>
+  <li><a class="reference" href="#pathNewUsingProcedure,cint,cint,PathProc,pointer,cfloat"
+    title="pathNewUsingProcedure(mapWidth, mapHeight: cint; procedure: PathProc;
+                      userData: pointer;
+                      diagonalCost: cfloat = DEFAULT_DIAGONAL_COST): Path"><wbr />path<wbr />New<wbr />Using<wbr />Procedure<span class="attachedType" style="visibility:hidden">Path</span></a></li>
+  <li><a class="reference" href="#pathCompute,Path,cint,cint,cint,cint"
+    title="pathCompute(path: Path; ox, oy, dx, dy: cint): bool"><wbr />path<wbr />Compute<span class="attachedType" style="visibility:hidden">Path</span></a></li>
+  <li><a class="reference" href="#pathWalk,Path,ptr.cint,ptr.cint,bool"
+    title="pathWalk(path: Path; x, y: ptr cint; recalculateWhenNeeded: bool): bool"><wbr />path<wbr />Walk<span class="attachedType" style="visibility:hidden">Path</span></a></li>
+  <li><a class="reference" href="#pathIsEmpty,Path"
+    title="pathIsEmpty(path: Path): bool"><wbr />path<wbr />Is<wbr />Empty<span class="attachedType" style="visibility:hidden">Path</span></a></li>
+  <li><a class="reference" href="#pathSize,Path"
+    title="pathSize(path: Path): cint"><wbr />path<wbr />Size<span class="attachedType" style="visibility:hidden">Path</span></a></li>
+  <li><a class="reference" href="#pathReverse,Path"
+    title="pathReverse(path: Path)"><wbr />path<wbr />Reverse<span class="attachedType" style="visibility:hidden">Path</span></a></li>
+  <li><a class="reference" href="#pathGet,Path,cint,ptr.cint,ptr.cint"
+    title="pathGet(path: Path; index: cint; x, y: ptr cint)"><wbr />path<wbr />Get<span class="attachedType" style="visibility:hidden">Path</span></a></li>
+  <li><a class="reference" href="#pathGetOrigin,Path,ptr.cint,ptr.cint"
+    title="pathGetOrigin(path: Path; x, y: ptr cint)"><wbr />path<wbr />Get<wbr />Origin<span class="attachedType" style="visibility:hidden">Path</span></a></li>
+  <li><a class="reference" href="#pathGetDestination,Path,ptr.cint,ptr.cint"
+    title="pathGetDestination(path: Path; x, y: ptr cint)"><wbr />path<wbr />Get<wbr />Destination<span class="attachedType" style="visibility:hidden">Path</span></a></li>
+  <li><a class="reference" href="#pathDelete,Path"
+    title="pathDelete(path: var Path)"><wbr />path<wbr />Delete<span class="attachedType" style="visibility:hidden">Path</span></a></li>
+  <li><a class="reference" href="#dijkstraNew,Map,cfloat"
+    title="dijkstraNew(map: Map; diagonalCost: cfloat = DEFAULT_DIAGONAL_COST): Dijkstra"><wbr />dijkstra<wbr />New<span class="attachedType" style="visibility:hidden">Map</span></a></li>
+  <li><a class="reference" href="#dijkstraNewUsingProcedure,cint,cint,PathProc,pointer,cfloat"
+    title="dijkstraNewUsingProcedure(mapWidth, mapHeight: cint; procedure: PathProc;
+                          userData: pointer;
+                          diagonalCost: cfloat = DEFAULT_DIAGONAL_COST): Dijkstra"><wbr />dijkstra<wbr />New<wbr />Using<wbr />Procedure<span class="attachedType" style="visibility:hidden">Dijkstra</span></a></li>
+  <li><a class="reference" href="#dijkstraCompute,Dijkstra,cint,cint"
+    title="dijkstraCompute(dijkstra: Dijkstra; rootX, rootY: cint)"><wbr />dijkstra<wbr />Compute<span class="attachedType" style="visibility:hidden">Dijkstra</span></a></li>
+  <li><a class="reference" href="#dijkstraGetDistance,Dijkstra,cint,cint"
+    title="dijkstraGetDistance(dijkstra: Dijkstra; x, y: cint): cfloat"><wbr />dijkstra<wbr />Get<wbr />Distance<span class="attachedType" style="visibility:hidden">Dijkstra</span></a></li>
+  <li><a class="reference" href="#dijkstraPathSet,Dijkstra,cint,cint"
+    title="dijkstraPathSet(dijkstra: Dijkstra; x, y: cint): bool"><wbr />dijkstra<wbr />Path<wbr />Set<span class="attachedType" style="visibility:hidden">Dijkstra</span></a></li>
+  <li><a class="reference" href="#dijkstraIsEmpty,Dijkstra"
+    title="dijkstraIsEmpty(path: Dijkstra): bool"><wbr />dijkstra<wbr />Is<wbr />Empty<span class="attachedType" style="visibility:hidden">Dijkstra</span></a></li>
+  <li><a class="reference" href="#dijkstraSize,Dijkstra"
+    title="dijkstraSize(path: Dijkstra): cint"><wbr />dijkstra<wbr />Size<span class="attachedType" style="visibility:hidden">Dijkstra</span></a></li>
+  <li><a class="reference" href="#dijkstraReverse,Dijkstra"
+    title="dijkstraReverse(path: Dijkstra)"><wbr />dijkstra<wbr />Reverse<span class="attachedType" style="visibility:hidden">Dijkstra</span></a></li>
+  <li><a class="reference" href="#dijkstraGet,Dijkstra,cint,ptr.cint,ptr.cint"
+    title="dijkstraGet(path: Dijkstra; index: cint; x, y: ptr cint)"><wbr />dijkstra<wbr />Get<span class="attachedType" style="visibility:hidden">Dijkstra</span></a></li>
+  <li><a class="reference" href="#dijkstraPathWalk,Dijkstra,ptr.cint,ptr.cint"
+    title="dijkstraPathWalk(dijkstra: Dijkstra; x, y: ptr cint): bool"><wbr />dijkstra<wbr />Path<wbr />Walk<span class="attachedType" style="visibility:hidden">Dijkstra</span></a></li>
+  <li><a class="reference" href="#dijkstraDelete,Dijkstra"
+    title="dijkstraDelete(dijkstra: var Dijkstra)"><wbr />dijkstra<wbr />Delete<span class="attachedType" style="visibility:hidden">Dijkstra</span></a></li>
+  <li><a class="reference" href="#sysStartup,"
+    title="sysStartup()"><wbr />sys<wbr />Startup<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysShutdown,"
+    title="sysShutdown()"><wbr />sys<wbr />Shutdown<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysElapsedMilli,"
+    title="sysElapsedMilli(): uint32"><wbr />sys<wbr />Elapsed<wbr />Milli<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysElapsedSeconds,"
+    title="sysElapsedSeconds(): cfloat"><wbr />sys<wbr />Elapsed<wbr />Seconds<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysSleepMilli,uint32"
+    title="sysSleepMilli(val: uint32)"><wbr />sys<wbr />Sleep<wbr />Milli<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysSetFps,cint"
+    title="sysSetFps(val: cint)"><wbr />sys<wbr />Set<wbr />Fps<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysGetFps,"
+    title="sysGetFps(): cint"><wbr />sys<wbr />Get<wbr />Fps<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysGetLastFrameLength,"
+    title="sysGetLastFrameLength(): cfloat"><wbr />sys<wbr />Get<wbr />Last<wbr />Frame<wbr />Length<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysSaveScreenshot,cstring"
+    title="sysSaveScreenshot(filename: cstring)"><wbr />sys<wbr />Save<wbr />Screenshot<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysForceFullscreenResolution,cint,cint"
+    title="sysForceFullscreenResolution(width, height: cint)"><wbr />sys<wbr />Force<wbr />Fullscreen<wbr />Resolution<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysSetRenderer,Renderer"
+    title="sysSetRenderer(renderer: Renderer)"><wbr />sys<wbr />Set<wbr />Renderer<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysGetRenderer,"
+    title="sysGetRenderer(): Renderer"><wbr />sys<wbr />Get<wbr />Renderer<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysGetCurrentResolution,ptr.cint,ptr.cint"
+    title="sysGetCurrentResolution(w, h: ptr cint)"><wbr />sys<wbr />Get<wbr />Current<wbr />Resolution<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysGetFullscreenOffsets,ptr.cint,ptr.cint"
+    title="sysGetFullscreenOffsets(offx, offy: ptr cint)"><wbr />sys<wbr />Get<wbr />Fullscreen<wbr />Offsets<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysGetCharSize,ptr.cint,ptr.cint"
+    title="sysGetCharSize(w, h: ptr cint)"><wbr />sys<wbr />Get<wbr />Char<wbr />Size<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysUpdateChar,cint,cint,cint,Image,cint,cint"
+    title="sysUpdateChar(asciiCode, fontx, fonty: cint; img: Image; x, y: cint)"><wbr />sys<wbr />Update<wbr />Char<span class="attachedType" style="visibility:hidden">Image</span></a></li>
+  <li><a class="reference" href="#sysGetSDL_window,"
+    title="sysGetSDL_window(): pointer"><wbr />sys<wbr />Get<wbr />SDL_<wbr />window<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysGetSDL_renderer,"
+    title="sysGetSDL_renderer(): pointer"><wbr />sys<wbr />Get<wbr />SDL_<wbr />renderer<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysWaitForEvent,cint,ptr.Key,ptr.Mouse,bool"
+    title="sysWaitForEvent(eventMask: cint; key: ptr Key; mouse: ptr Mouse; flush: bool): Event"><wbr />sys<wbr />Wait<wbr />For<wbr />Event<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysCheckForEvent,cint,ptr.Key,ptr.Mouse"
+    title="sysCheckForEvent(eventMask: cint; key: ptr Key; mouse: ptr Mouse): Event"><wbr />sys<wbr />Check<wbr />For<wbr />Event<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysCreateDirectory,cstring"
+    title="sysCreateDirectory(path: cstring): bool"><wbr />sys<wbr />Create<wbr />Directory<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysDeleteFile,cstring"
+    title="sysDeleteFile(path: cstring): bool"><wbr />sys<wbr />Delete<wbr />File<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysDeleteDirectory,cstring"
+    title="sysDeleteDirectory(path: cstring): bool"><wbr />sys<wbr />Delete<wbr />Directory<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysIsDirectory,cstring"
+    title="sysIsDirectory(path: cstring): bool"><wbr />sys<wbr />Is<wbr />Directory<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysGetDirectoryContent,cstring,cstring"
+    title="sysGetDirectoryContent(path: cstring; pattern: cstring): List"><wbr />sys<wbr />Get<wbr />Directory<wbr />Content<span class="attachedType" style="visibility:hidden">List</span></a></li>
+  <li><a class="reference" href="#sysGetDirectoryContentSeq,string,string"
+    title="sysGetDirectoryContentSeq(path, pattern: string): seq[string]"><wbr />sys<wbr />Get<wbr />Directory<wbr />Content<wbr />Seq<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysFileExists,cstring"
+    title="sysFileExists(filename: cstring): bool"><wbr />sys<wbr />File<wbr />Exists<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysReadFile,cstring,ptr.ptr.cuchar,ptr.csize"
+    title="sysReadFile(filename: cstring; buf: ptr ptr cuchar; size: ptr csize): bool"><wbr />sys<wbr />Read<wbr />File<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysWriteFile,cstring,ptr.cuchar,uint32"
+    title="sysWriteFile(filename: cstring; buf: ptr cuchar; size: uint32): bool"><wbr />sys<wbr />Write<wbr />File<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysClipboardSet,cstring"
+    title="sysClipboardSet(value: cstring): bool"><wbr />sys<wbr />Clipboard<wbr />Set<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#sysClipboardGet,"
+    title="sysClipboardGet(): cstring"><wbr />sys<wbr />Clipboard<wbr />Get<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#threadNew,proc(pointer),pointer"
+    title="threadNew(procedure: proc (a1: pointer): cint {.cdecl.}; data: pointer): Thread"><wbr />thread<wbr />New<span class="attachedType" style="visibility:hidden">Thread</span></a></li>
+  <li><a class="reference" href="#threadDelete,Thread"
+    title="threadDelete(th: var Thread)"><wbr />thread<wbr />Delete<span class="attachedType" style="visibility:hidden">Thread</span></a></li>
+  <li><a class="reference" href="#sysGetNumCores,"
+    title="sysGetNumCores(): cint"><wbr />sys<wbr />Get<wbr />Num<wbr />Cores<span class="attachedType" style="visibility:hidden"></span></a></li>
+  <li><a class="reference" href="#threadWait,Thread"
+    title="threadWait(th: Thread)"><wbr />thread<wbr />Wait<span class="attachedType" style="visibility:hidden">Thread</span></a></li>
+  <li><a class="reference" href="#mutexNew,"
+    title="mutexNew(): Mutex"><wbr />mutex<wbr />New<span class="attachedType" style="visibility:hidden">Mutex</span></a></li>
+  <li><a class="reference" href="#mutexIn,Mutex"
+    title="mutexIn(mut: Mutex)"><wbr />mutex<wbr />In<span class="attachedType" style="visibility:hidden">Mutex</span></a></li>
+  <li><a class="reference" href="#mutexOut,Mutex"
+    title="mutexOut(mut: Mutex)"><wbr />mutex<wbr />Out<span class="attachedType" style="visibility:hidden">Mutex</span></a></li>
+  <li><a class="reference" href="#mutexDelete,Mutex"
+    title="mutexDelete(mut: var Mutex)"><wbr />mutex<wbr />Delete<span class="attachedType" style="visibility:hidden">Mutex</span></a></li>
+  <li><a class="reference" href="#semaphoreNew,cint"
+    title="semaphoreNew(initVal: cint): Semaphore"><wbr />semaphore<wbr />New<span class="attachedType" style="visibility:hidden">Semaphore</span></a></li>
+  <li><a class="reference" href="#semaphoreLock,Semaphore"
+    title="semaphoreLock(sem: Semaphore)"><wbr />semaphore<wbr />Lock<span class="attachedType" style="visibility:hidden">Semaphore</span></a></li>
+  <li><a class="reference" href="#semaphoreUnlock,Semaphore"
+    title="semaphoreUnlock(sem: Semaphore)"><wbr />semaphore<wbr />Unlock<span class="attachedType" style="visibility:hidden">Semaphore</span></a></li>
+  <li><a class="reference" href="#semaphoreDelete,Semaphore"
+    title="semaphoreDelete(sem: var Semaphore)"><wbr />semaphore<wbr />Delete<span class="attachedType" style="visibility:hidden">Semaphore</span></a></li>
+  <li><a class="reference" href="#conditionNew,"
+    title="conditionNew(): Cond"><wbr />condition<wbr />New<span class="attachedType" style="visibility:hidden">Cond</span></a></li>
+  <li><a class="reference" href="#conditionSignal,Cond"
+    title="conditionSignal(sem: Cond)"><wbr />condition<wbr />Signal<span class="attachedType" style="visibility:hidden">Cond</span></a></li>
+  <li><a class="reference" href="#conditionBroadcast,Cond"
+    title="conditionBroadcast(sem: Cond)"><wbr />condition<wbr />Broadcast<span class="attachedType" style="visibility:hidden">Cond</span></a></li>
+  <li><a class="reference" href="#conditionWait,Cond,Mutex"
+    title="conditionWait(sem: Cond; mut: Mutex)"><wbr />condition<wbr />Wait<span class="attachedType" style="visibility:hidden">Cond</span></a></li>
+  <li><a class="reference" href="#conditionDelete,Cond"
+    title="conditionDelete(sem: var Cond)"><wbr />condition<wbr />Delete<span class="attachedType" style="visibility:hidden">Cond</span></a></li>
+  <li><a class="reference" href="#loadLibrary,cstring"
+    title="loadLibrary(path: cstring): Library"><wbr />load<wbr />Library<span class="attachedType" style="visibility:hidden">Library</span></a></li>
+  <li><a class="reference" href="#getProcedureAddress,Library,cstring"
+    title="getProcedureAddress(library: Library; procedureName: cstring): pointer"><wbr />get<wbr />Procedure<wbr />Address<span class="attachedType" style="visibility:hidden">Library</span></a></li>
+  <li><a class="reference" href="#closeLibrary,Library"
+    title="closeLibrary(a1: var Library)"><wbr />close<wbr />Library<span class="attachedType" style="visibility:hidden">Library</span></a></li>
+  <li><a class="reference" href="#sysRegisterSDL_Renderer,SDL_Renderer"
+    title="sysRegisterSDL_Renderer(renderer: SDL_Renderer)"><wbr />sys<wbr />Register<wbr />SDL_<wbr />Renderer<span class="attachedType" style="visibility:hidden">SDL_Renderer</span></a></li>
+  <li><a class="reference" href="#textInit,cint,cint,cint,cint,cint"
+    title="textInit(x, y, w, h, maxChars: cint): Text"><wbr />text<wbr />Init<span class="attachedType" style="visibility:hidden">Text</span></a></li>
+  <li><a class="reference" href="#textInit2,cint,cint,cint"
+    title="textInit2(w, h, maxChars: cint): Text"><wbr />text<wbr />Init2<span class="attachedType" style="visibility:hidden">Text</span></a></li>
+  <li><a class="reference" href="#textSetPos,Text,cint,cint"
+    title="textSetPos(txt: Text; x, y: cint)"><wbr />text<wbr />Set<wbr />Pos<span class="attachedType" style="visibility:hidden">Text</span></a></li>
+  <li><a class="reference" href="#textSetProperties,Text,cint,cint,cstring,cint"
+    title="textSetProperties(txt: Text; cursorChar, blinkInterval: cint; prompt: cstring;
+                  tabSize: cint)"><wbr />text<wbr />Set<wbr />Properties<span class="attachedType" style="visibility:hidden">Text</span></a></li>
+  <li><a class="reference" href="#textSetColors,Text,Color,Color,cfloat"
+    title="textSetColors(txt: Text; fore, back: Color; backTransparency: cfloat)"><wbr />text<wbr />Set<wbr />Colors<span class="attachedType" style="visibility:hidden">Text</span></a></li>
+  <li><a class="reference" href="#textUpdate,Text,Key"
+    title="textUpdate(txt: Text; key: Key): bool"><wbr />text<wbr />Update<span class="attachedType" style="visibility:hidden">Text</span></a></li>
+  <li><a class="reference" href="#textRender,Text,Console"
+    title="textRender(txt: Text; con: Console)"><wbr />text<wbr />Render<span class="attachedType" style="visibility:hidden">Text</span></a></li>
+  <li><a class="reference" href="#textGet,Text"
+    title="textGet(txt: Text): cstring"><wbr />text<wbr />Get<span class="attachedType" style="visibility:hidden">Text</span></a></li>
+  <li><a class="reference" href="#textReset,Text"
+    title="textReset(txt: Text)"><wbr />text<wbr />Reset<span class="attachedType" style="visibility:hidden">Text</span></a></li>
+  <li><a class="reference" href="#textDelete,Text"
+    title="textDelete(txt: var Text)"><wbr />text<wbr />Delete<span class="attachedType" style="visibility:hidden">Text</span></a></li>
+  <li><a class="reference" href="#zipNew,"
+    title="zipNew(): Zip"><wbr />zip<wbr />New<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipDelete,Zip"
+    title="zipDelete(zip: var Zip)"><wbr />zip<wbr />Delete<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipPutChar,Zip,char"
+    title="zipPutChar(zip: Zip; val: char)"><wbr />zip<wbr />Put<wbr />Char<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipPutInt,Zip,cint"
+    title="zipPutInt(zip: Zip; val: cint)"><wbr />zip<wbr />Put<wbr />Int<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipPutFloat,Zip,cfloat"
+    title="zipPutFloat(zip: Zip; val: cfloat)"><wbr />zip<wbr />Put<wbr />Float<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipPutString,Zip,cstring"
+    title="zipPutString(zip: Zip; val: cstring)"><wbr />zip<wbr />Put<wbr />String<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipPutColor,Zip,Color"
+    title="zipPutColor(zip: Zip; val: Color)"><wbr />zip<wbr />Put<wbr />Color<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipPutImage,Zip,Image"
+    title="zipPutImage(zip: Zip; val: Image)"><wbr />zip<wbr />Put<wbr />Image<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipPutConsole,Zip,Console"
+    title="zipPutConsole(zip: Zip; val: Console)"><wbr />zip<wbr />Put<wbr />Console<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipPutData,Zip,cint,pointer"
+    title="zipPutData(zip: Zip; nbBytes: cint; data: pointer)"><wbr />zip<wbr />Put<wbr />Data<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipGetCurrentBytes,Zip"
+    title="zipGetCurrentBytes(zip: Zip): uint32"><wbr />zip<wbr />Get<wbr />Current<wbr />Bytes<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipSaveToFile,Zip,cstring"
+    title="zipSaveToFile(zip: Zip; filename: cstring): cint"><wbr />zip<wbr />Save<wbr />To<wbr />File<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipLoadFromFile,Zip,cstring"
+    title="zipLoadFromFile(zip: Zip; filename: cstring): cint"><wbr />zip<wbr />Load<wbr />From<wbr />File<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipGetChar,Zip"
+    title="zipGetChar(zip: Zip): char"><wbr />zip<wbr />Get<wbr />Char<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipGetInt,Zip"
+    title="zipGetInt(zip: Zip): cint"><wbr />zip<wbr />Get<wbr />Int<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipGetFloat,Zip"
+    title="zipGetFloat(zip: Zip): cfloat"><wbr />zip<wbr />Get<wbr />Float<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipGetString,Zip"
+    title="zipGetString(zip: Zip): cstring"><wbr />zip<wbr />Get<wbr />String<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipGetColor,Zip"
+    title="zipGetColor(zip: Zip): Color"><wbr />zip<wbr />Get<wbr />Color<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipGetImage,Zip"
+    title="zipGetImage(zip: Zip): Image"><wbr />zip<wbr />Get<wbr />Image<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipGetConsole,Zip"
+    title="zipGetConsole(zip: Zip): Console"><wbr />zip<wbr />Get<wbr />Console<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipGetData,Zip,cint,pointer"
+    title="zipGetData(zip: Zip; nbBytes: cint; data: pointer): cint"><wbr />zip<wbr />Get<wbr />Data<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipGetRemainingBytes,Zip"
+    title="zipGetRemainingBytes(zip: Zip): uint32"><wbr />zip<wbr />Get<wbr />Remaining<wbr />Bytes<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
+  <li><a class="reference" href="#zipSkipBytes,Zip,uint32"
+    title="zipSkipBytes(zip: Zip; nbBytes: uint32)"><wbr />zip<wbr />Skip<wbr />Bytes<span class="attachedType" style="visibility:hidden">Zip</span></a></li>
 
   </ul>
 </li>
@@ -3060,6 +3389,123 @@ Generic value.
 <dt id="ParserStruct"><a name="ParserStruct"></a><pre><a href="libtcod.html#ParserStruct"><span class="Identifier">ParserStruct</span></a> <span class="Other">=</span> <span class="Identifier">pointer</span></pre></dt>
 <dd>
 Parser structures.
+
+</dd>
+<dt id="ParserListener"><a name="ParserListener"></a><pre><a href="libtcod.html#ParserListener"><span class="Identifier">ParserListener</span></a> <span class="Other">=</span> <span class="Keyword">ptr</span> <a href="libtcod.html#ParserListenerObj"><span class="Identifier">ParserListenerObj</span></a></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="ParserListenerObj"><a name="ParserListenerObj"></a><pre><a href="libtcod.html#ParserListenerObj"><span class="Identifier">ParserListenerObj</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">bycopy</span></span><span class="Other">.}</span></span> <span class="Other">=</span> <span class="Keyword">object</span>
+  <span class="Identifier">newStruct</span><span class="Operator">*</span><span class="Other">:</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">str</span><span class="Other">:</span> <a href="libtcod.html#ParserStruct"><span class="Identifier">ParserStruct</span></a><span class="Other">;</span> <span class="Identifier">name</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span></span><span class="Other">.}</span></span>
+  <span class="Identifier">newFlag</span><span class="Operator">*</span><span class="Other">:</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">name</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span></span><span class="Other">.}</span></span>
+  <span class="Identifier">newProperty</span><span class="Operator">*</span><span class="Other">:</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">propname</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">;</span> <span class="Identifier">kind</span><span class="Other">:</span> <a href="libtcod.html#ValueKind"><span class="Identifier">ValueKind</span></a><span class="Other">;</span> <span class="Identifier">value</span><span class="Other">:</span> <a href="libtcod.html#Value"><span class="Identifier">Value</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span></span><span class="Other">.}</span></span>
+  <span class="Identifier">endStruct</span><span class="Operator">*</span><span class="Other">:</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">str</span><span class="Other">:</span> <a href="libtcod.html#ParserStruct"><span class="Identifier">ParserStruct</span></a><span class="Other">;</span> <span class="Identifier">name</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span></span><span class="Other">.}</span></span>
+  <span class="Identifier">error</span><span class="Operator">*</span><span class="Other">:</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">msg</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span></span><span class="Other">.}</span></span>
+</pre></dt>
+<dd>
+
+Parser listener.
+
+</dd>
+<dt id="ParserCustom"><a name="ParserCustom"></a><pre><a href="libtcod.html#ParserCustom"><span class="Identifier">ParserCustom</span></a> <span class="Other">=</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">lex</span><span class="Other">:</span> <span class="Keyword">ptr</span> <a href="libtcod.html#Lex"><span class="Identifier">Lex</span></a><span class="Other">;</span> <span class="Identifier">listener</span><span class="Other">:</span> <a href="libtcod.html#ParserListener"><span class="Identifier">ParserListener</span></a><span class="Other">;</span> <span class="Identifier">str</span><span class="Other">:</span> <a href="libtcod.html#ParserStruct"><span class="Identifier">ParserStruct</span></a><span class="Other">;</span>
+                  <span class="Identifier">propname</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Value"><span class="Identifier">Value</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+ A custom type parser.
+
+</dd>
+<dt id="Parser"><a name="Parser"></a><pre><a href="libtcod.html#Parser"><span class="Identifier">Parser</span></a> <span class="Other">=</span> <span class="Identifier">pointer</span></pre></dt>
+<dd>
+The parser.
+
+</dd>
+<dt id="StructInt"><a name="StructInt"></a><pre><a href="libtcod.html#StructInt"><span class="Identifier">StructInt</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">bycopy</span></span><span class="Other">.}</span></span> <span class="Other">=</span> <span class="Keyword">object</span>
+  <span class="Identifier">name</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">cstring</span>               <span class="Comment">## entity type name</span>
+  <span class="Identifier">flags</span><span class="Operator">*</span><span class="Other">:</span> <a href="libtcod.html#List"><span class="Identifier">List</span></a>                 <span class="Comment">## list of flags</span>
+  <span class="Identifier">props</span><span class="Operator">*</span><span class="Other">:</span> <a href="libtcod.html#List"><span class="Identifier">List</span></a>                 <span class="Comment">## list of properties (name, type, mandatory)</span>
+  <span class="Identifier">lists</span><span class="Operator">*</span><span class="Other">:</span> <a href="libtcod.html#List"><span class="Identifier">List</span></a>                 <span class="Comment">## list of value lists</span>
+  <span class="Identifier">structs</span><span class="Operator">*</span><span class="Other">:</span> <a href="libtcod.html#List"><span class="Identifier">List</span></a>               <span class="Comment">## list of sub-structures</span>
+  </pre></dt>
+<dd>
+
+Parser structures. 
+
+</dd>
+<dt id="ParserInt"><a name="ParserInt"></a><pre><a href="libtcod.html#ParserInt"><span class="Identifier">ParserInt</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">bycopy</span></span><span class="Other">.}</span></span> <span class="Other">=</span> <span class="Keyword">object</span>
+  <span class="Identifier">structs</span><span class="Operator">*</span><span class="Other">:</span> <a href="libtcod.html#List"><span class="Identifier">List</span></a>               <span class="Comment">## list of structures</span>
+  <span class="Identifier">customs</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">array</span><span class="Other">[</span><span class="DecNumber">16</span><span class="Other">,</span> <a href="libtcod.html#ParserCustom"><span class="Identifier">ParserCustom</span></a><span class="Other">]</span> <span class="Comment">## list of custom type parsers</span>
+  <span class="Identifier">fatal</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">bool</span>                 <span class="Comment">## fatal error occurred</span>
+  <span class="Identifier">props</span><span class="Operator">*</span><span class="Other">:</span> <a href="libtcod.html#List"><span class="Identifier">List</span></a>                 <span class="Comment">## list of properties if default listener is used</span>
+  </pre></dt>
+<dd>
+
+The parser. 
+
+</dd>
+<dt id="PathProc"><a name="PathProc"></a><pre><a href="libtcod.html#PathProc"><span class="Identifier">PathProc</span></a> <span class="Other">=</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">xFrom</span><span class="Other">,</span> <span class="Identifier">yFrom</span><span class="Other">,</span> <span class="Identifier">xTo</span><span class="Other">,</span> <span class="Identifier">yTo</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">;</span> <span class="Identifier">userData</span><span class="Other">:</span> <span class="Identifier">pointer</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cfloat</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="Path"><a name="Path"></a><pre><a href="libtcod.html#Path"><span class="Identifier">Path</span></a> <span class="Other">=</span> <span class="Identifier">pointer</span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="Dijkstra"><a name="Dijkstra"></a><pre><a href="libtcod.html#Dijkstra"><span class="Identifier">Dijkstra</span></a> <span class="Other">=</span> <span class="Identifier">pointer</span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="Event"><a name="Event"></a><pre><a href="libtcod.html#Event"><span class="Identifier">Event</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">size</span><span class="Other">:</span> <span class="DecNumber">4</span></span><span class="Other">.}</span></span> <span class="Other">=</span> <span class="Keyword">enum</span>
+  <span class="Identifier">EVENT_NONE</span> <span class="Other">=</span> <span class="DecNumber">0</span><span class="Other">,</span> <span class="Identifier">EVENT_KEY_PRESS</span> <span class="Other">=</span> <span class="DecNumber">1</span><span class="Other">,</span> <span class="Identifier">EVENT_KEY_RELEASE</span> <span class="Other">=</span> <span class="DecNumber">2</span><span class="Other">,</span> <span class="Identifier">EVENT_KEY</span> <span class="Other">=</span> <span class="DecNumber">1</span> <span class="Keyword">or</span> <span class="DecNumber">2</span><span class="Other">,</span>
+  <span class="Identifier">EVENT_MOUSE_MOVE</span> <span class="Other">=</span> <span class="DecNumber">4</span><span class="Other">,</span> <span class="Identifier">EVENT_MOUSE_PRESS</span> <span class="Other">=</span> <span class="DecNumber">8</span><span class="Other">,</span> <span class="Identifier">EVENT_MOUSE_RELEASE</span> <span class="Other">=</span> <span class="DecNumber">16</span><span class="Other">,</span>
+  <span class="Identifier">EVENT_MOUSE</span> <span class="Other">=</span> <span class="DecNumber">12</span> <span class="Keyword">or</span> <span class="DecNumber">16</span><span class="Other">,</span> <span class="Identifier">EVENT_FINGER_MOVE</span> <span class="Other">=</span> <span class="DecNumber">32</span><span class="Other">,</span> <span class="Identifier">EVENT_FINGER_PRESS</span> <span class="Other">=</span> <span class="DecNumber">64</span><span class="Other">,</span>
+  <span class="Identifier">EVENT_FINGER_RELEASE</span> <span class="Other">=</span> <span class="DecNumber">128</span><span class="Other">,</span> <span class="Identifier">EVENT_FINGER</span> <span class="Other">=</span> <span class="DecNumber">96</span> <span class="Keyword">or</span> <span class="DecNumber">128</span><span class="Other">,</span> <span class="Identifier">EVENT_ANY</span> <span class="Other">=</span> <span class="DecNumber">31</span> <span class="Keyword">or</span> <span class="DecNumber">224</span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="Thread"><a name="Thread"></a><pre><a href="libtcod.html#Thread"><span class="Identifier">Thread</span></a> <span class="Other">=</span> <span class="Identifier">pointer</span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="Semaphore"><a name="Semaphore"></a><pre><a href="libtcod.html#Semaphore"><span class="Identifier">Semaphore</span></a> <span class="Other">=</span> <span class="Identifier">pointer</span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="Mutex"><a name="Mutex"></a><pre><a href="libtcod.html#Mutex"><span class="Identifier">Mutex</span></a> <span class="Other">=</span> <span class="Identifier">pointer</span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="Cond"><a name="Cond"></a><pre><a href="libtcod.html#Cond"><span class="Identifier">Cond</span></a> <span class="Other">=</span> <span class="Identifier">pointer</span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="Library"><a name="Library"></a><pre><a href="libtcod.html#Library"><span class="Identifier">Library</span></a> <span class="Other">=</span> <span class="Identifier">pointer</span></pre></dt>
+<dd>
+dynamic library
+
+</dd>
+<dt id="SDL_Renderer"><a name="SDL_Renderer"></a><pre><a href="libtcod.html#SDL_Renderer"><span class="Identifier">SDL_Renderer</span></a> <span class="Other">=</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">sdlRenderer</span><span class="Other">:</span> <span class="Identifier">pointer</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+SDL renderer callback
+
+</dd>
+<dt id="Text"><a name="Text"></a><pre><a href="libtcod.html#Text"><span class="Identifier">Text</span></a> <span class="Other">=</span> <span class="Identifier">pointer</span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="Zip"><a name="Zip"></a><pre><a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a> <span class="Other">=</span> <span class="Identifier">pointer</span></pre></dt>
+<dd>
+
 
 </dd>
 
@@ -4817,6 +5263,11 @@ A unique layout used by some of libtcod's fonts.
 
 
 </dd>
+<dt id="DEFAULT_DIAGONAL_COST"><a name="DEFAULT_DIAGONAL_COST"></a><pre><span class="Identifier">DEFAULT_DIAGONAL_COST</span><span class="Other">:</span> <span class="Identifier">cfloat</span> <span class="Other">=</span> <span class="FloatNumber">1.41</span></pre></dt>
+<dd>
+
+
+</dd>
 
 </dl></div>
 <div class="section" id="12">
@@ -6464,6 +6915,788 @@ Delete a generator.
 
 
 </dd>
+<dt id="parserNew"><a name="parserNew,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parserNew</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Parser"><span class="Identifier">Parser</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parser_new&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parserNewStruct"><a name="parserNewStruct,Parser,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parserNewStruct</span><span class="Other">(</span><span class="Identifier">parser</span><span class="Other">:</span> <a href="libtcod.html#Parser"><span class="Identifier">Parser</span></a><span class="Other">;</span> <span class="Identifier">name</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#ParserStruct"><span class="Identifier">ParserStruct</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parser_new_struct&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parserNewCustomType"><a name="parserNewCustomType,Parser,ParserCustom"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parserNewCustomType</span><span class="Other">(</span><span class="Identifier">parser</span><span class="Other">:</span> <a href="libtcod.html#Parser"><span class="Identifier">Parser</span></a><span class="Other">;</span> <span class="Identifier">customTypeParser</span><span class="Other">:</span> <a href="libtcod.html#ParserCustom"><span class="Identifier">ParserCustom</span></a><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#ValueKind"><span class="Identifier">ValueKind</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parser_new_custom_type&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parserRun"><a name="parserRun,Parser,cstring,ParserListener"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parserRun</span><span class="Other">(</span><span class="Identifier">parser</span><span class="Other">:</span> <a href="libtcod.html#Parser"><span class="Identifier">Parser</span></a><span class="Other">;</span> <span class="Identifier">filename</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">;</span> <span class="Identifier">listener</span><span class="Other">:</span> <a href="libtcod.html#ParserListener"><span class="Identifier">ParserListener</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parser_run&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parserDelete"><a name="parserDelete,Parser"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parserDelete</span><span class="Other">(</span><span class="Identifier">parser</span><span class="Other">:</span> <a href="libtcod.html#Parser"><span class="Identifier">Parser</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parser_delete&quot;</span><span class="Other">,</span>
+                                 <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parserError"><a name="parserError,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parserError</span><span class="Other">(</span><span class="Identifier">msg</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">varargs</span><span class="Other">,</span> <span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parser_error&quot;</span><span class="Other">,</span>
+                              <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+Error during parsing. can be called by the parser listener.
+
+</dd>
+<dt id="parserHasProperty"><a name="parserHasProperty,Parser,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parserHasProperty</span><span class="Other">(</span><span class="Identifier">parser</span><span class="Other">:</span> <a href="libtcod.html#Parser"><span class="Identifier">Parser</span></a><span class="Other">;</span> <span class="Identifier">name</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parser_has_property&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parserGetBoolProperty"><a name="parserGetBoolProperty,Parser,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parserGetBoolProperty</span><span class="Other">(</span><span class="Identifier">parser</span><span class="Other">:</span> <a href="libtcod.html#Parser"><span class="Identifier">Parser</span></a><span class="Other">;</span> <span class="Identifier">name</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parser_get_bool_property&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parserGetCharProperty"><a name="parserGetCharProperty,Parser,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parserGetCharProperty</span><span class="Other">(</span><span class="Identifier">parser</span><span class="Other">:</span> <a href="libtcod.html#Parser"><span class="Identifier">Parser</span></a><span class="Other">;</span> <span class="Identifier">name</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parser_get_char_property&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parserGetIntProperty"><a name="parserGetIntProperty,Parser,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parserGetIntProperty</span><span class="Other">(</span><span class="Identifier">parser</span><span class="Other">:</span> <a href="libtcod.html#Parser"><span class="Identifier">Parser</span></a><span class="Other">;</span> <span class="Identifier">name</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parser_get_int_property&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parserGetFloatProperty"><a name="parserGetFloatProperty,Parser,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parserGetFloatProperty</span><span class="Other">(</span><span class="Identifier">parser</span><span class="Other">:</span> <a href="libtcod.html#Parser"><span class="Identifier">Parser</span></a><span class="Other">;</span> <span class="Identifier">name</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cfloat</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parser_get_float_property&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parserGetStringProperty"><a name="parserGetStringProperty,Parser,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parserGetStringProperty</span><span class="Other">(</span><span class="Identifier">parser</span><span class="Other">:</span> <a href="libtcod.html#Parser"><span class="Identifier">Parser</span></a><span class="Other">;</span> <span class="Identifier">name</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cstring</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parser_get_string_property&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parserGetColorProperty"><a name="parserGetColorProperty,Parser,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parserGetColorProperty</span><span class="Other">(</span><span class="Identifier">parser</span><span class="Other">:</span> <a href="libtcod.html#Parser"><span class="Identifier">Parser</span></a><span class="Other">;</span> <span class="Identifier">name</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Color"><span class="Identifier">Color</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parser_get_color_property&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parserGetDiceProperty"><a name="parserGetDiceProperty,Parser,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parserGetDiceProperty</span><span class="Other">(</span><span class="Identifier">parser</span><span class="Other">:</span> <a href="libtcod.html#Parser"><span class="Identifier">Parser</span></a><span class="Other">;</span> <span class="Identifier">name</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Dice"><span class="Identifier">Dice</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parser_get_dice_property&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parserGetDicePropertyPy"><a name="parserGetDicePropertyPy,Parser,cstring,ptr.Dice"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parserGetDicePropertyPy</span><span class="Other">(</span><span class="Identifier">parser</span><span class="Other">:</span> <a href="libtcod.html#Parser"><span class="Identifier">Parser</span></a><span class="Other">;</span> <span class="Identifier">name</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">;</span> <span class="Identifier">dice</span><span class="Other">:</span> <span class="Keyword">ptr</span> <a href="libtcod.html#Dice"><span class="Identifier">Dice</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parser_get_dice_property_py&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parserGetCustomProperty"><a name="parserGetCustomProperty,Parser,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parserGetCustomProperty</span><span class="Other">(</span><span class="Identifier">parser</span><span class="Other">:</span> <a href="libtcod.html#Parser"><span class="Identifier">Parser</span></a><span class="Other">;</span> <span class="Identifier">name</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">pointer</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parser_get_custom_property&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parserGetListProperty"><a name="parserGetListProperty,Parser,cstring,ValueKind"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parserGetListProperty</span><span class="Other">(</span><span class="Identifier">parser</span><span class="Other">:</span> <a href="libtcod.html#Parser"><span class="Identifier">Parser</span></a><span class="Other">;</span> <span class="Identifier">name</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">;</span> <span class="Identifier">kind</span><span class="Other">:</span> <a href="libtcod.html#ValueKind"><span class="Identifier">ValueKind</span></a><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#List"><span class="Identifier">List</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parser_get_list_property&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parseBoolValue"><a name="parseBoolValue,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parseBoolValue</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Value"><span class="Identifier">Value</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parse_bool_value&quot;</span><span class="Other">,</span>
+                            <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parseCharValue"><a name="parseCharValue,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parseCharValue</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Value"><span class="Identifier">Value</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parse_char_value&quot;</span><span class="Other">,</span>
+                            <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parseIntegerValue"><a name="parseIntegerValue,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parseIntegerValue</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Value"><span class="Identifier">Value</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parse_integer_value&quot;</span><span class="Other">,</span>
+                               <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parseFloatValue"><a name="parseFloatValue,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parseFloatValue</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Value"><span class="Identifier">Value</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parse_float_value&quot;</span><span class="Other">,</span>
+                             <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parseStringValue"><a name="parseStringValue,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parseStringValue</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Value"><span class="Identifier">Value</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parse_string_value&quot;</span><span class="Other">,</span>
+                              <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parseColorValue"><a name="parseColorValue,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parseColorValue</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Value"><span class="Identifier">Value</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parse_color_value&quot;</span><span class="Other">,</span>
+                             <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parseDiceValue"><a name="parseDiceValue,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parseDiceValue</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Value"><span class="Identifier">Value</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parse_dice_value&quot;</span><span class="Other">,</span>
+                            <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parseValueListValue"><a name="parseValueListValue,ptr.StructInt,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parseValueListValue</span><span class="Other">(</span><span class="Identifier">def</span><span class="Other">:</span> <span class="Keyword">ptr</span> <a href="libtcod.html#StructInt"><span class="Identifier">StructInt</span></a><span class="Other">;</span> <span class="Identifier">listnum</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Value"><span class="Identifier">Value</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parse_value_list_value&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="parsePropertyValue"><a name="parsePropertyValue,ptr.ParserInt,ParserStruct,cstring,bool"></a><pre><span class="Keyword">proc</span> <span class="Identifier">parsePropertyValue</span><span class="Other">(</span><span class="Identifier">parser</span><span class="Other">:</span> <span class="Keyword">ptr</span> <a href="libtcod.html#ParserInt"><span class="Identifier">ParserInt</span></a><span class="Other">;</span> <span class="Identifier">def</span><span class="Other">:</span> <a href="libtcod.html#ParserStruct"><span class="Identifier">ParserStruct</span></a><span class="Other">;</span> <span class="Identifier">propname</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">;</span>
+                       <span class="Identifier">list</span><span class="Other">:</span> <span class="Identifier">bool</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Value"><span class="Identifier">Value</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_parse_property_value&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="pathNewUsingMap"><a name="pathNewUsingMap,Map,cfloat"></a><pre><span class="Keyword">proc</span> <span class="Identifier">pathNewUsingMap</span><span class="Other">(</span><span class="Identifier">map</span><span class="Other">:</span> <a href="libtcod.html#Map"><span class="Identifier">Map</span></a><span class="Other">;</span> <span class="Identifier">diagonalCost</span><span class="Other">:</span> <span class="Identifier">cfloat</span> <span class="Other">=</span> <span class="Identifier">DEFAULT_DIAGONAL_COST</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Path"><span class="Identifier">Path</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_path_new_using_map&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="pathNewUsingProcedure"><a name="pathNewUsingProcedure,cint,cint,PathProc,pointer,cfloat"></a><pre><span class="Keyword">proc</span> <span class="Identifier">pathNewUsingProcedure</span><span class="Other">(</span><span class="Identifier">mapWidth</span><span class="Other">,</span> <span class="Identifier">mapHeight</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">;</span> <span class="Identifier">procedure</span><span class="Other">:</span> <a href="libtcod.html#PathProc"><span class="Identifier">PathProc</span></a><span class="Other">;</span>
+                          <span class="Identifier">userData</span><span class="Other">:</span> <span class="Identifier">pointer</span><span class="Other">;</span>
+                          <span class="Identifier">diagonalCost</span><span class="Other">:</span> <span class="Identifier">cfloat</span> <span class="Other">=</span> <span class="Identifier">DEFAULT_DIAGONAL_COST</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Path"><span class="Identifier">Path</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_path_new_using_function&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="pathCompute"><a name="pathCompute,Path,cint,cint,cint,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">pathCompute</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <a href="libtcod.html#Path"><span class="Identifier">Path</span></a><span class="Other">;</span> <span class="Identifier">ox</span><span class="Other">,</span> <span class="Identifier">oy</span><span class="Other">,</span> <span class="Identifier">dx</span><span class="Other">,</span> <span class="Identifier">dy</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_path_compute&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="pathWalk"><a name="pathWalk,Path,ptr.cint,ptr.cint,bool"></a><pre><span class="Keyword">proc</span> <span class="Identifier">pathWalk</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <a href="libtcod.html#Path"><span class="Identifier">Path</span></a><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">,</span> <span class="Identifier">y</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">cint</span><span class="Other">;</span> <span class="Identifier">recalculateWhenNeeded</span><span class="Other">:</span> <span class="Identifier">bool</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_path_walk&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="pathIsEmpty"><a name="pathIsEmpty,Path"></a><pre><span class="Keyword">proc</span> <span class="Identifier">pathIsEmpty</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <a href="libtcod.html#Path"><span class="Identifier">Path</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_path_is_empty&quot;</span><span class="Other">,</span>
+                                 <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="pathSize"><a name="pathSize,Path"></a><pre><span class="Keyword">proc</span> <span class="Identifier">pathSize</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <a href="libtcod.html#Path"><span class="Identifier">Path</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_path_size&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="pathReverse"><a name="pathReverse,Path"></a><pre><span class="Keyword">proc</span> <span class="Identifier">pathReverse</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <a href="libtcod.html#Path"><span class="Identifier">Path</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_path_reverse&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="pathGet"><a name="pathGet,Path,cint,ptr.cint,ptr.cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">pathGet</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <a href="libtcod.html#Path"><span class="Identifier">Path</span></a><span class="Other">;</span> <span class="Identifier">index</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">,</span> <span class="Identifier">y</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">cint</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_path_get&quot;</span><span class="Other">,</span>
+    <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="pathGetOrigin"><a name="pathGetOrigin,Path,ptr.cint,ptr.cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">pathGetOrigin</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <a href="libtcod.html#Path"><span class="Identifier">Path</span></a><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">,</span> <span class="Identifier">y</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">cint</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_path_get_origin&quot;</span><span class="Other">,</span>
+    <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="pathGetDestination"><a name="pathGetDestination,Path,ptr.cint,ptr.cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">pathGetDestination</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <a href="libtcod.html#Path"><span class="Identifier">Path</span></a><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">,</span> <span class="Identifier">y</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">cint</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_path_get_destination&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="pathDelete"><a name="pathDelete,Path"></a><pre><span class="Keyword">proc</span> <span class="Identifier">pathDelete</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <span class="Keyword">var</span> <a href="libtcod.html#Path"><span class="Identifier">Path</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+unequals operator. This is a shorthand for <tt class="docutils literal"><span class="pre">not (x == y)</span></tt>.
+
+</dd>
+<dt id="dijkstraNew"><a name="dijkstraNew,Map,cfloat"></a><pre><span class="Keyword">proc</span> <span class="Identifier">dijkstraNew</span><span class="Other">(</span><span class="Identifier">map</span><span class="Other">:</span> <a href="libtcod.html#Map"><span class="Identifier">Map</span></a><span class="Other">;</span> <span class="Identifier">diagonalCost</span><span class="Other">:</span> <span class="Identifier">cfloat</span> <span class="Other">=</span> <span class="Identifier">DEFAULT_DIAGONAL_COST</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Dijkstra"><span class="Identifier">Dijkstra</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_dijkstra_new&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="dijkstraNewUsingProcedure"><a name="dijkstraNewUsingProcedure,cint,cint,PathProc,pointer,cfloat"></a><pre><span class="Keyword">proc</span> <span class="Identifier">dijkstraNewUsingProcedure</span><span class="Other">(</span><span class="Identifier">mapWidth</span><span class="Other">,</span> <span class="Identifier">mapHeight</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">;</span> <span class="Identifier">procedure</span><span class="Other">:</span> <a href="libtcod.html#PathProc"><span class="Identifier">PathProc</span></a><span class="Other">;</span>
+                              <span class="Identifier">userData</span><span class="Other">:</span> <span class="Identifier">pointer</span><span class="Other">;</span>
+                              <span class="Identifier">diagonalCost</span><span class="Other">:</span> <span class="Identifier">cfloat</span> <span class="Other">=</span> <span class="Identifier">DEFAULT_DIAGONAL_COST</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Dijkstra"><span class="Identifier">Dijkstra</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_dijkstra_new_using_function&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="dijkstraCompute"><a name="dijkstraCompute,Dijkstra,cint,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">dijkstraCompute</span><span class="Other">(</span><span class="Identifier">dijkstra</span><span class="Other">:</span> <a href="libtcod.html#Dijkstra"><span class="Identifier">Dijkstra</span></a><span class="Other">;</span> <span class="Identifier">rootX</span><span class="Other">,</span> <span class="Identifier">rootY</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_dijkstra_compute&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="dijkstraGetDistance"><a name="dijkstraGetDistance,Dijkstra,cint,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">dijkstraGetDistance</span><span class="Other">(</span><span class="Identifier">dijkstra</span><span class="Other">:</span> <a href="libtcod.html#Dijkstra"><span class="Identifier">Dijkstra</span></a><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">,</span> <span class="Identifier">y</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cfloat</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_dijkstra_get_distance&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="dijkstraPathSet"><a name="dijkstraPathSet,Dijkstra,cint,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">dijkstraPathSet</span><span class="Other">(</span><span class="Identifier">dijkstra</span><span class="Other">:</span> <a href="libtcod.html#Dijkstra"><span class="Identifier">Dijkstra</span></a><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">,</span> <span class="Identifier">y</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_dijkstra_path_set&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="dijkstraIsEmpty"><a name="dijkstraIsEmpty,Dijkstra"></a><pre><span class="Keyword">proc</span> <span class="Identifier">dijkstraIsEmpty</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <a href="libtcod.html#Dijkstra"><span class="Identifier">Dijkstra</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_dijkstra_is_empty&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="dijkstraSize"><a name="dijkstraSize,Dijkstra"></a><pre><span class="Keyword">proc</span> <span class="Identifier">dijkstraSize</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <a href="libtcod.html#Dijkstra"><span class="Identifier">Dijkstra</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_dijkstra_size&quot;</span><span class="Other">,</span>
+                                      <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="dijkstraReverse"><a name="dijkstraReverse,Dijkstra"></a><pre><span class="Keyword">proc</span> <span class="Identifier">dijkstraReverse</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <a href="libtcod.html#Dijkstra"><span class="Identifier">Dijkstra</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_dijkstra_reverse&quot;</span><span class="Other">,</span>
+                                    <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="dijkstraGet"><a name="dijkstraGet,Dijkstra,cint,ptr.cint,ptr.cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">dijkstraGet</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <a href="libtcod.html#Dijkstra"><span class="Identifier">Dijkstra</span></a><span class="Other">;</span> <span class="Identifier">index</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">,</span> <span class="Identifier">y</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">cint</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_dijkstra_get&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="dijkstraPathWalk"><a name="dijkstraPathWalk,Dijkstra,ptr.cint,ptr.cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">dijkstraPathWalk</span><span class="Other">(</span><span class="Identifier">dijkstra</span><span class="Other">:</span> <a href="libtcod.html#Dijkstra"><span class="Identifier">Dijkstra</span></a><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">,</span> <span class="Identifier">y</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_dijkstra_path_walk&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="dijkstraDelete"><a name="dijkstraDelete,Dijkstra"></a><pre><span class="Keyword">proc</span> <span class="Identifier">dijkstraDelete</span><span class="Other">(</span><span class="Identifier">dijkstra</span><span class="Other">:</span> <span class="Keyword">var</span> <a href="libtcod.html#Dijkstra"><span class="Identifier">Dijkstra</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+unequals operator. This is a shorthand for <tt class="docutils literal"><span class="pre">not (x == y)</span></tt>.
+
+</dd>
+<dt id="sysStartup"><a name="sysStartup,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysStartup</span><span class="Other">(</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_startup&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysShutdown"><a name="sysShutdown,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysShutdown</span><span class="Other">(</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_shutdown&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysElapsedMilli"><a name="sysElapsedMilli,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysElapsedMilli</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">uint32</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_elapsed_milli&quot;</span><span class="Other">,</span>
+                              <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysElapsedSeconds"><a name="sysElapsedSeconds,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysElapsedSeconds</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cfloat</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_elapsed_seconds&quot;</span><span class="Other">,</span>
+                                <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysSleepMilli"><a name="sysSleepMilli,uint32"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysSleepMilli</span><span class="Other">(</span><span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">uint32</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_sleep_milli&quot;</span><span class="Other">,</span>
+                               <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysSetFps"><a name="sysSetFps,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysSetFps</span><span class="Other">(</span><span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_set_fps&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysGetFps"><a name="sysGetFps,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysGetFps</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_get_fps&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysGetLastFrameLength"><a name="sysGetLastFrameLength,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysGetLastFrameLength</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cfloat</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+                                    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_get_last_frame_length&quot;</span><span class="Other">,</span>
+                                    <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysSaveScreenshot"><a name="sysSaveScreenshot,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysSaveScreenshot</span><span class="Other">(</span><span class="Identifier">filename</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_save_screenshot&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysForceFullscreenResolution"><a name="sysForceFullscreenResolution,cint,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysForceFullscreenResolution</span><span class="Other">(</span><span class="Identifier">width</span><span class="Other">,</span> <span class="Identifier">height</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_force_fullscreen_resolution&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysSetRenderer"><a name="sysSetRenderer,Renderer"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysSetRenderer</span><span class="Other">(</span><span class="Identifier">renderer</span><span class="Other">:</span> <a href="libtcod.html#Renderer"><span class="Identifier">Renderer</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_set_renderer&quot;</span><span class="Other">,</span>
+                                       <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysGetRenderer"><a name="sysGetRenderer,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysGetRenderer</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Renderer"><span class="Identifier">Renderer</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_get_renderer&quot;</span><span class="Other">,</span>
+                               <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysGetCurrentResolution"><a name="sysGetCurrentResolution,ptr.cint,ptr.cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysGetCurrentResolution</span><span class="Other">(</span><span class="Identifier">w</span><span class="Other">,</span> <span class="Identifier">h</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">cint</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_get_current_resolution&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysGetFullscreenOffsets"><a name="sysGetFullscreenOffsets,ptr.cint,ptr.cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysGetFullscreenOffsets</span><span class="Other">(</span><span class="Identifier">offx</span><span class="Other">,</span> <span class="Identifier">offy</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">cint</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_get_fullscreen_offsets&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysGetCharSize"><a name="sysGetCharSize,ptr.cint,ptr.cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysGetCharSize</span><span class="Other">(</span><span class="Identifier">w</span><span class="Other">,</span> <span class="Identifier">h</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">cint</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_get_char_size&quot;</span><span class="Other">,</span>
+                                 <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysUpdateChar"><a name="sysUpdateChar,cint,cint,cint,Image,cint,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysUpdateChar</span><span class="Other">(</span><span class="Identifier">asciiCode</span><span class="Other">,</span> <span class="Identifier">fontx</span><span class="Other">,</span> <span class="Identifier">fonty</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">;</span> <span class="Identifier">img</span><span class="Other">:</span> <a href="libtcod.html#Image"><span class="Identifier">Image</span></a><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">,</span> <span class="Identifier">y</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_update_char&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysGetSDL_window"><a name="sysGetSDL_window,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysGetSDL_window</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">pointer</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_get_SDL_window&quot;</span><span class="Other">,</span>
+                                <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysGetSDL_renderer"><a name="sysGetSDL_renderer,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysGetSDL_renderer</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">pointer</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_get_SDL_renderer&quot;</span><span class="Other">,</span>
+                                  <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysWaitForEvent"><a name="sysWaitForEvent,cint,ptr.Key,ptr.Mouse,bool"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysWaitForEvent</span><span class="Other">(</span><span class="Identifier">eventMask</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">;</span> <span class="Identifier">key</span><span class="Other">:</span> <span class="Keyword">ptr</span> <a href="libtcod.html#Key"><span class="Identifier">Key</span></a><span class="Other">;</span> <span class="Identifier">mouse</span><span class="Other">:</span> <span class="Keyword">ptr</span> <a href="libtcod.html#Mouse"><span class="Identifier">Mouse</span></a><span class="Other">;</span> <span class="Identifier">flush</span><span class="Other">:</span> <span class="Identifier">bool</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Event"><span class="Identifier">Event</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_wait_for_event&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysCheckForEvent"><a name="sysCheckForEvent,cint,ptr.Key,ptr.Mouse"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysCheckForEvent</span><span class="Other">(</span><span class="Identifier">eventMask</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">;</span> <span class="Identifier">key</span><span class="Other">:</span> <span class="Keyword">ptr</span> <a href="libtcod.html#Key"><span class="Identifier">Key</span></a><span class="Other">;</span> <span class="Identifier">mouse</span><span class="Other">:</span> <span class="Keyword">ptr</span> <a href="libtcod.html#Mouse"><span class="Identifier">Mouse</span></a><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Event"><span class="Identifier">Event</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_check_for_event&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysCreateDirectory"><a name="sysCreateDirectory,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysCreateDirectory</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_create_directory&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysDeleteFile"><a name="sysDeleteFile,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysDeleteFile</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_delete_file&quot;</span><span class="Other">,</span>
+                                      <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysDeleteDirectory"><a name="sysDeleteDirectory,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysDeleteDirectory</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_delete_directory&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysIsDirectory"><a name="sysIsDirectory,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysIsDirectory</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_is_directory&quot;</span><span class="Other">,</span>
+                                       <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysGetDirectoryContent"><a name="sysGetDirectoryContent,cstring,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysGetDirectoryContent</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">;</span> <span class="Identifier">pattern</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#List"><span class="Identifier">List</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_get_directory_content&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysGetDirectoryContentSeq"><a name="sysGetDirectoryContentSeq,string,string"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysGetDirectoryContentSeq</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">,</span> <span class="Identifier">pattern</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span>
+    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">ReadDirEffect</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+<p>Iterate over all the files that match the <cite>pattern</cite>. On POSIX this uses the <span id="glob_1">glob</span> call.</p>
+<p><cite>pattern</cite> is OS dependent, but at least the &quot;*.ext&quot; notation is supported.</p>
+
+
+</dd>
+<dt id="sysFileExists"><a name="sysFileExists,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysFileExists</span><span class="Other">(</span><span class="Identifier">filename</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">varargs</span><span class="Other">,</span> <span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_file_exists&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysReadFile"><a name="sysReadFile,cstring,ptr.ptr.cuchar,ptr.csize"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysReadFile</span><span class="Other">(</span><span class="Identifier">filename</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">;</span> <span class="Identifier">buf</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Keyword">ptr</span> <span class="Identifier">cuchar</span><span class="Other">;</span> <span class="Identifier">size</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">csize</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_read_file&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysWriteFile"><a name="sysWriteFile,cstring,ptr.cuchar,uint32"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysWriteFile</span><span class="Other">(</span><span class="Identifier">filename</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">;</span> <span class="Identifier">buf</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">cuchar</span><span class="Other">;</span> <span class="Identifier">size</span><span class="Other">:</span> <span class="Identifier">uint32</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_write_file&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysClipboardSet"><a name="sysClipboardSet,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysClipboardSet</span><span class="Other">(</span><span class="Identifier">value</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_clipboard_set&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="sysClipboardGet"><a name="sysClipboardGet,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysClipboardGet</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cstring</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_clipboard_get&quot;</span><span class="Other">,</span>
+                               <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="threadNew"><a name="threadNew,proc(pointer),pointer"></a><pre><span class="Keyword">proc</span> <span class="Identifier">threadNew</span><span class="Other">(</span><span class="Identifier">procedure</span><span class="Other">:</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">a1</span><span class="Other">:</span> <span class="Identifier">pointer</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span></span><span class="Other">.}</span></span><span class="Other">;</span> <span class="Identifier">data</span><span class="Other">:</span> <span class="Identifier">pointer</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Thread"><span class="Identifier">Thread</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_thread_new&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="threadDelete"><a name="threadDelete,Thread"></a><pre><span class="Keyword">proc</span> <span class="Identifier">threadDelete</span><span class="Other">(</span><span class="Identifier">th</span><span class="Other">:</span> <span class="Keyword">var</span> <a href="libtcod.html#Thread"><span class="Identifier">Thread</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+unequals operator. This is a shorthand for <tt class="docutils literal"><span class="pre">not (x == y)</span></tt>.
+
+</dd>
+<dt id="sysGetNumCores"><a name="sysGetNumCores,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysGetNumCores</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_get_num_cores&quot;</span><span class="Other">,</span>
+                           <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="threadWait"><a name="threadWait,Thread"></a><pre><span class="Keyword">proc</span> <span class="Identifier">threadWait</span><span class="Other">(</span><span class="Identifier">th</span><span class="Other">:</span> <a href="libtcod.html#Thread"><span class="Identifier">Thread</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_thread_wait&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="mutexNew"><a name="mutexNew,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">mutexNew</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Mutex"><span class="Identifier">Mutex</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_mutex_new&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="mutexIn"><a name="mutexIn,Mutex"></a><pre><span class="Keyword">proc</span> <span class="Identifier">mutexIn</span><span class="Other">(</span><span class="Identifier">mut</span><span class="Other">:</span> <a href="libtcod.html#Mutex"><span class="Identifier">Mutex</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_mutex_in&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="mutexOut"><a name="mutexOut,Mutex"></a><pre><span class="Keyword">proc</span> <span class="Identifier">mutexOut</span><span class="Other">(</span><span class="Identifier">mut</span><span class="Other">:</span> <a href="libtcod.html#Mutex"><span class="Identifier">Mutex</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_mutex_out&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="mutexDelete"><a name="mutexDelete,Mutex"></a><pre><span class="Keyword">proc</span> <span class="Identifier">mutexDelete</span><span class="Other">(</span><span class="Identifier">mut</span><span class="Other">:</span> <span class="Keyword">var</span> <a href="libtcod.html#Mutex"><span class="Identifier">Mutex</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+unequals operator. This is a shorthand for <tt class="docutils literal"><span class="pre">not (x == y)</span></tt>.
+
+</dd>
+<dt id="semaphoreNew"><a name="semaphoreNew,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">semaphoreNew</span><span class="Other">(</span><span class="Identifier">initVal</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Semaphore"><span class="Identifier">Semaphore</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_semaphore_new&quot;</span><span class="Other">,</span>
+    <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="semaphoreLock"><a name="semaphoreLock,Semaphore"></a><pre><span class="Keyword">proc</span> <span class="Identifier">semaphoreLock</span><span class="Other">(</span><span class="Identifier">sem</span><span class="Other">:</span> <a href="libtcod.html#Semaphore"><span class="Identifier">Semaphore</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_semaphore_lock&quot;</span><span class="Other">,</span>
+                                  <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="semaphoreUnlock"><a name="semaphoreUnlock,Semaphore"></a><pre><span class="Keyword">proc</span> <span class="Identifier">semaphoreUnlock</span><span class="Other">(</span><span class="Identifier">sem</span><span class="Other">:</span> <a href="libtcod.html#Semaphore"><span class="Identifier">Semaphore</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_semaphore_unlock&quot;</span><span class="Other">,</span>
+                                    <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="semaphoreDelete"><a name="semaphoreDelete,Semaphore"></a><pre><span class="Keyword">proc</span> <span class="Identifier">semaphoreDelete</span><span class="Other">(</span><span class="Identifier">sem</span><span class="Other">:</span> <span class="Keyword">var</span> <a href="libtcod.html#Semaphore"><span class="Identifier">Semaphore</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+unequals operator. This is a shorthand for <tt class="docutils literal"><span class="pre">not (x == y)</span></tt>.
+
+</dd>
+<dt id="conditionNew"><a name="conditionNew,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">conditionNew</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Cond"><span class="Identifier">Cond</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_condition_new&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="conditionSignal"><a name="conditionSignal,Cond"></a><pre><span class="Keyword">proc</span> <span class="Identifier">conditionSignal</span><span class="Other">(</span><span class="Identifier">sem</span><span class="Other">:</span> <a href="libtcod.html#Cond"><span class="Identifier">Cond</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_condition_signal&quot;</span><span class="Other">,</span>
+                               <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="conditionBroadcast"><a name="conditionBroadcast,Cond"></a><pre><span class="Keyword">proc</span> <span class="Identifier">conditionBroadcast</span><span class="Other">(</span><span class="Identifier">sem</span><span class="Other">:</span> <a href="libtcod.html#Cond"><span class="Identifier">Cond</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_condition_broadcast&quot;</span><span class="Other">,</span>
+                                  <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="conditionWait"><a name="conditionWait,Cond,Mutex"></a><pre><span class="Keyword">proc</span> <span class="Identifier">conditionWait</span><span class="Other">(</span><span class="Identifier">sem</span><span class="Other">:</span> <a href="libtcod.html#Cond"><span class="Identifier">Cond</span></a><span class="Other">;</span> <span class="Identifier">mut</span><span class="Other">:</span> <a href="libtcod.html#Mutex"><span class="Identifier">Mutex</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_condition_wait&quot;</span><span class="Other">,</span>
+                                       <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="conditionDelete"><a name="conditionDelete,Cond"></a><pre><span class="Keyword">proc</span> <span class="Identifier">conditionDelete</span><span class="Other">(</span><span class="Identifier">sem</span><span class="Other">:</span> <span class="Keyword">var</span> <a href="libtcod.html#Cond"><span class="Identifier">Cond</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+unequals operator. This is a shorthand for <tt class="docutils literal"><span class="pre">not (x == y)</span></tt>.
+
+</dd>
+<dt id="loadLibrary"><a name="loadLibrary,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">loadLibrary</span><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Library"><span class="Identifier">Library</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_load_library&quot;</span><span class="Other">,</span>
+                                       <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="getProcedureAddress"><a name="getProcedureAddress,Library,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">getProcedureAddress</span><span class="Other">(</span><span class="Identifier">library</span><span class="Other">:</span> <a href="libtcod.html#Library"><span class="Identifier">Library</span></a><span class="Other">;</span> <span class="Identifier">procedureName</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">pointer</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_get_function_address&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="closeLibrary"><a name="closeLibrary,Library"></a><pre><span class="Keyword">proc</span> <span class="Identifier">closeLibrary</span><span class="Other">(</span><span class="Identifier">a1</span><span class="Other">:</span> <span class="Keyword">var</span> <a href="libtcod.html#Library"><span class="Identifier">Library</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+unequals operator. This is a shorthand for <tt class="docutils literal"><span class="pre">not (x == y)</span></tt>.
+
+</dd>
+<dt id="sysRegisterSDL_Renderer"><a name="sysRegisterSDL_Renderer,SDL_Renderer"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sysRegisterSDL_Renderer</span><span class="Other">(</span><span class="Identifier">renderer</span><span class="Other">:</span> <a href="libtcod.html#SDL_Renderer"><span class="Identifier">SDL_Renderer</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_register_SDL_renderer&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="textInit"><a name="textInit,cint,cint,cint,cint,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">textInit</span><span class="Other">(</span><span class="Identifier">x</span><span class="Other">,</span> <span class="Identifier">y</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">,</span> <span class="Identifier">h</span><span class="Other">,</span> <span class="Identifier">maxChars</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Text"><span class="Identifier">Text</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_text_init&quot;</span><span class="Other">,</span>
+    <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="textInit2"><a name="textInit2,cint,cint,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">textInit2</span><span class="Other">(</span><span class="Identifier">w</span><span class="Other">,</span> <span class="Identifier">h</span><span class="Other">,</span> <span class="Identifier">maxChars</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Text"><span class="Identifier">Text</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_text_init2&quot;</span><span class="Other">,</span>
+                                       <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="textSetPos"><a name="textSetPos,Text,cint,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">textSetPos</span><span class="Other">(</span><span class="Identifier">txt</span><span class="Other">:</span> <a href="libtcod.html#Text"><span class="Identifier">Text</span></a><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">,</span> <span class="Identifier">y</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_text_set_pos&quot;</span><span class="Other">,</span>
+                                   <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="textSetProperties"><a name="textSetProperties,Text,cint,cint,cstring,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">textSetProperties</span><span class="Other">(</span><span class="Identifier">txt</span><span class="Other">:</span> <a href="libtcod.html#Text"><span class="Identifier">Text</span></a><span class="Other">;</span> <span class="Identifier">cursorChar</span><span class="Other">,</span> <span class="Identifier">blinkInterval</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">;</span> <span class="Identifier">prompt</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">;</span>
+                      <span class="Identifier">tabSize</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_text_set_properties&quot;</span><span class="Other">,</span>
+                                     <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="textSetColors"><a name="textSetColors,Text,Color,Color,cfloat"></a><pre><span class="Keyword">proc</span> <span class="Identifier">textSetColors</span><span class="Other">(</span><span class="Identifier">txt</span><span class="Other">:</span> <a href="libtcod.html#Text"><span class="Identifier">Text</span></a><span class="Other">;</span> <span class="Identifier">fore</span><span class="Other">,</span> <span class="Identifier">back</span><span class="Other">:</span> <a href="libtcod.html#Color"><span class="Identifier">Color</span></a><span class="Other">;</span> <span class="Identifier">backTransparency</span><span class="Other">:</span> <span class="Identifier">cfloat</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_text_set_colors&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="textUpdate"><a name="textUpdate,Text,Key"></a><pre><span class="Keyword">proc</span> <span class="Identifier">textUpdate</span><span class="Other">(</span><span class="Identifier">txt</span><span class="Other">:</span> <a href="libtcod.html#Text"><span class="Identifier">Text</span></a><span class="Other">;</span> <span class="Identifier">key</span><span class="Other">:</span> <a href="libtcod.html#Key"><span class="Identifier">Key</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_text_update&quot;</span><span class="Other">,</span>
+                                       <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="textRender"><a name="textRender,Text,Console"></a><pre><span class="Keyword">proc</span> <span class="Identifier">textRender</span><span class="Other">(</span><span class="Identifier">txt</span><span class="Other">:</span> <a href="libtcod.html#Text"><span class="Identifier">Text</span></a><span class="Other">;</span> <span class="Identifier">con</span><span class="Other">:</span> <a href="libtcod.html#Console"><span class="Identifier">Console</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_text_render&quot;</span><span class="Other">,</span>
+                                      <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="textGet"><a name="textGet,Text"></a><pre><span class="Keyword">proc</span> <span class="Identifier">textGet</span><span class="Other">(</span><span class="Identifier">txt</span><span class="Other">:</span> <a href="libtcod.html#Text"><span class="Identifier">Text</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cstring</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_text_get&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="textReset"><a name="textReset,Text"></a><pre><span class="Keyword">proc</span> <span class="Identifier">textReset</span><span class="Other">(</span><span class="Identifier">txt</span><span class="Other">:</span> <a href="libtcod.html#Text"><span class="Identifier">Text</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_text_reset&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="textDelete"><a name="textDelete,Text"></a><pre><span class="Keyword">proc</span> <span class="Identifier">textDelete</span><span class="Other">(</span><span class="Identifier">txt</span><span class="Other">:</span> <span class="Keyword">var</span> <a href="libtcod.html#Text"><span class="Identifier">Text</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+unequals operator. This is a shorthand for <tt class="docutils literal"><span class="pre">not (x == y)</span></tt>.
+
+</dd>
+<dt id="zipNew"><a name="zipNew,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipNew</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_new&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="zipDelete"><a name="zipDelete,Zip"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipDelete</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <span class="Keyword">var</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+unequals operator. This is a shorthand for <tt class="docutils literal"><span class="pre">not (x == y)</span></tt>.
+
+</dd>
+<dt id="zipPutChar"><a name="zipPutChar,Zip,char"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipPutChar</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">char</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_put_char&quot;</span><span class="Other">,</span>
+                                  <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+output interface
+
+</dd>
+<dt id="zipPutInt"><a name="zipPutInt,Zip,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipPutInt</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_put_int&quot;</span><span class="Other">,</span>
+                                 <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="zipPutFloat"><a name="zipPutFloat,Zip,cfloat"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipPutFloat</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">cfloat</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_put_float&quot;</span><span class="Other">,</span>
+                                     <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="zipPutString"><a name="zipPutString,Zip,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipPutString</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_put_string&quot;</span><span class="Other">,</span>
+                                       <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="zipPutColor"><a name="zipPutColor,Zip,Color"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipPutColor</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <a href="libtcod.html#Color"><span class="Identifier">Color</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_put_color&quot;</span><span class="Other">,</span>
+                                    <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="zipPutImage"><a name="zipPutImage,Zip,Image"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipPutImage</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <a href="libtcod.html#Image"><span class="Identifier">Image</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_put_image&quot;</span><span class="Other">,</span>
+                                    <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="zipPutConsole"><a name="zipPutConsole,Zip,Console"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipPutConsole</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <a href="libtcod.html#Console"><span class="Identifier">Console</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_put_console&quot;</span><span class="Other">,</span>
+                                        <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="zipPutData"><a name="zipPutData,Zip,cint,pointer"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipPutData</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">;</span> <span class="Identifier">nbBytes</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">;</span> <span class="Identifier">data</span><span class="Other">:</span> <span class="Identifier">pointer</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_put_data&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="zipGetCurrentBytes"><a name="zipGetCurrentBytes,Zip"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipGetCurrentBytes</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">uint32</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+                                        <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_get_current_bytes&quot;</span><span class="Other">,</span>
+                                        <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="zipSaveToFile"><a name="zipSaveToFile,Zip,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipSaveToFile</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">;</span> <span class="Identifier">filename</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_save_to_file&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="zipLoadFromFile"><a name="zipLoadFromFile,Zip,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipLoadFromFile</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">;</span> <span class="Identifier">filename</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_load_from_file&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+input interface
+
+</dd>
+<dt id="zipGetChar"><a name="zipGetChar,Zip"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipGetChar</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">char</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_get_char&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="zipGetInt"><a name="zipGetInt,Zip"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipGetInt</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_get_int&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="zipGetFloat"><a name="zipGetFloat,Zip"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipGetFloat</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cfloat</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_get_float&quot;</span><span class="Other">,</span>
+                                 <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="zipGetString"><a name="zipGetString,Zip"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipGetString</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cstring</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_get_string&quot;</span><span class="Other">,</span>
+                                   <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="zipGetColor"><a name="zipGetColor,Zip"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipGetColor</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Color"><span class="Identifier">Color</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_get_color&quot;</span><span class="Other">,</span>
+                                <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="zipGetImage"><a name="zipGetImage,Zip"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipGetImage</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Image"><span class="Identifier">Image</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_get_image&quot;</span><span class="Other">,</span>
+                                <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="zipGetConsole"><a name="zipGetConsole,Zip"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipGetConsole</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Console"><span class="Identifier">Console</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_get_console&quot;</span><span class="Other">,</span>
+                                    <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="zipGetData"><a name="zipGetData,Zip,cint,pointer"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipGetData</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">;</span> <span class="Identifier">nbBytes</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">;</span> <span class="Identifier">data</span><span class="Other">:</span> <span class="Identifier">pointer</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_get_data&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="zipGetRemainingBytes"><a name="zipGetRemainingBytes,Zip"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipGetRemainingBytes</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">uint32</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_get_remaining_bytes&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<dt id="zipSkipBytes"><a name="zipSkipBytes,Zip,uint32"></a><pre><span class="Keyword">proc</span> <span class="Identifier">zipSkipBytes</span><span class="Other">(</span><span class="Identifier">zip</span><span class="Other">:</span> <a href="libtcod.html#Zip"><span class="Identifier">Zip</span></a><span class="Other">;</span> <span class="Identifier">nbBytes</span><span class="Other">:</span> <span class="Identifier">uint32</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_zip_skip_bytes&quot;</span><span class="Other">,</span>
+    <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
 
 </dl></div>
 <div class="section" id="18">
@@ -6525,7 +7758,7 @@ Delete a generator.
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small>Made with Nim. Generated: 2018-12-16 12:21:14 UTC</small>
+        <small>Made with Nim. Generated: 2018-12-17 23:00:15 UTC</small>
       </div>
     </div>
   </div>

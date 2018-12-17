@@ -103,7 +103,7 @@ proc structGetKind*(
 type
   ParserListener* = ptr ParserListenerObj
   ParserListenerObj* {.bycopy.} = object  ##  \
-    ##  parser listener
+    ##  Parser listener.
     newStruct*:   proc (str: ParserStruct; name: cstring): bool {.cdecl.}
     newFlag*:     proc (name: cstring): bool {.cdecl.}
     newProperty*: proc (propname: cstring; kind: ValueKind; value: Value): bool {.cdecl.}
@@ -114,11 +114,11 @@ type
 
 type
   ParserCustom* = proc (
-    ##  a custom type parser
     lex: ptr Lex; listener: ParserListener;
-    str: ParserStruct; propname: cstring): Value {.cdecl.}
+    str: ParserStruct; propname: cstring): Value {.cdecl.} ## \
+    ##  A custom type parser.
 
-  Parser* = pointer ##  the parser
+  Parser* = pointer ##  The parser.
 
 
 proc parserNew*(): Parser {.
@@ -143,7 +143,7 @@ proc parserDelete*(
 proc parserError*(
   msg: cstring) {.
     varargs, cdecl, importc: "TCOD_parser_error", dynlib: LIB_NAME.}
-  ##  error during parsing. can be called by the parser listener
+  ##  Error during parsing. can be called by the parser listener.
 
 
 #  default parser listener
@@ -196,7 +196,7 @@ proc parserGetListProperty*(
 
 type
   StructInt* {.bycopy.} = object ##  \
-    ##  parser structures
+    ##  Parser structures.
     ##
     name*: cstring  ##  entity type name
     flags*: List    ##  list of flags
@@ -205,7 +205,7 @@ type
     structs*: List  ##  list of sub-structures
 
   ParserInt* {.bycopy.} = object ##  \
-    ##  the parser
+    ##  The parser.
     ##
     structs*: List                    ##  list of structures
     customs*: array[16, ParserCustom] ##  list of custom type parsers
