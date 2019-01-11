@@ -1677,7 +1677,7 @@ while true:
     sysSetRenderer(RENDERER_OPENGL)
   elif key.vk == K_F3:
     sysSetRenderer(RENDERER_SDL)
-  if not not consoleIsWindowClosed():
+  if consoleIsWindowClosed():
     break
 quit(QUIT_SUCCESS)
 
