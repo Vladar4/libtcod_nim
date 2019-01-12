@@ -52,7 +52,7 @@ proc lineStep*(
 proc line*(
   xFrom, yFrom, xTo, yTo: cint; listener: LineListener): bool {.
     cdecl, importc: "TCOD_line", dynlib: LIB_NAME.}
-  ##  Atomic callback function. Stops when the callback returns false.
+  ##  Atomic callback procedure. Stops when the callback returns false.
   ##
 
 
