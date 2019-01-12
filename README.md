@@ -1,5 +1,5 @@
-libtcod_nim 1.5.1/1.7.0 v0.99
-=============================
+libtcod_nim v1.0
+================
 
 libtcod_nim is a wrapper of the libtcod library for the Nim language.
 
@@ -13,27 +13,30 @@ You need to have dynamic library of libtcod installed:
 * libtcod 1.5.1:
   * libtcod.so.1.5.1 on Linux
   * libtcod-mingw.dll or libtcod-mingw-debug.dll on Windows.
-* libtcod 1.7.0:
-  * libtcod.so or libtcod.so.0.0.0 on Linux;
+* libtcod 1.7.0 or 1.10.2:
+  * libtcod.so on Linux;
   * libtcod.dll on Windows.
 
-Also you may need SDL, OpenGL or GLSL dynamic libraries installed, depending on used renderer.
-
-**NOTE**: project in beta-phase and requires heavy testing.
+Also you may need SDL, SDL2, OpenGL or GLSL dynamic libraries installed, depending on used renderer.
 
 
 Compilation
 -----------
 
-The default complilation option is libtcod 1.7.0 (src170 directory).
+The default complilation option is libtcod 1.10.2 (src110 directory).
 
-To use legacy libtcod 1.5.1 (src151 directory), use `--define:tcod151` key in your compile command.
+To use legacy libtcod 1.5.1 (src15 directory), use `--define:tcod15` key in your compile command.
+
+To use libtcod 1.7.0 (src17 directory), use `--define:tcod17` key in your compile command.
 
 
 ----------------------------------------
 
 CHANGELOG:
 ==========
+**v1.00**
+* added libtcod 1.10.2 wrapper
+
 **v0.99**
 * added libtcod 1.7.0 wrapper
 * bugfixes for both 1.5.1 and 1.7.0 wrappers
