@@ -39,7 +39,7 @@ type
     K_NUMLOCK, K_SCROLLLOCK, K_SPACE, K_CHAR, K_TEXT
 
 const
-  KEY_TEXT_SIZE* = 32
+  KEY_TEXT_SIZE*: cint = 32
 
 
 type
@@ -55,102 +55,102 @@ type
 
 const
   # single walls
-  CHAR_HLINE* = 196
-  CHAR_VLINE* = 179
-  CHAR_NE* = 191
-  CHAR_NW* = 218
-  CHAR_SE* = 217
-  CHAR_SW* = 192
-  CHAR_TEEW* = 180
-  CHAR_TEEE* = 195
-  CHAR_TEEN* = 193
-  CHAR_TEES* = 194
-  CHAR_CROSS* = 197
+  CHAR_HLINE*: cint = 196
+  CHAR_VLINE*: cint = 179
+  CHAR_NE*: cint = 191
+  CHAR_NW*: cint = 218
+  CHAR_SE*: cint = 217
+  CHAR_SW*: cint = 192
+  CHAR_TEEW*: cint = 180
+  CHAR_TEEE*: cint = 195
+  CHAR_TEEN*: cint = 193
+  CHAR_TEES*: cint = 194
+  CHAR_CROSS*: cint = 197
 
   # double walls
-  CHAR_DHLINE* = 205
-  CHAR_DVLINE* = 186
-  CHAR_DNE* = 187
-  CHAR_DNW* = 201
-  CHAR_DSE* = 188
-  CHAR_DSW* = 200
-  CHAR_DTEEW* = 185
-  CHAR_DTEEE* = 204
-  CHAR_DTEEN* = 202
-  CHAR_DTEES* = 203
-  CHAR_DCROSS* = 206
+  CHAR_DHLINE*: cint = 205
+  CHAR_DVLINE*: cint = 186
+  CHAR_DNE*: cint = 187
+  CHAR_DNW*: cint = 201
+  CHAR_DSE*: cint = 188
+  CHAR_DSW*: cint = 200
+  CHAR_DTEEW*: cint = 185
+  CHAR_DTEEE*: cint = 204
+  CHAR_DTEEN*: cint = 202
+  CHAR_DTEES*: cint = 203
+  CHAR_DCROSS*: cint = 206
 
   # blocks
-  CHAR_BLOCK1* = 176
-  CHAR_BLOCK2* = 177
-  CHAR_BLOCK3* = 178
+  CHAR_BLOCK1*: cint = 176
+  CHAR_BLOCK2*: cint = 177
+  CHAR_BLOCK3*: cint = 178
 
   # arrows
-  CHAR_ARROW_N* = 24
-  CHAR_ARROW_S* = 25
-  CHAR_ARROW_E* = 26
-  CHAR_ARROW_W* = 27
+  CHAR_ARROW_N*: cint = 24
+  CHAR_ARROW_S*: cint = 25
+  CHAR_ARROW_E*: cint = 26
+  CHAR_ARROW_W*: cint = 27
 
   # arrows without tail
-  CHAR_ARROW2_N* = 30
-  CHAR_ARROW2_S* = 31
-  CHAR_ARROW2_E* = 16
-  CHAR_ARROW2_W* = 17
+  CHAR_ARROW2_N*: cint = 30
+  CHAR_ARROW2_S*: cint = 31
+  CHAR_ARROW2_E*: cint = 16
+  CHAR_ARROW2_W*: cint = 17
 
   # double arrows
-  CHAR_DARROW_H* = 29
-  CHAR_DARROW_V* = 18
+  CHAR_DARROW_H*: cint = 29
+  CHAR_DARROW_V*: cint = 18
 
   # GUI stuff
-  CHAR_CHECKBOX_UNSET* = 224
-  CHAR_CHECKBOX_SET* = 225
-  CHAR_RADIO_UNSET* = 9
-  CHAR_RADIO_SET* = 10
+  CHAR_CHECKBOX_UNSET*: cint = 224
+  CHAR_CHECKBOX_SET*: cint = 225
+  CHAR_RADIO_UNSET*: cint = 9
+  CHAR_RADIO_SET*: cint = 10
 
   # sub-pixel resolution kit
-  CHAR_SUBP_NW* = 226
-  CHAR_SUBP_NE* = 227
-  CHAR_SUBP_N* = 228
-  CHAR_SUBP_SE* = 229
-  CHAR_SUBP_DIAG* = 230
-  CHAR_SUBP_E* = 231
-  CHAR_SUBP_SW* = 232
+  CHAR_SUBP_NW*: cint = 226
+  CHAR_SUBP_NE*: cint = 227
+  CHAR_SUBP_N*: cint = 228
+  CHAR_SUBP_SE*: cint = 229
+  CHAR_SUBP_DIAG*: cint = 230
+  CHAR_SUBP_E*: cint = 231
+  CHAR_SUBP_SW*: cint = 232
 
   # miscellaneous
-  CHAR_SMILIE* = 1
-  CHAR_SMILIE_INV* = 2
-  CHAR_HEART* = 3
-  CHAR_DIAMOND* = 4
-  CHAR_CLUB* = 5
-  CHAR_SPADE* = 6
-  CHAR_BULLET* = 7
-  CHAR_BULLET_INV* = 8
-  CHAR_MALE* = 11
-  CHAR_FEMALE* = 12
-  CHAR_NOTE* = 13
-  CHAR_NOTE_DOUBLE* = 14
-  CHAR_LIGHT* = 15
-  CHAR_EXCLAM_DOUBLE* = 19
-  CHAR_PILCROW* = 20
-  CHAR_SECTION* = 21
-  CHAR_POUND* = 156
-  CHAR_MULTIPLICATION* = 158
-  CHAR_FUNCTION* = 159
-  CHAR_RESERVED* = 169
-  CHAR_HALF* = 171
-  CHAR_ONE_QUARTER* = 172
-  CHAR_COPYRIGHT* = 184
-  CHAR_CENT* = 189
-  CHAR_YEN* = 190
-  CHAR_CURRENCY* = 207
-  CHAR_THREE_QUARTERS* = 243
-  CHAR_DIVISION* = 246
-  CHAR_GRADE* = 248
-  CHAR_UMLAUT* = 249
-  CHAR_POW1* = 251
-  CHAR_POW3* = 252
-  CHAR_POW2* = 253
-  CHAR_BULLET_SQUARE* = 254
+  CHAR_SMILIE*: cint = 1
+  CHAR_SMILIE_INV*: cint = 2
+  CHAR_HEART*: cint = 3
+  CHAR_DIAMOND*: cint = 4
+  CHAR_CLUB*: cint = 5
+  CHAR_SPADE*: cint = 6
+  CHAR_BULLET*: cint = 7
+  CHAR_BULLET_INV*: cint = 8
+  CHAR_MALE*: cint = 11
+  CHAR_FEMALE*: cint = 12
+  CHAR_NOTE*: cint = 13
+  CHAR_NOTE_DOUBLE*: cint = 14
+  CHAR_LIGHT*: cint = 15
+  CHAR_EXCLAM_DOUBLE*: cint = 19
+  CHAR_PILCROW*: cint = 20
+  CHAR_SECTION*: cint = 21
+  CHAR_POUND*: cint = 156
+  CHAR_MULTIPLICATION*: cint = 158
+  CHAR_FUNCTION*: cint = 159
+  CHAR_RESERVED*: cint = 169
+  CHAR_HALF*: cint = 171
+  CHAR_ONE_QUARTER*: cint = 172
+  CHAR_COPYRIGHT*: cint = 184
+  CHAR_CENT*: cint = 189
+  CHAR_YEN*: cint = 190
+  CHAR_CURRENCY*: cint = 207
+  CHAR_THREE_QUARTERS*: cint = 243
+  CHAR_DIVISION*: cint = 246
+  CHAR_GRADE*: cint = 248
+  CHAR_UMLAUT*: cint = 249
+  CHAR_POW1*: cint = 251
+  CHAR_POW3*: cint = 252
+  CHAR_POW2*: cint = 253
+  CHAR_BULLET_SQUARE*: cint = 254
 
   # diacritics
 
@@ -171,10 +171,10 @@ type
 
 
 const
-  KEY_PRESSED* = 1
-  KEY_RELEASED* = 2
+  KEY_PRESSED*: cint = 1
+  KEY_RELEASED*: cint = 2
 
-  FONT_LAYOUT_ASCII_INCOL* = 1  ##  \
+  FONT_LAYOUT_ASCII_INCOL*: cint = 1  ##  \
     ##  These font flags can be OR'd together into a bit-field and passed to
     ##  ``console_set_custom_font``
     ##
@@ -184,16 +184,18 @@ const
     ##    1 4 7
     ##    2 5 8
     ##
-  FONT_LAYOUT_ASCII_INROW* = 2  ##  \
+  FONT_LAYOUT_ASCII_INROW*: cint = 2  ##  \
     ##  Tiles are arranged in row-major order.
     ##  ::
     ##    0 1 2
     ##    3 4 5
     ##    6 7 8
     ##
-  FONT_TYPE_GREYSCALE* = 4  ##  Converts all tiles into a monochrome gradient.
-  FONT_TYPE_GRAYSCALE* = FONT_TYPE_GREYSCALE
-  FONT_LAYOUT_TCOD* = 8     ##  A unique layout used by some of libtcod's fonts.
+  FONT_TYPE_GREYSCALE*: cint = 4  ##  \
+    ##  Converts all tiles into a monochrome gradient.
+  FONT_TYPE_GRAYSCALE*: cint = FONT_TYPE_GREYSCALE
+  FONT_LAYOUT_TCOD*: cint = 8     ##  \
+    ##  A unique layout used by some of libtcod's fonts.
 
 
 

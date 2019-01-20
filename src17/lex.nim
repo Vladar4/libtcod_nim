@@ -31,24 +31,24 @@
 #
 
 const
-  LEX_FLAG_NOCASE* = 1
-  LEX_FLAG_NESTING_COMMENT* = 2
-  LEX_FLAG_TOKENIZE_COMMENTS* = 4
-  LEX_ERROR* = -1
-  LEX_UNKNOWN* = 0
-  LEX_SYMBOL* = 1
-  LEX_KEYWORD* = 2
-  LEX_IDEN* = 3
-  LEX_STRING* = 4
-  LEX_INTEGER* = 5
-  LEX_FLOAT* = 6
-  LEX_CHAR* = 7
-  LEX_EOF* = 8
-  LEX_COMMENT* = 9
-  LEX_MAX_SYMBOLS* = 100
-  LEX_SYMBOL_SIZE* = 5
-  LEX_MAX_KEYWORDS* = 100
-  LEX_KEYWORD_SIZE* = 20
+  LEX_FLAG_NOCASE*: cint = 1
+  LEX_FLAG_NESTING_COMMENT*: cint = 2
+  LEX_FLAG_TOKENIZE_COMMENTS*: cint = 4
+  LEX_ERROR*: cint = -1
+  LEX_UNKNOWN*: cint = 0
+  LEX_SYMBOL*: cint = 1
+  LEX_KEYWORD*: cint = 2
+  LEX_IDEN*: cint = 3
+  LEX_STRING*: cint = 4
+  LEX_INTEGER*: cint = 5
+  LEX_FLOAT*: cint = 6
+  LEX_CHAR*: cint = 7
+  LEX_EOF*: cint = 8
+  LEX_COMMENT*: cint = 9
+  LEX_MAX_SYMBOLS*: cint = 100
+  LEX_SYMBOL_SIZE*: cint = 5
+  LEX_MAX_KEYWORDS*: cint = 100
+  LEX_KEYWORD_SIZE*: cint = 20
 
 type
   Lex* = ptr LexObj

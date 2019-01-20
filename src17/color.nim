@@ -129,41 +129,41 @@ proc colorGenMap*(
 #  color names
 
 const
-  COLOR_RED*          = 0
-  COLOR_FLAME*        = 1
-  COLOR_ORANGE*       = 2
-  COLOR_AMBER*        = 3
-  COLOR_YELLOW*       = 4
-  COLOR_LIME*         = 5
-  COLOR_CHARTREUSE*   = 6
-  COLOR_GREEN*        = 7
-  COLOR_SEA*          = 8
-  COLOR_TURQUOISE*    = 9
-  COLOR_CYAN*         = 10
-  COLOR_SKY*          = 11
-  COLOR_AZURE*        = 12
-  COLOR_BLUE*         = 13
-  COLOR_HAN*          = 14
-  COLOR_VIOLET*       = 15
-  COLOR_PURPLE*       = 16
-  COLOR_FUCHSIA*      = 17
-  COLOR_MAGENTA*      = 18
-  COLOR_PINK*         = 19
-  COLOR_CRIMSON*      = 20
-  COLOR_NB*           = 21
+  COLOR_RED*: cint        = 0
+  COLOR_FLAME*: cint      = 1
+  COLOR_ORANGE*: cint     = 2
+  COLOR_AMBER*: cint      = 3
+  COLOR_YELLOW*: cint     = 4
+  COLOR_LIME*: cint       = 5
+  COLOR_CHARTREUSE*: cint = 6
+  COLOR_GREEN*: cint      = 7
+  COLOR_SEA*: cint        = 8
+  COLOR_TURQUOISE*: cint  = 9
+  COLOR_CYAN*: cint       = 10
+  COLOR_SKY*: cint        = 11
+  COLOR_AZURE*: cint      = 12
+  COLOR_BLUE*: cint       = 13
+  COLOR_HAN*: cint        = 14
+  COLOR_VIOLET*: cint     = 15
+  COLOR_PURPLE*: cint     = 16
+  COLOR_FUCHSIA*: cint    = 17
+  COLOR_MAGENTA*: cint    = 18
+  COLOR_PINK*: cint       = 19
+  COLOR_CRIMSON*: cint    = 20
+  COLOR_NB*: cint         = 21
 
 #  color levels
 
 const
-  COLOR_DESATURATED*  = 0
-  COLOR_LIGHTEST*     = 1
-  COLOR_LIGHTER*      = 2
-  COLOR_LIGHT*        = 3
-  COLOR_NORMAL*       = 4
-  COLOR_DARK*         = 5
-  COLOR_DARKER*       = 6
-  COLOR_DARKEST*      = 7
-  COLOR_LEVELS*       = 8
+  COLOR_DESATURATED*: cint  = 0
+  COLOR_LIGHTEST*: cint     = 1
+  COLOR_LIGHTER*: cint      = 2
+  COLOR_LIGHT*: cint        = 3
+  COLOR_NORMAL*: cint       = 4
+  COLOR_DARK*: cint         = 5
+  COLOR_DARKER*: cint       = 6
+  COLOR_DARKEST*: cint      = 7
+  COLOR_LEVELS*: cint       = 8
 
 
 var COLORS* {.importc: "TCOD_colors", dynlib: LIB_NAME.}:
