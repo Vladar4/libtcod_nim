@@ -23,11 +23,13 @@ Also you may need SDL, SDL2, OpenGL or GLSL dynamic libraries installed, dependi
 Compilation
 -----------
 
-The default complilation option is libtcod 1.10.2 (src110 directory).
+* The default complilation option is libtcod 1.10.2 (src110 directory).
 
-To use legacy libtcod 1.5.1 (src15 directory), use `--define:tcod15` key in your compile command.
+To use legacy versions use the following keys in your compile command:
 
-To use libtcod 1.7.0 (src17 directory), use `--define:tcod17` key in your compile command.
+  * `--define:tcod15` for libtcod 1.5.1.
+
+  * `--define:tcod17` for libtcod 1.7.0.
 
 
 ----------------------------------------
@@ -36,6 +38,7 @@ CHANGELOG:
 ==========
 **v1.00**
 * added libtcod 1.10.2 wrapper
+* changed compile keys for legacy branches
 
 **v0.99**
 * added libtcod 1.7.0 wrapper
