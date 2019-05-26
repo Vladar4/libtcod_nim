@@ -108,6 +108,7 @@ else: # tcod112
     src112/console_drawing,
     src112/console_printing,
     src112/console_rexpaint,
+    src112/tileset,
     src112/engine,
     src112/fov,
     src112/heightmap,

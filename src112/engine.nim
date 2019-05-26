@@ -145,6 +145,22 @@ proc sysAccumulateConsole*(console: Console, viewport: ptr SDL_Rect): cint {.
     cdecl, importc: "TCOD_sys_accumulate_console_", dynlib: LIB_NAME.}
 
 #
+# engine/globals
+#
+
+proc getDefaultTileset*(): Tileset {.
+    cdecl, importc: "TCOD_get_default_tileset", dynlib: LIB_NAME.}
+  ##  ``Return`` the default tileset, may be `nil`.
+  ##
+  ##  ``Note:`` This function is provisional, the API may change in the future.
+
+proc setDefaultTileset*(tileset: Tileset) {.
+    cdecl, importc: "TCOD_set_default_tileset", dynlib: LIB_NAME.}
+  ##  Set the default tileset and update the default display to use it.
+  ##
+  ##  ``Note:`` This function is provisional, the API may change in the future.
+
+#
 # engine/error
 #
 
