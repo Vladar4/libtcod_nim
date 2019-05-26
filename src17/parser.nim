@@ -45,7 +45,7 @@ type
 
 
 type
-  Value* {.bycopy.} = object {.union.}
+  Value* {.bycopy, union.} = object
     ##  Generic value.
     b*: bool
     c*: char

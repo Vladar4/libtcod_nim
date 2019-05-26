@@ -175,7 +175,7 @@ var BLACK* {.importc: "TCOD_black", dynlib: LIB_NAME.}: Color
 
 var DARKEST_GREY* {.importc: "TCOD_darkest_grey", dynlib: LIB_NAME.}: Color
 
-var darker_Grey* {.importc: "TCOD_darker_grey", dynlib: LIB_NAME.}: Color
+var DARKER_GREY* {.importc: "TCOD_darker_grey", dynlib: LIB_NAME.}: Color
 
 var DARK_GREY* {.importc: "TCOD_dark_grey", dynlib: LIB_NAME.}: Color
 
