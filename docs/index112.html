@@ -1029,6 +1029,8 @@ function main() {
   horizontal*: bool            ## horizontal splitting ?"><wbr />Bsp<wbr />Obj<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#BspCallback"
     title="BspCallback = proc (node: Bsp; userData: pointer): bool {.cdecl.}"><wbr />Bsp<wbr />Callback<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#Tileset"
+    title="Tileset = pointer"><wbr />Tileset<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#SDL_Rect"
     title="SDL_Rect = object
   x*, y*, w*, h*: cint"><wbr />SDL_<wbr />Rect<span class="attachedType"></span></a></li>
@@ -2266,6 +2268,22 @@ function main() {
     title="consoleListFromXp(filename: cstring): List"><wbr />console<wbr />List<wbr />From<wbr />Xp<span class="attachedType">List</span></a></li>
   <li><a class="reference" href="#consoleListSaveXp%2CList%2Ccstring%2Ccint"
     title="consoleListSaveXp(consoleList: List; filename: cstring; compressLevel: cint): bool"><wbr />console<wbr />List<wbr />Save<wbr />Xp<span class="attachedType">List</span></a></li>
+  <li><a class="reference" href="#tilesetNew%2Ccint%2Ccint"
+    title="tilesetNew(tileWidth: cint; tileHeight: cint): Tileset"><wbr />tileset<wbr />New<span class="attachedType">Tileset</span></a></li>
+  <li><a class="reference" href="#tilesetDelete%2CTileset"
+    title="tilesetDelete(tileset: Tileset)"><wbr />tileset<wbr />Delete<span class="attachedType">Tileset</span></a></li>
+  <li><a class="reference" href="#tilesetGetTileWidth%2CTileset"
+    title="tilesetGetTileWidth(tileset: Tileset): cint"><wbr />tileset<wbr />Get<wbr />Tile<wbr />Width<span class="attachedType">Tileset</span></a></li>
+  <li><a class="reference" href="#tilesetGetTileHeight%2CTileset"
+    title="tilesetGetTileHeight(tileset: Tileset): cint"><wbr />tileset<wbr />Get<wbr />Tile<wbr />Height<span class="attachedType">Tileset</span></a></li>
+  <li><a class="reference" href="#tilesetGetTile%2CTileset%2Ccint%2Cptr.ColorRGBA"
+    title="tilesetGetTile(tileset: Tileset; codepoint: cint; buffer: ptr ColorRGBA): cint"><wbr />tileset<wbr />Get<wbr />Tile<span class="attachedType">Tileset</span></a></li>
+  <li><a class="reference" href="#tilesetSetTile%2CTileset%2Ccint%2Cptr.ColorRGBA"
+    title="tilesetSetTile(tileset: Tileset; codepoint: cint; buffer: ptr ColorRGBA): cint"><wbr />tileset<wbr />Set<wbr />Tile<span class="attachedType">Tileset</span></a></li>
+  <li><a class="reference" href="#loadTruetypeFont%2Ccstring%2Ccint%2Ccint"
+    title="loadTruetypeFont(path: cstring; tileWidth: cint; tileHeight: cint): Tileset"><wbr />load<wbr />Truetype<wbr />Font<span class="attachedType">Tileset</span></a></li>
+  <li><a class="reference" href="#tilesetLoadTruetype%2Ccstring%2Ccint%2Ccint"
+    title="tilesetLoadTruetype(path: cstring; tileWidth: cint; tileHeight: cint): cint"><wbr />tileset<wbr />Load<wbr />Truetype<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#consoleInitRoot%2Ccint%2Ccint%2Ccstring%2Cbool%2CRenderer"
     title="consoleInitRoot(w, h: cint; title: cstring; fullscreen: bool = false;
                 renderer: Renderer = RENDERER_SDL)"><wbr />console<wbr />Init<wbr />Root<span class="attachedType"></span></a></li>
@@ -2294,6 +2312,10 @@ function main() {
     title="sysAccumulateConsole(console: Console): cint"><wbr />sys<wbr />Accumulate<wbr />Console<span class="attachedType">Console</span></a></li>
   <li><a class="reference" href="#sysAccumulateConsole%2CConsole%2Cptr.SDL_Rect"
     title="sysAccumulateConsole(console: Console; viewport: ptr SDL_Rect): cint"><wbr />sys<wbr />Accumulate<wbr />Console<span class="attachedType">Console</span></a></li>
+  <li><a class="reference" href="#getDefaultTileset"
+    title="getDefaultTileset(): Tileset"><wbr />get<wbr />Default<wbr />Tileset<span class="attachedType">Tileset</span></a></li>
+  <li><a class="reference" href="#setDefaultTileset%2CTileset"
+    title="setDefaultTileset(tileset: Tileset)"><wbr />set<wbr />Default<wbr />Tileset<span class="attachedType">Tileset</span></a></li>
   <li><a class="reference" href="#getError"
     title="getError(): cstring"><wbr />get<wbr />Error<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#setError%2Ccstring"
@@ -3172,6 +3194,12 @@ A callback to be passed to <tt class="docutils literal"><span class="pre">line</
 </dd>
 <a id="BspCallback"></a>
 <dt><pre><a href="libtcod.html#BspCallback"><span class="Identifier">BspCallback</span></a> <span class="Other">=</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">node</span><span class="Other">:</span> <a href="libtcod.html#Bsp"><span class="Identifier">Bsp</span></a><span class="Other">;</span> <span class="Identifier">userData</span><span class="Other">:</span> <span class="Identifier">pointer</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+</dd>
+<a id="Tileset"></a>
+<dt><pre><a href="libtcod.html#Tileset"><span class="Identifier">Tileset</span></a> <span class="Other">=</span> <span class="Identifier">pointer</span></pre></dt>
 <dd>
 
 
@@ -7031,6 +7059,75 @@ ASCII paint file support
 
 
 </dd>
+<a id="tilesetNew,cint,cint"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#tilesetNew%2Ccint%2Ccint"><span class="Identifier">tilesetNew</span></a><span class="Other">(</span><span class="Identifier">tileWidth</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">;</span> <span class="Identifier">tileHeight</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Tileset"><span class="Identifier">Tileset</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_tileset_new&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+Create a new tile-set with the given tile size.
+
+</dd>
+<a id="tilesetDelete,Tileset"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#tilesetDelete%2CTileset"><span class="Identifier">tilesetDelete</span></a><span class="Other">(</span><span class="Identifier">tileset</span><span class="Other">:</span> <a href="libtcod.html#Tileset"><span class="Identifier">Tileset</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_tileset_delete&quot;</span><span class="Other">,</span>
+                                    <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+Delete a tile-set.
+
+</dd>
+<a id="tilesetGetTileWidth,Tileset"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#tilesetGetTileWidth%2CTileset"><span class="Identifier">tilesetGetTileWidth</span></a><span class="Other">(</span><span class="Identifier">tileset</span><span class="Other">:</span> <a href="libtcod.html#Tileset"><span class="Identifier">Tileset</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_tileset_get_tile_width_&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+<p><tt class="docutils literal"><span class="pre">Return</span></tt> the pixel width of tiles in this tileset.</p>
+<p><tt class="docutils literal"><span class="pre">Note:</span></tt> The tileset functions are provisional, the API may change in the future.</p>
+
+
+</dd>
+<a id="tilesetGetTileHeight,Tileset"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#tilesetGetTileHeight%2CTileset"><span class="Identifier">tilesetGetTileHeight</span></a><span class="Other">(</span><span class="Identifier">tileset</span><span class="Other">:</span> <a href="libtcod.html#Tileset"><span class="Identifier">Tileset</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+    <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_tileset_get_tile_height_&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+<p><tt class="docutils literal"><span class="pre">Return</span></tt> the pixel height of tiles in this tileset.</p>
+<p><tt class="docutils literal"><span class="pre">Note:</span></tt> The tileset functions are provisional, the API may change in the future.</p>
+
+
+</dd>
+<a id="tilesetGetTile,Tileset,cint,ptr.ColorRGBA"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#tilesetGetTile%2CTileset%2Ccint%2Cptr.ColorRGBA"><span class="Identifier">tilesetGetTile</span></a><span class="Other">(</span><span class="Identifier">tileset</span><span class="Other">:</span> <a href="libtcod.html#Tileset"><span class="Identifier">Tileset</span></a><span class="Other">;</span> <span class="Identifier">codepoint</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">;</span> <span class="Identifier">buffer</span><span class="Other">:</span> <span class="Keyword">ptr</span> <a href="libtcod.html#ColorRGBA"><span class="Identifier">ColorRGBA</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_tileset_get_tile_&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+<p>Fetch a tile, outputting its data to a pixel buffer.</p>
+<p><tt class="docutils literal"><span class="pre">codepoint</span></tt> is the index for the tile.  Unicode is recommend.</p>
+<p><tt class="docutils literal"><span class="pre">buffer</span></tt> is a pointer to a contiguous row-major array of pixels. The tile data will be outputted here.  This pointer can be <tt class="docutils literal"><span class="pre">nil</span></tt> if you only want to know if the tileset has a specific tile.</p>
+<p><tt class="docutils literal"><span class="pre">Returns</span></tt> <tt class="docutils literal"><span class="pre">0</span></tt> if the tile exists. Returns a negative value on an error or if the tileset does not have a tile for this codepoint.</p>
+<p><tt class="docutils literal"><span class="pre">Note:</span></tt> The tileset functions are provisional, the API may change in the future.</p>
+
+
+</dd>
+<a id="tilesetSetTile,Tileset,cint,ptr.ColorRGBA"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#tilesetSetTile%2CTileset%2Ccint%2Cptr.ColorRGBA"><span class="Identifier">tilesetSetTile</span></a><span class="Other">(</span><span class="Identifier">tileset</span><span class="Other">:</span> <a href="libtcod.html#Tileset"><span class="Identifier">Tileset</span></a><span class="Other">;</span> <span class="Identifier">codepoint</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">;</span> <span class="Identifier">buffer</span><span class="Other">:</span> <span class="Keyword">ptr</span> <a href="libtcod.html#ColorRGBA"><span class="Identifier">ColorRGBA</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_tileset_set_tile_&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+<p>Upload a tile from a pixel buffer into this tileset.</p>
+<p><tt class="docutils literal"><span class="pre">codepoint</span></tt> is the index for the tile.  Unicode is recommend.</p>
+<p><tt class="docutils literal"><span class="pre">buffer</span></tt> is a pointer to a contiguous row-major array of pixels. This can not be <tt class="docutils literal"><span class="pre">nil</span></tt>.</p>
+<p><tt class="docutils literal"><span class="pre">Note:</span></tt> The tileset functions are provisional, the API may change in the future.</p>
+
+
+</dd>
+<a id="loadTruetypeFont,cstring,cint,cint"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#loadTruetypeFont%2Ccstring%2Ccint%2Ccint"><span class="Identifier">loadTruetypeFont</span></a><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">;</span> <span class="Identifier">tileWidth</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">;</span> <span class="Identifier">tileHeight</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Tileset"><span class="Identifier">Tileset</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_load_truetype_font_&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+Return a tileset from a TrueType font file.
+
+</dd>
+<a id="tilesetLoadTruetype,cstring,cint,cint"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#tilesetLoadTruetype%2Ccstring%2Ccint%2Ccint"><span class="Identifier">tilesetLoadTruetype</span></a><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">;</span> <span class="Identifier">tileWidth</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">;</span> <span class="Identifier">tileHeight</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_tileset_load_truetype_&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+Set the global tileset from a TrueType font file.
+
+</dd>
 <a id="consoleInitRoot,cint,cint,cstring,bool,Renderer"></a>
 <dt><pre><span class="Keyword">proc</span> <a href="#consoleInitRoot%2Ccint%2Ccint%2Ccstring%2Cbool%2CRenderer"><span class="Identifier">consoleInitRoot</span></a><span class="Other">(</span><span class="Identifier">w</span><span class="Other">,</span> <span class="Identifier">h</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">;</span> <span class="Identifier">title</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">;</span> <span class="Identifier">fullscreen</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other">=</span> <span class="Identifier">false</span><span class="Other">;</span>
                     <span class="Identifier">renderer</span><span class="Other">:</span> <a href="libtcod.html#Renderer"><span class="Identifier">Renderer</span></a> <span class="Other">=</span> <span class="Identifier">RENDERER_SDL</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
@@ -7145,6 +7242,25 @@ Return an <tt class="docutils literal"><span class="pre">SDL_Renderer</span></tt
 <dt><pre><span class="Keyword">proc</span> <a href="#sysAccumulateConsole%2CConsole%2Cptr.SDL_Rect"><span class="Identifier">sysAccumulateConsole</span></a><span class="Other">(</span><span class="Identifier">console</span><span class="Other">:</span> <a href="libtcod.html#Console"><span class="Identifier">Console</span></a><span class="Other">;</span> <span class="Identifier">viewport</span><span class="Other">:</span> <span class="Keyword">ptr</span> <a href="libtcod.html#SDL_Rect"><span class="Identifier">SDL_Rect</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
     <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_sys_accumulate_console_&quot;</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
+
+
+</dd>
+<a id="getDefaultTileset"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#getDefaultTileset"><span class="Identifier">getDefaultTileset</span></a><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <a href="libtcod.html#Tileset"><span class="Identifier">Tileset</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_get_default_tileset&quot;</span><span class="Other">,</span>
+                                 <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+<p><tt class="docutils literal"><span class="pre">Return</span></tt> the default tileset, may be <tt class="docutils literal"><span class="pre">nil</span></tt>.</p>
+<p><tt class="docutils literal"><span class="pre">Note:</span></tt> This function is provisional, the API may change in the future.</p>
+
+
+</dd>
+<a id="setDefaultTileset,Tileset"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#setDefaultTileset%2CTileset"><span class="Identifier">setDefaultTileset</span></a><span class="Other">(</span><span class="Identifier">tileset</span><span class="Other">:</span> <a href="libtcod.html#Tileset"><span class="Identifier">Tileset</span></a><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">cdecl</span><span class="Other">,</span>
+                                        <span class="Identifier">importc</span><span class="Other">:</span> <span class="StringLit">&quot;TCOD_set_default_tileset&quot;</span><span class="Other">,</span>
+                                        <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">LIB_NAME</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+<p>Set the default tileset and update the default display to use it.</p>
+<p><tt class="docutils literal"><span class="pre">Note:</span></tt> This function is provisional, the API may change in the future.</p>
 
 
 </dd>
@@ -8707,7 +8823,7 @@ input interface
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small>Made with Nim. Generated: 2019-05-26 21:27:34 UTC</small>
+        <small>Made with Nim. Generated: 2019-05-26 22:15:31 UTC</small>
       </div>
     </div>
   </div>
