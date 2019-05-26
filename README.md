@@ -4,6 +4,7 @@ libtcod_nim v1.0.112
 libtcod_nim is a wrapper of the libtcod library for the Nim language.
 
 * libtcod homepage: http://roguecentral.org/doryen/libtcod/
+* libtcod repository: https://github.com/libtcod/libtcod/
 * Nim homepage: http://nim-lang.org/
 * libtcod_nim docs: https://vladar4.github.io/libtcod_nim/
 
