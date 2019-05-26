@@ -1,12 +1,12 @@
 # Package
 
-version       = "0.99"
+version       = "1.0.112"
 author        = "Vladar"
 description   = "Wrapper of the libtcod library for the Nim language."
 license       = "zlib"
 
 # Install
-installDirs   = @["src151", "src170"]
+installDirs   = @["src15", "src17", "src112"]
 installFiles  = @["libtcod.nim"]
 
 # Dependencies
