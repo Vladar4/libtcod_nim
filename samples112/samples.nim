@@ -58,7 +58,6 @@ proc renderColors*(first: bool; key: ptr Key; mouse: ptr Mouse) {.cdecl.} =
     dirr {.global.}: array[4, int] = [1, -1,  1,  1]
     dirg {.global.}: array[4, int] = [1, -1, -1,  1]
     dirb {.global.}: array[4, int] = [1,  1,  1, -1]
-    c: cint
     textColor: Color
 
   # ==== slighty modify the corner colors ====
@@ -745,9 +744,6 @@ proc renderPath*(first: bool; key: ptr Key; mouse: ptr Mouse) {.cdecl.} =
                             "########       #     #### #####          #####",
                             "########       #####      ####################",
                             "##############################################"]
-  const
-    TORCH_RADIUS = 10.0
-    SQUARED_TORCH_RADIUS = (TORCH_RADIUS * TORCH_RADIUS)
   var
     px {.global.}: cint = 20  # player position
     py {.global.}: cint = 10
@@ -802,9 +798,6 @@ proc renderPath*(first: bool; key: ptr Key; mouse: ptr Mouse) {.cdecl.} =
     if usingAstar:
       discard pathCompute(path, px, py, dx, dy)
     else:
-      var
-        x: cint
-        y: cint
       dijkstraDist = 0.0
       # compute the distance grid
       dijkstraCompute(dijkstra, px, py)
@@ -1272,7 +1265,6 @@ when not NO_SDL_SAMPLE:
           ir: cint = 0
           ig: cint = 0
           ib: cint = 0
-          i: cint
 
         for i in 0..<3:
           var
@@ -1508,7 +1500,6 @@ proc atoi(s: string): cint =
 var
   curSample: int = 0  ##  index of the current sample
   first: bool = true  ##  first time we render a sample
-  i: cint
   key: Key
   mouse: Mouse
   font: cstring = DATA_PATH & "fonts/consolas10x10_gs_tc.png"
