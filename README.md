@@ -1,4 +1,4 @@
-libtcod_nim v1.0.112
+libtcod_nim v1.112.0
 ====================
 
 libtcod_nim is a wrapper of the libtcod library for the Nim language.
@@ -37,7 +37,7 @@ To use legacy versions use the following keys in your compile command:
 
 CHANGELOG:
 ==========
-**v1.0.112**
+**v1.112.0**
 * changed versioning system to reflect the latest supported libtcod version
 * added libtcod 1.12.2 wrapper
 * added optional module libtcod/cp437

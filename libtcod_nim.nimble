@@ -1,6 +1,6 @@
 # Package
 
-version       = "1.0.112"
+version       = "1.112.0"
 author        = "Vladar"
 description   = "Wrapper of the libtcod library for the Nim language."
 license       = "zlib"
