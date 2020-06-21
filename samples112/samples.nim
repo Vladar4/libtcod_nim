@@ -1142,7 +1142,7 @@ proc renderBsp*(first: bool; key: ptr Key; mouse: ptr Mouse) {.cdecl.} =
 # name generator sample
 #***********************
 
-proc renderName*(first: bool; key: ptr Key; mouse: ptr Mouse) {.cdecl.} =
+proc renderName*(first: bool; key: ptr Key; mouse: ptr Mouse) {.cdecl, gcsafe.} =
   var
     curSet {.global.}: cint
     delay {.global.}: cfloat = 0.0

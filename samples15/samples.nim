@@ -1142,7 +1142,7 @@ proc render_name(first: bool, key: ptr TKey, mouse: ptr TMouse) {.cdecl.} =
     # add a new name to the list
     names.add($namegen_generate(sets[curSet]))
 
-  if key.c == '+':
+  if key.c in ['=', '+']:
     inc(curSet)
     if curSet == len(sets): curSet = 0
     names.add("======")
