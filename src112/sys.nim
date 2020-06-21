@@ -158,7 +158,7 @@ proc sysFileExists*(
     deprecated.}
 
 proc sysReadFile*(
-  filename: cstring; buf: ptr ptr cuchar; size: ptr csize): bool {.
+  filename: cstring; buf: ptr ptr cuchar; size: ptr csize_t): bool {.
     cdecl, importc: "TCOD_sys_read_file", dynlib: LIB_NAME,
     deprecated.}
 

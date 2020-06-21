@@ -155,7 +155,7 @@ proc sysFileExists*(
     varargs, cdecl, importc: "TCOD_sys_file_exists", dynlib: LIB_NAME.}
 
 proc sysReadFile*(
-  filename: cstring; buf: ptr ptr cuchar; size: ptr csize): bool {.
+  filename: cstring; buf: ptr ptr cuchar; size: ptr csize_t): bool {.
     cdecl, importc: "TCOD_sys_read_file", dynlib: LIB_NAME.}
 
 proc sysWriteFile*(

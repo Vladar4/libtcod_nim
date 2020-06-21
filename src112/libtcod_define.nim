@@ -33,6 +33,11 @@
 
 {.deadCodeElim: on.}
 
+# csize is deprecated in Nim v1.1
+# See Nim commit 99078d80d7abb1c47612bc70f7affbde8735066a
+when not declared(csize_t):
+  type csize_t* {.importc: "size_t", nodecl.} = uint
+
 const
   NO_UNICODE* = false  ## Disable Unicode support
   NO_OPENGL* = false   ## Disable OpenGL support
