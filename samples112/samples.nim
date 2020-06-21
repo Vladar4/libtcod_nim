@@ -1198,16 +1198,37 @@ proc renderName*(first: bool; key: ptr Key; mouse: ptr Mouse) {.cdecl, gcsafe.} 
 # SDL callback sample
 #*********************
 
+# Uncomment when using sdl2_nim package
 from sdl2/sdl import Surface, ptrMath
 
+# Uncomment when using sdl2 package
+#from sdl2 import SurfacePtr
+#type Surface = SurfacePtr
+
 when not NO_SDL_SAMPLE:
+  when not declared(ptrMath):
+    template ptrMath*(body: untyped) =  ##  \
+      template `+`[T](p: ptr T, off: int): ptr T {.used.} =
+        cast[ptr type(p[])](cast[ByteAddress](p) +% off * sizeof(p[]))
+      template `+=`[T](p: ptr T, off: int) {.used.} =
+        p = p + off
+      template `-`[T](p: ptr T, off: int): ptr T {.used.} =
+        cast[ptr type(p[])](cast[ByteAddress](p) -% off * sizeof(p[]))
+      template `-=`[T](p: ptr T, off: int) {.used.} =
+        p = p - off
+      template `[]`[T](p: ptr T, off: int): T {.used.} =
+        (p + off)[]
+      template `[]=`[T](p: ptr T, off: int, val: T) {.used.} =
+        (p + off)[] = val
+      body
+
   var
     noise*: Noise = nil
     sdlCallbackEnabled*: bool = false
     effectNum*: cint = 0
     delay*: cfloat = 3.0
 
-  proc burn*(screen: sdl.Surface, samplex, sampley, samplew, sampleh: cint) =
+  proc burn*(screen: Surface, samplex, sampley, samplew, sampleh: cint) =
     var
       ridx = cint(screen.format.Rshift.int / 8)
       gidx = cint(screen.format.Gshift.int / 8)
@@ -1250,7 +1271,7 @@ when not NO_SDL_SAMPLE:
           p[bidx] = ib.uint8
           p += screen.pitch
 
-  proc explode*(screen: sdl.Surface, samplex, sampley, samplew, sampleh: cint) =
+  proc explode*(screen: Surface, samplex, sampley, samplew, sampleh: cint) =
     var
       ridx = cint(screen.format.Rshift.int / 8)
       gidx = cint(screen.format.Gshift.int / 8)
@@ -1287,7 +1308,7 @@ when not NO_SDL_SAMPLE:
           p[bidx] = ib.uint8
           p += screen.pitch
 
-  proc blur*(screen: sdl.Surface, samplex, sampley, samplew, sampleh: cint) =
+  proc blur*(screen: Surface, samplex, sampley, samplew, sampleh: cint) =
     # let's blur that sample console
     var
       f: array[3, cfloat]
@@ -1420,7 +1441,7 @@ when not NO_SDL_SAMPLE:
 
   proc sdl_render*(sdlSurface: pointer) {.cdecl.} =
     var
-      screen: sdl.Surface = cast[sdl.Surface](sdlSurface)
+      screen: Surface = cast[Surface](sdlSurface)
       # now we have almighty access to the screen's precious pixels !!
       # get the font character size
       charw, charh, samplex, sampley: cint
