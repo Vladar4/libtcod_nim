@@ -1,7 +1,7 @@
 Optional modules
 ================
 
-These modules should be imported manually.
+cp437 should be imported manually.
 
 Special Characters
 ------------------
