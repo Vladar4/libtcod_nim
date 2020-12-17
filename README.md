@@ -37,6 +37,10 @@ To use legacy versions use the following keys in your compile command:
 
 CHANGELOG:
 ==========
+**v1.112.1**
+* changes and fixes for Nim v1.1+
+* fixed nimble warnings
+
 **v1.112.0**
 * changed versioning system to reflect the latest supported libtcod version
 * added libtcod 1.12.2 wrapper
